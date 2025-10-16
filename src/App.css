@@ -7,6 +7,9 @@ body {
   font-family: "Gilroy";
 }
 
+button{
+  cursor: pointer;
+}
 
 @keyframes fade-in-up {
   from {

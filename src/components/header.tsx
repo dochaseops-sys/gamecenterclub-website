@@ -43,9 +43,11 @@ export function Header() {
             <button  className="text-sm">
               Sign In
             </button>
+            <Link to="/sign-up">
             <button className="bg-[#0089ab] h-11 rounded-2xl px-4 text-[#c9faff] hover:bg-primary/90 text-sm md:text-base">
               Get Started
             </button>
+            </Link>
           </div>
         </div>
       </div>

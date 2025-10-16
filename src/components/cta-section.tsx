@@ -1,5 +1,6 @@
 import { ArrowRight, Sparkles } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
+import { Link } from "react-router-dom"
 
 export function CTASection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -53,12 +54,14 @@ export function CTASection() {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <button
+            <Link to="/sign-up">
+                        <button
               className="flex items-center rounded-2xl h-11 text-[#2491ab] bg-white text-primary hover:bg-white/90 shadow-2xl hover:shadow-3xl transition-all group px-8 text-base font-semibold"
             >
               Create free account
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
+            </Link>
           </div>
         </div>
       </div>
