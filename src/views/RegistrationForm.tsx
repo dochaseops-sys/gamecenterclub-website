@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   Form,
   Input,
@@ -9,31 +9,67 @@ import {
   Typography,
   message,
   Card,
-} from "antd"
-// import { CheckCircleTwoTone } from "@ant-design/icons"
-import dayjs from "dayjs"
-import { Link } from "react-router-dom"
+} from "antd";
+import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
-const { Title, Text } = Typography
-const { Option } = Select
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 export function RegistrationForm() {
-  const [loading, setLoading] = useState(false)
-  const [form] = Form.useForm()
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    setLoading(true)
-    console.log("Form submitted:", values)
-    setTimeout(() => {
-      message.success("Account created successfully!")
-      setLoading(false)
-      form.resetFields()
-    }, 1200)
+const onFinish = async (values: any) => {
+  setLoading(true);
+
+  const payload = {
+    fullName: values.fullName,
+    email: values.email,
+    password: values.password,
+    dateOfBirth: values.dateOfBirth.format("DD/MM/YYYY"),
+    gender: values.gender,
+    whatsappNumber: values.whatsappNumber,
+    telegramNumber: values.telegramNumber || "",
+  };
+
+  try {
+    const params = new URLSearchParams(payload).toString();
+
+    const response = await fetch(
+      `https://script.google.com/macros/s/AKfycbzuJetydvZJUUTsxpZKsI-qYAS1nMElWm_qjFg2aaa6mMH6YGypgZ61XsTq0JDkSdo7/exec?${params}`,
+      // {
+      //   method: "POST",
+      //   body: JSON.stringify(payload),
+      // }
+        {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   }
+    );
+
+    const result = await response.json();
+    if (result.status === "success") {
+      message.success("Account created and saved to Google Sheets!");
+      form.resetFields();
+    } else {
+      message.error("Failed to save data. Please try again.");
+    }
+  } catch (error) {
+    message.error("An error occurred while saving data.");
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
-   <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-[#f9fafb] via-[#f5f7fa] to-[#eef2f7]">
-
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-[#f9fafb] via-[#f5f7fa] to-[#eef2f7]">
       <Card
         className="
           w-full max-w-lg rounded-3xl shadow-lg border border-gray-100"
@@ -102,14 +138,20 @@ export function RegistrationForm() {
 
           <Form.Item
             name="dateOfBirth"
-            label={<span className="font-medium text-gray-700">Date of Birth</span>}
-            rules={[{ required: true, message: "Please select your date of birth" }]}
+            label={
+              <span className="font-medium text-gray-700">Date of Birth</span>
+            }
+            rules={[
+              { required: true, message: "Please select your date of birth" },
+            ]}
           >
             <DatePicker
               size="large"
               className="w-full h-12 rounded-xl"
               format="DD/MM/YYYY"
-              disabledDate={(current) => current && current > dayjs().endOf("day")}
+              disabledDate={(current) =>
+                current && current > dayjs().endOf("day")
+              }
             />
           </Form.Item>
 
@@ -132,8 +174,12 @@ export function RegistrationForm() {
 
           <Form.Item
             name="whatsappNumber"
-            label={<span className="font-medium text-gray-700">WhatsApp Number</span>}
-            rules={[{ required: true, message: "Please enter your WhatsApp number" }]}
+            label={
+              <span className="font-medium text-gray-700">WhatsApp Number</span>
+            }
+            rules={[
+              { required: true, message: "Please enter your WhatsApp number" },
+            ]}
           >
             <Input
               size="large"
@@ -144,7 +190,9 @@ export function RegistrationForm() {
 
           <Form.Item
             name="telegramNumber"
-            label={<span className="font-medium text-gray-700">Telegram Number</span>}
+            label={
+              <span className="font-medium text-gray-700">Telegram Number</span>
+            }
           >
             <Input
               size="large"
@@ -162,19 +210,31 @@ export function RegistrationForm() {
             rules={[
               {
                 validator: (_, value) =>
-                  value ? Promise.resolve() : Promise.reject("You must agree to the terms"),
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject("You must agree to the terms"),
               },
             ]}
           >
             <Checkbox className="text-gray-700">
               I agree to the{" "}
-              <Link to="/" className="underline text-blue-600 hover:text-blue-800">
+              <a
+                href="https://www.dochase.com/terms-and-conditions/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-600 hover:text-blue-800"
+              >
                 Terms of Service
-              </Link>{" "}
+              </a>{" "}
               and{" "}
-              <Link to="/" className="underline text-blue-600 hover:text-blue-800">
+              <a
+                href="https://www.dochase.com/privacy-policy/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-600 hover:text-blue-800"
+              >
                 Privacy Policy
-              </Link>
+              </a>
             </Checkbox>
           </Form.Item>
 
@@ -201,24 +261,6 @@ export function RegistrationForm() {
           </Text>
         </div>
       </Card>
-
-      {/* Benefits section */}
-      {/* <div className="mt-10 w-full max-w-lg space-y-3 text-center">
-        <BenefitItem text="Free to join, no credit card required" />
-        <BenefitItem text="250 welcome bonus points" />
-        <BenefitItem text="Start earning immediately" />
-      </div> */}
     </div>
-  )
+  );
 }
-
-// function BenefitItem({ text }: { text: string }) {
-//   return (
-//     <div className="flex items-center justify-center gap-3">
-//       <CheckCircleTwoTone twoToneColor="#1677ff" className="text-xl" />
-//       <Text type="secondary" className="text-sm">
-//         {text}
-//       </Text>
-//     </div>
-//   )
-// }
