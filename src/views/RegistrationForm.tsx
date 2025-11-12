@@ -35,7 +35,7 @@ const onFinish = async (values: any) => {
     formData.append("TelegramNumber", values.TelegramNumber || "");
 
     const response = await fetch(
-      "https://script.google.com/macros/s/AKfycbz5ILdAZN-MhgtUzRYA230jMB7xSrxDuiwecJPwQ_kOhrI-3vd7iQ6x_vsL8cuNKp54/exec",
+      "https://script.google.com/macros/s/AKfycbym2_lz8r4VhDjYMt6UolSqsYtwz1S05xkwTlUONIlr3jxSZTn-d7ua6v6hpPVjIgL9/exec",
       {
         method: "POST",
         body: formData,
