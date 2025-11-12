@@ -23,56 +23,65 @@ export function RegistrationForm() {
 const onFinish = async (values: any) => {
   setLoading(true);
 
-  const payload = {
-    fullName: values.fullName,
-    email: values.email,
-    password: values.password,
-    dateOfBirth: values.dateOfBirth.format("DD/MM/YYYY"),
-    gender: values.gender,
-    whatsappNumber: values.whatsappNumber,
-    telegramNumber: values.telegramNumber || "",
-  };
-
   try {
-    const params = new URLSearchParams(payload).toString();
+    const formData = new FormData();
+
+    formData.append("FullName", values.FullName);
+    formData.append("Email", values.Email);
+    formData.append("Password", values.Password);
+    formData.append("DateOfBirth", values.DateOfBirth.format("DD/MM/YYYY"));
+    formData.append("Gender", values.Gender);
+    formData.append("WhatsappNumber", values.WhatsappNumber);
+    formData.append("TelegramNumber", values.TelegramNumber || "");
 
     const response = await fetch(
-      `https://script.google.com/macros/s/AKfycbzuJetydvZJUUTsxpZKsI-qYAS1nMElWm_qjFg2aaa6mMH6YGypgZ61XsTq0JDkSdo7/exec?${params}`,
-      // {
-      //   method: "POST",
-      //   body: JSON.stringify(payload),
-      // }
-        {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  }
+      "https://script.google.com/macros/s/AKfycbz5ILdAZN-MhgtUzRYA230jMB7xSrxDuiwecJPwQ_kOhrI-3vd7iQ6x_vsL8cuNKp54/exec",
+      {
+        method: "POST",
+        body: formData,
+      }
     );
 
-    const result = await response.json();
-    if (result.status === "success") {
-      message.success("Account created and saved to Google Sheets!");
+    const resultText = await response.text();
+    console.log("Response text:", resultText);
+
+    if (response.ok && !resultText.trim().startsWith("{")) {
+      message.success({
+        content: "🎉 Account created successfully!",
+        duration: 3,
+      });
+      form.resetFields();
+      return;
+    }
+
+    let result;
+    try {
+      result = JSON.parse(resultText);
+    } catch {
+      result = {};
+    }
+
+    if (result.result === "success" || result.status === "success") {
+      message.success({
+        content: "🎉 Account created successfully!",
+        duration: 3,
+      });
       form.resetFields();
     } else {
       message.error("Failed to save data. Please try again.");
     }
   } catch (error) {
+    console.error("Error:", error);
     message.error("An error occurred while saving data.");
-    console.error(error);
   } finally {
     setLoading(false);
   }
 };
 
-
-
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-[#f9fafb] via-[#f5f7fa] to-[#eef2f7]">
       <Card
-        className="
-          w-full max-w-lg rounded-3xl shadow-lg border border-gray-100"
+        className="w-full max-w-lg rounded-3xl shadow-lg border border-gray-100"
         bodyStyle={{ padding: "2rem" }}
       >
         <div className="text-center mb-8">
@@ -95,76 +104,54 @@ const onFinish = async (values: any) => {
           className="space-y-4"
         >
           <Form.Item
-            name="fullName"
+            name="FullName"
             label={<span className="font-medium text-gray-700">Full Name</span>}
             rules={[{ required: true, message: "Please enter your full name" }]}
           >
-            <Input
-              size="large"
-              placeholder="John Doe"
-              className="h-12 rounded-xl"
-            />
+            <Input size="large" placeholder="John Doe" className="h-12 rounded-xl" />
           </Form.Item>
 
           <Form.Item
-            name="email"
+            name="Email"
             label={<span className="font-medium text-gray-700">Email</span>}
             rules={[
               { required: true, message: "Please enter your email" },
               { type: "email", message: "Enter a valid email" },
             ]}
           >
-            <Input
-              size="large"
-              placeholder="john@example.com"
-              className="h-12 rounded-xl"
-            />
+            <Input size="large" placeholder="john@example.com" className="h-12 rounded-xl" />
           </Form.Item>
 
           <Form.Item
-            name="password"
+            name="Password"
             label={<span className="font-medium text-gray-700">Password</span>}
             rules={[
               { required: true, message: "Please create a password" },
               { min: 8, message: "Password must be at least 8 characters" },
             ]}
           >
-            <Input.Password
-              size="large"
-              placeholder="Create a password"
-              className="h-12 rounded-xl"
-            />
+            <Input.Password size="large" placeholder="Create a password" className="h-12 rounded-xl" />
           </Form.Item>
 
           <Form.Item
-            name="dateOfBirth"
-            label={
-              <span className="font-medium text-gray-700">Date of Birth</span>
-            }
-            rules={[
-              { required: true, message: "Please select your date of birth" },
-            ]}
+            name="DateOfBirth"
+            label={<span className="font-medium text-gray-700">Date of Birth</span>}
+            rules={[{ required: true, message: "Please select your date of birth" }]}
           >
             <DatePicker
               size="large"
               className="w-full h-12 rounded-xl"
               format="DD/MM/YYYY"
-              disabledDate={(current) =>
-                current && current > dayjs().endOf("day")
-              }
+              disabledDate={(current) => current && current > dayjs().endOf("day")}
             />
           </Form.Item>
 
           <Form.Item
-            name="gender"
+            name="Gender"
             label={<span className="font-medium text-gray-700">Gender</span>}
             rules={[{ required: true, message: "Please select your gender" }]}
           >
-            <Select
-              size="large"
-              placeholder="Select gender"
-              className="rounded-xl"
-            >
+            <Select size="large" placeholder="Select gender" className="rounded-xl">
               <Option value="male">Male</Option>
               <Option value="female">Female</Option>
               <Option value="other">Other</Option>
@@ -173,35 +160,19 @@ const onFinish = async (values: any) => {
           </Form.Item>
 
           <Form.Item
-            name="whatsappNumber"
-            label={
-              <span className="font-medium text-gray-700">WhatsApp Number</span>
-            }
-            rules={[
-              { required: true, message: "Please enter your WhatsApp number" },
-            ]}
+            name="WhatsappNumber"
+            label={<span className="font-medium text-gray-700">WhatsApp Number</span>}
+            rules={[{ required: true, message: "Please enter your WhatsApp number" }]}
           >
-            <Input
-              size="large"
-              placeholder="+234 800 000 0000"
-              className="h-12 rounded-xl"
-            />
+            <Input size="large" placeholder="+234 800 000 0000" className="h-12 rounded-xl" />
           </Form.Item>
 
           <Form.Item
-            name="telegramNumber"
-            label={
-              <span className="font-medium text-gray-700">Telegram Number</span>
-            }
+            name="TelegramNumber"
+            label={<span className="font-medium text-gray-700">Telegram Number</span>}
           >
-            <Input
-              size="large"
-              placeholder="+234 800 000 0000"
-              className="h-12 rounded-xl"
-            />
-            <Text type="secondary" className="text-xs">
-              Optional
-            </Text>
+            <Input size="large" placeholder="+234 800 000 0000" className="h-12 rounded-xl" />
+            <Text type="secondary" className="text-xs">Optional</Text>
           </Form.Item>
 
           <Form.Item
@@ -251,7 +222,6 @@ const onFinish = async (values: any) => {
           </Form.Item>
         </Form>
 
-        {/* Footer */}
         <div className="text-center mt-6">
           <Text type="secondary">
             Already have an account?{" "}
