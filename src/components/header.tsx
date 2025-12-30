@@ -1,3 +1,4 @@
+import { Button } from "antd"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 
@@ -14,7 +15,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all px-[5%] duration-300 ${
         scrolled ? "bg-background/80 backdrop-blur-md border-b border-[#f3f2f6]" : "bg-transparent"
       }`}
     >
@@ -25,7 +26,7 @@ export function Header() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
-            <Link to="" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/games" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Discover
             </Link>
             <Link to="" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -39,7 +40,7 @@ export function Header() {
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="hidden md:flex items-center gap-3 md:gap-4">
             <button  className="text-sm">
               Sign In
             </button>
@@ -49,6 +50,11 @@ export function Header() {
             </button>
             </Link>
           </div>
+          <Button>
+            <Link to="/games" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Discover
+            </Link>
+          </Button>
         </div>
       </div>
     </header>
