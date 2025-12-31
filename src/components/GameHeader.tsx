@@ -8,8 +8,8 @@ const GameHeader = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/">
             <div className="text-white font-bold text-xl">
-              <span className="block leading-none text-[#FFFFFF]">Scrolla</span>
-              <span className="block leading-none text-[#FFFFFF]">GAMES</span>
+              <span className="block leading-none text-[#FFFFFF]">Game</span>
+              <span className="block leading-none text-[#FFFFFF]">Center</span>
             </div>
           </Link>
 

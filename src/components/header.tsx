@@ -50,11 +50,13 @@ export function Header() {
             </button>
             </Link>
           </div>
-          <Button>
+          <div className="block md:hidden">
+            <Button>
             <Link to="/games" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Discover
             </Link>
           </Button>
+          </div>
         </div>
       </div>
     </header>
