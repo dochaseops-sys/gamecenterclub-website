@@ -1,6 +1,6 @@
-import { Gamepad2, X } from 'lucide-react'
+import { Gamepad2, X, CheckCircle2 } from 'lucide-react'
 
-import { useSignupMutation } from '../../services/redux/apis/auth'
+import { useSubmitGameMutation, useGetCategoriesQuery } from '../../services/redux/apis/games'
 import Loader from '../../loader/Loader'
 import { useAddGameForm, type AddGameValues } from './addGame.schema';
 import Modal from '../../components/modal/Modal';
@@ -11,14 +11,16 @@ import AppWrapper from '../../HOC/AppWrapper';
 import Dropdown from '../../components/dropdown/Dropdown';
 import Checkbox from '../../components/checkbox/Checkbox';
 import FileInput from '../../components/fileInput/FileInput';
-import { GAME_MEME_TYPE, GIF_MEME_TYPE, IMAGE_MEME_TYPE } from '../../constants/game.constants';
+import { GAME_MEME_TYPE, GIF_MEME_TYPE, IMAGE_MEME_TYPE, GAME_ENGINES } from '../../constants/game.constants';
 import { Controller } from 'react-hook-form';
 import TextInput from '../../components/TextInput/TextInput';
 
 const AddGame = () => {
     const navigate = useNavigate();
 
-    const [signup, { isLoading, isError, error: apiError }] = useSignupMutation();
+    const [submitGame, { isLoading, isError, error: apiError, isSuccess }] = useSubmitGameMutation();
+    const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery();
+
     const [modalOpen, setModalOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState<string | null>("")
 
@@ -35,17 +37,31 @@ const AddGame = () => {
             setErrorMessage(errorMessage);
             setModalOpen(true)
         }
-    }, [isError])
+        if (isSuccess) {
+            setErrorMessage(null);
+            setModalOpen(true);
+        }
+    }, [isError, isSuccess, apiError])
 
     const onSubmit = async (data: AddGameValues) => {
-        console.log(data);
+        const selectedCategory = categories?.find(c => c.title === data.category);
 
-        // const response = await signup({
-        //     name: data.name,
-        //     email: data.email,
-        //     password: data.password,
-        // }).unwrap();
-        setModalOpen(true)
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('description', data.description);
+        formData.append('gameEngine', data.gameEngine);
+        formData.append('categoryId', String(selectedCategory?.id || ""));
+        formData.append('mobileSupport', String(data.mobileSupport));
+        formData.append('multiplayer', String(data.multiplayer));
+        formData.append('game', data.game);
+        formData.append('gif', data.gif);
+        formData.append('thumbnail', data.thumbnail);
+
+        try {
+            await submitGame(formData).unwrap();
+        } catch (err) {
+            console.error("Failed to submit game:", err);
+        }
     }
 
     const onModalClose = () => {
@@ -53,7 +69,7 @@ const AddGame = () => {
         isValid && !isError && navigate('/')
     }
 
-    if (isLoading) {
+    if (isLoading || isLoadingCategories) {
         return <Loader />
     }
 
@@ -62,6 +78,8 @@ const AddGame = () => {
             <div className="flex flex-col items-center">
                 <Modal isOpen={modalOpen} onClose={onModalClose} Icon={isError ? <div className="p-4 mb-5 bg-gray rounded-full">
                     <X className='text-custom-red' strokeWidth={4} />
+                </div> : isSuccess ? <div className="p-4 mb-5 bg-gray rounded-full">
+                    <CheckCircle2 className='text-secondary' strokeWidth={4} />
                 </div> : null}>
                     <div className="mb-5">
                         <h2 className='text-lg'>{errorMessage || "Game Created Successfully!"}</h2>
@@ -91,16 +109,32 @@ const AddGame = () => {
                                 placeholder='Game Description'
                                 error={errors.description}
                             />
-                            
+
                             <div className="space-y-2">
                                 <Controller
                                     control={control}
                                     name='gameEngine'
                                     render={({ field: { onChange, value } }) => {
-                                        return <Dropdown label={value || 'Game Engine'} onChange={onChange} />
+                                        return <Dropdown label={value || 'Game Engine'} options={GAME_ENGINES} onChange={onChange} />
                                     }}
                                 />
                                 {errors.gameEngine && <p className='text-custom-red text-xs'>{errors.gameEngine.message}</p>}
+
+                            </div>
+
+                            <div className="space-y-2">
+                                <Controller
+                                    control={control}
+                                    name='category'
+                                    render={({ field: { onChange, value } }) => {
+                                        return <Dropdown
+                                            label={value || 'Category'}
+                                            options={categories?.map(c => c.title) || []}
+                                            onChange={onChange}
+                                        />
+                                    }}
+                                />
+                                {errors.category && <p className='text-custom-red text-xs'>{errors.category.message}</p>}
 
                             </div>
 
