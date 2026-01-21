@@ -11,6 +11,7 @@ export const authApi = api.injectEndpoints({
                 method: "POST",
                 body: credentials,
             }),
+            transformResponse: (response: any) => response.data || response,
             invalidatesTags: ["Auth"],
         }),
         // Login with Google
@@ -20,6 +21,7 @@ export const authApi = api.injectEndpoints({
                 method: "POST",
                 body: credentials,
             }),
+            transformResponse: (response: any) => response.data || response,
             invalidatesTags: ["Auth"],
         }),
         // Signup
@@ -29,6 +31,7 @@ export const authApi = api.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            transformResponse: (response: any) => response.data || response,
             invalidatesTags: ["Auth"],
         }),
 
@@ -58,6 +61,15 @@ export const authApi = api.injectEndpoints({
                 body: data,
             }),
             invalidatesTags: ["Auth"],
+        }),
+        // Refresh Token
+        refreshToken: build.mutation<User, { refreshToken: string }>({
+            query: (data) => ({
+                url: 'refresh-token',
+                method: 'POST',
+                body: data,
+            }),
+            transformResponse: (response: any) => response.data || response,
         }),
 
     }),

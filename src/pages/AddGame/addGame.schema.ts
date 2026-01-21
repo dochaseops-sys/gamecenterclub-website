@@ -7,6 +7,7 @@ const addGameSchema = z.object({
   name: z.string().min(3).max(20),
   description: z.string().min(30).max(300),
   gameEngine: z.enum(GAME_ENGINES),
+  category: z.string().min(1, "Category is required"),
   mobileSupport: z.boolean(),
   multiplayer: z.boolean(),
   gif: z.any()

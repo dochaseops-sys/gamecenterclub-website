@@ -1,49 +1,51 @@
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { useState } from 'react';
-import { GAME_ENGINES } from '../../constants/game.constants';
 
 interface Props {
     label: string;
+    options: string[];
     onChange: (item: string) => void
 }
 
-const Dropdown = ({ label, onChange }: Props) => {
+const Dropdown = ({ label, options, onChange }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-    
+
     const onSelect = (item: string) => {
         onChange(item)
         setIsOpen(false);
     }
 
     return (
-        <div className='relative z-10'>
+        <div className={`relative ${isOpen ? 'z-50' : 'z-10'}`}>
             <button
                 onClick={toggleDropdown}
-                className="w-full flex items-center justify-between h-12 px-4 bg-primary border border-white/10 rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none text-white placeholder-muted-foreground transition-all"
+                type="button"
+                className="w-full flex items-center justify-between h-12 px-4 bg-primary border border-white/10 rounded-lg focus:ring-1 focus:ring-secondary focus:outline-none text-white placeholder-muted-foreground transition-all hover:border-secondary/50"
             >
-                {label}
+                <span className="truncate">{label}</span>
                 {
-                    isOpen ? <ArrowUp /> : <ArrowDown />
+                    isOpen ? <ArrowUp className="w-4 h-4 text-secondary" /> : <ArrowDown className="w-4 h-4 text-secondary" />
                 }
             </button>
 
             {isOpen && (
                 <div
                     className="origin-top-right absolute right-0 left-0 mt-2 
-                    rounded-md shadow-md shadow-secondary bg-primary ring-1 ring-secondary ring-opacity-2
-                    focus:outline-none"
+                    rounded-md shadow-lg shadow-black/50 bg-[#1A1A1A] border border-secondary/20
+                    focus:outline-none max-h-60 overflow-y-auto"
                     role="menu"
                 >
                     <div className="py-1" role="none">
                         {
-                            GAME_ENGINES.map(ge => (
-                                <button className="w-full py-2 text-sm text-center text-gray-700 hover:bg-gray-100 cursor-pointer"
-                                    role="menuitem" onClick={() => onSelect(ge)} key={ge}>
-                                    {ge}
+                            options.map(item => (
+                                <button className="w-full py-2.5 px-4 text-sm text-left text-slate-500  hover:text-white hover:bg-primary/10 cursor-pointer transition-colors"
+                                    type="button"
+                                    role="menuitem" onClick={() => onSelect(item)} key={item}>
+                                    {item}
                                 </button>
                             ))
                         }
