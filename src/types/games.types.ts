@@ -13,12 +13,12 @@ export interface Game {
     gameEngine: string;
     mobileSupport: boolean;
     multiplayer: boolean;
-    gameUrl: string;
-    gifUrl: string;
-    thumbnailUrl: string;
-    category: Category | number;
-    createdAt: string;
-    updatedAt: string;
+    categoryId: number;
+    thumbnail: string;
+    gif: string | null;
+    gameFile: string;
+    status: string;
+    category: Category;
 }
 
 export interface SubmitGameResponse {
@@ -34,5 +34,9 @@ export interface GetCategoriesResponse {
 
 export interface GetGamesResponse {
     success: boolean;
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
     data: Game[];
 }

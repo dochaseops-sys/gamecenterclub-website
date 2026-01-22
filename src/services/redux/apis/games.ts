@@ -18,6 +18,11 @@ export const gamesApi = api.injectEndpoints({
             query: () => "games",
             transformResponse: (response: GetGamesResponse) => response.data,
         }),
+        // Get Game by ID
+        getGameById: build.query<Game, number>({
+            query: (id) => `games/${id}`,
+            transformResponse: (response: { success: boolean; data: Game }) => response.data,
+        }),
         // Get All Categories
         getCategories: build.query<Category[], void>({
             query: () => "categories",
@@ -29,5 +34,6 @@ export const gamesApi = api.injectEndpoints({
 export const {
     useSubmitGameMutation,
     useGetGamesQuery,
+    useGetGameByIdQuery,
     useGetCategoriesQuery,
 } = gamesApi;

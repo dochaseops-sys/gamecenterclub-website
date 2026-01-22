@@ -1,8 +1,9 @@
-import { categories, NAV_ITEMS, userOptions } from "../../constants/constants";
+import { getCategoryIcon, NAV_ITEMS, userOptions } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../services/redux/store";
 import { clearStorage } from "../../utils/localstorage.utils";
 import { logout as logoutAction } from '../../services/redux/slices/auth.slice';
 import { Link } from "react-router-dom";
+import { useGetCategoriesQuery } from "../../services/redux/apis/games";
 
 interface Props {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface Props {
 export default function Sidebar({ isOpen, onClose }: Props) {
   const user = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
+  const { data: categories = [] } = useGetCategoriesQuery();
 
   const logout = () => {
     dispatch(logoutAction())
@@ -63,12 +65,13 @@ export default function Sidebar({ isOpen, onClose }: Props) {
 
         <div className="border-t border-0 border-border">
           {categories.map((item) => {
+            const Icon = getCategoryIcon(item.title);
             return (
               <Link key={item.title} to={'#'}>
                 <div
                   className="flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden text-muted-foreground hover:text-foreground hover:bg-white/5"
                 >
-                  <item.Icon
+                  <Icon
                     className=
                     {`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110text-primary`}
                   />
@@ -137,12 +140,13 @@ export default function Sidebar({ isOpen, onClose }: Props) {
             CATEGORIES
           </h3>
           {categories.map((item) => {
+            const Icon = getCategoryIcon(item.title);
             return (
               <Link key={item.title} to={'#'}>
                 <div
                   className="flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden text-muted-foreground hover:text-foreground hover:bg-white/5"
                 >
-                  <item.Icon
+                  <Icon
                     className=
                     {`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110text-primary`}
                   />

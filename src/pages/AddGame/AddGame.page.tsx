@@ -11,7 +11,7 @@ import AppWrapper from '../../HOC/AppWrapper';
 import Dropdown from '../../components/dropdown/Dropdown';
 import Checkbox from '../../components/checkbox/Checkbox';
 import FileInput from '../../components/fileInput/FileInput';
-import { GAME_MEME_TYPE, GIF_MEME_TYPE, IMAGE_MEME_TYPE, GAME_ENGINES } from '../../constants/game.constants';
+import { GIF_MEME_TYPE, IMAGE_MEME_TYPE, GAME_ENGINES } from '../../constants/game.constants';
 import { Controller } from 'react-hook-form';
 import TextInput from '../../components/TextInput/TextInput';
 
@@ -53,7 +53,7 @@ const AddGame = () => {
         formData.append('categoryId', String(selectedCategory?.id || ""));
         formData.append('mobileSupport', String(data.mobileSupport));
         formData.append('multiplayer', String(data.multiplayer));
-        formData.append('game', data.game);
+        formData.append('gameFile', data.game); // Send as URL string
         formData.append('gif', data.gif);
         formData.append('thumbnail', data.thumbnail);
 
@@ -162,18 +162,12 @@ const AddGame = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <Controller
-                                    control={control}
+                                <TextInput
+                                    register={register}
                                     name='game'
-                                    render={({ field: { onChange } }) => {
-                                        return <FileInput label={'ADD GAME FILE'} accept={GAME_MEME_TYPE} onChange={onChange} />
-                                    }}
+                                    placeholder='Game Iframe URL (e.g., https://example.com/game.html)'
+                                    error={errors.game}
                                 />
-                                {typeof errors.game?.message === "string" && (
-                                    <p className="text-custom-red text-xs">
-                                        {errors.game.message}
-                                    </p>
-                                )}
                             </div>
 
                             <div className="space-y-2">

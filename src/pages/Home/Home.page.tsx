@@ -1,17 +1,17 @@
 import Category from "../../components/category/Category";
-import { categories, GAMES } from "../../constants/constants";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
+import { useGetCategoriesQuery, useGetGamesQuery } from "../../services/redux/apis/games";
 
 const Home = () => {
+  const { data: categories = [] } = useGetCategoriesQuery();
+  const { data: games = [] } = useGetGamesQuery();
 
   return <AppWrapper>
     <div className="flex flex-col">
       {/* featured Game */}
       <FeaturedGame />
-
-      <SectionWrapper games={GAMES} title="Continue Playing" showDetails={false} />
 
       {/* Categories */}
       <div className="flex gap-x-5 mb-7 overflow-x-auto">
@@ -24,7 +24,7 @@ const Home = () => {
       </div>
 
       {/* All games */}
-      <SectionWrapper games={GAMES} />
+      <SectionWrapper games={games} title="All Games" />
     </div>
   </AppWrapper>
 }
