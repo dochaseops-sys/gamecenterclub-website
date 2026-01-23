@@ -67,7 +67,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
           {categories.map((item) => {
             const Icon = getCategoryIcon(item.title);
             return (
-              <Link key={item.title} to={'#'}>
+              <Link key={item.title} to={`/category/${item.id}`}>
                 <div
                   className="flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden text-muted-foreground hover:text-foreground hover:bg-white/5"
                 >
@@ -142,7 +142,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
           {categories.map((item) => {
             const Icon = getCategoryIcon(item.title);
             return (
-              <Link key={item.title} to={'#'}>
+              <Link key={item.title} to={`/category/${item.id}`}>
                 <div
                   className="flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden text-muted-foreground hover:text-foreground hover:bg-white/5"
                 >

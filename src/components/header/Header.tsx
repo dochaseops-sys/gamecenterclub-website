@@ -1,5 +1,5 @@
-import { Search, Bell, Gamepad2, Menu, Tag } from "lucide-react";
-import { useAppSelector } from "../../services/redux/store";
+import { Search, Gamepad2, Menu, Tag } from "lucide-react";
+import { useAppSelector, type RootState } from "../../services/redux/store";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useSearchGamesQuery } from "../../services/redux/apis/games";
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function Header({ onMenuClick }: Props) {
-    const user = useAppSelector(state => state.auth);
+    const user = useAppSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -179,16 +179,16 @@ export default function Header({ onMenuClick }: Props) {
                 <div className="flex items-center gap-3">
 
                     {/* Notifications */}
-                    <button className="relative hidden sm:flex p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-white/5 transition-colors">
+                    {/* <button className="relative hidden sm:flex p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-white/5 transition-colors">
                         <Bell className="w-5 h-5" />
                         <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full shadow-[0_0_8px_#bc13fe]" />
-                    </button>
+                    </button> */}
 
                     {/* User / Auth */}
                     {user.id ? (
                         <div className="flex items-center gap-3">
                             <div className="hidden md:flex flex-col items-end">
-                                <span className="text-xs font-bold text-foreground">Admin</span>
+                                <span className="text-xs font-bold text-foreground">{user.name}</span>
                                 <span className="text-[10px] text-muted-foreground">Online</span>
                             </div>
                             <img

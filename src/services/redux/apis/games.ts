@@ -33,6 +33,11 @@ export const gamesApi = api.injectEndpoints({
             query: (searchQuery) => `games?search=${encodeURIComponent(searchQuery)}`,
             transformResponse: (response: GetGamesResponse) => response.data,
         }),
+        // Get Games by Category
+        getGamesByCategory: build.query<Game[], number>({
+            query: (categoryId) => `games?categoryId=${categoryId}`,
+            transformResponse: (response: GetGamesResponse) => response.data,
+        }),
     }),
 });
 
@@ -42,4 +47,5 @@ export const {
     useGetGameByIdQuery,
     useGetCategoriesQuery,
     useSearchGamesQuery,
+    useGetGamesByCategoryQuery,
 } = gamesApi;

@@ -53,7 +53,7 @@ const AddGame = () => {
         formData.append('categoryId', String(selectedCategory?.id || ""));
         formData.append('mobileSupport', String(data.mobileSupport));
         formData.append('multiplayer', String(data.multiplayer));
-        formData.append('gameFile', data.game); // Send as URL string
+        formData.append('gameFile', data.gameFile); // Send as URL string
         formData.append('gif', data.gif);
         formData.append('thumbnail', data.thumbnail);
 
@@ -164,9 +164,9 @@ const AddGame = () => {
                             <div className="space-y-2">
                                 <TextInput
                                     register={register}
-                                    name='game'
+                                    name='gameFile'
                                     placeholder='Game Iframe URL (e.g., https://example.com/game.html)'
-                                    error={errors.game}
+                                    error={errors.gameFile}
                                 />
                             </div>
 

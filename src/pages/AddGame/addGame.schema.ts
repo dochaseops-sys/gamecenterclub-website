@@ -24,7 +24,7 @@ const addGameSchema = z.object({
       const ext = file?.name.split(".").pop()?.toLowerCase();
       return (file?.type && IMAGE_MEME_TYPE.includes(file.type)) || (ext && IMAGE_MEME_EXTENSION.includes(ext))
     }, "Unsupported file type"),
-  game: z.string()
+  gameFile: z.string()
     .min(1, "Game URL is required")
     .url("Please enter a valid URL"),
 });
