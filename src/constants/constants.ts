@@ -6,6 +6,7 @@ import Login from "../pages/Login/Login.page";
 import OTPVerification from "../pages/OTPVerificatiom/OTPVerification";
 import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import Signup from "../pages/Signup/Signup.page";
+import SearchPage from "../pages/Search/Search.page";
 import { Home as HomeIcon, TrendingUp, Circle, RotateCcw, Zap, Puzzle, CarFront, Trophy, Gamepad, Brain, User, Power, Plus, UserRound } from "lucide-react";
 
 
@@ -17,6 +18,10 @@ export const commonRoutes = [
   {
     path: '/game/:id',
     element: Game
+  },
+  {
+    path: '/search',
+    element: SearchPage
   }
 ]
 
