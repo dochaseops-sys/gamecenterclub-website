@@ -1,5 +1,5 @@
 import { api } from './index';
-import type { Category, Game, GetCategoriesResponse, GetGamesResponse, SubmitGameResponse } from '../../../types/games.types';
+import type { Category, Game, GetCategoriesResponse, GetGamesResponse, SubmitGameResponse, RecentGame, GetRecentGamesResponse } from '../../../types/games.types';
 
 export const gamesApi = api.injectEndpoints({
     overrideExisting: true,
@@ -38,6 +38,21 @@ export const gamesApi = api.injectEndpoints({
             query: (categoryId) => `games?categoryId=${categoryId}`,
             transformResponse: (response: GetGamesResponse) => response.data,
         }),
+
+        // Add Game to Recent
+        addGameToRecent: build.mutation<void, number>({
+            query: (gameId) => ({
+                url: `games/${gameId}/play`,
+                method: "POST",
+            }),
+            invalidatesTags: ["RecentGames"],
+        }),
+        // Get Recent Games
+        getRecentGames: build.query<RecentGame[], void>({
+            query: () => "games/recent",
+            transformResponse: (response: GetRecentGamesResponse) => response.data,
+            providesTags: ["RecentGames"],
+        }),
     }),
 });
 
@@ -48,4 +63,6 @@ export const {
     useGetCategoriesQuery,
     useSearchGamesQuery,
     useGetGamesByCategoryQuery,
+    useAddGameToRecentMutation,
+    useGetRecentGamesQuery,
 } = gamesApi;

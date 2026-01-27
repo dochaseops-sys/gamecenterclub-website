@@ -8,7 +8,9 @@ import ResetPassword from "../pages/ResetPassword/ResetPassword";
 import Signup from "../pages/Signup/Signup.page";
 import SearchPage from "../pages/Search/Search.page";
 import CategoryPage from "../pages/Category/Category.page";
-import { Home as HomeIcon, TrendingUp, Circle, RotateCcw, Zap, Puzzle, CarFront, Trophy, Gamepad, Brain, User, Power, Plus, UserRound } from "lucide-react";
+import Profile from "../pages/Profile/Profile.page";
+import RecentGames from "../pages/RecentGames/RecentGames.page";
+import { Home as HomeIcon, TrendingUp, Circle, RotateCcw, Zap, Puzzle, CarFront, Trophy, Gamepad, Brain, User, Power, UserRound } from "lucide-react";
 
 
 export const commonRoutes = [
@@ -35,6 +37,14 @@ export const protectedRoutes = [
     path: '/add-game',
     element: AddGame
   },
+  {
+    path: '/profile',
+    element: Profile
+  },
+  {
+    path: '/recently-played',
+    element: RecentGames
+  }
 ]
 
 export const authRoutes = [
@@ -100,6 +110,11 @@ export const GAMES = [
     title: 'Forza',
     rating: 4.5,
     plays: '2.5M'
+  },
+  {
+    title: 'Forza',
+    rating: 4.5,
+    plays: '2.5M'
   }
 ];
 
@@ -133,10 +148,11 @@ export const getCategoryIcon = (title: string) => {
 
 export const userOptions = [
   {
-    Icon: Plus,
+    Icon: User,
     title: 'Add Game',
     path: '/add-game'
   },
+  
   {
     Icon: User,
     title: 'Profile',
@@ -154,6 +170,6 @@ export const NAV_ITEMS = [
   { icon: Circle, label: "New Games", href: "/new-games" },
   { icon: TrendingUp, label: "Trending", href: "/trending" },
   { icon: UserRound, label: "Most Engaging", href: "/most-engaging" },
-  { icon: RotateCcw, label: "Recently Played", href: "/recently-deleted" },
+  { icon: RotateCcw, label: "Recently Played", href: "/recently-played" },
 ];
 

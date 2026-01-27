@@ -2,9 +2,9 @@ import { Maximize } from "lucide-react";
 import Ad from "../../components/ads/Ad";
 import AppWrapper from "../../HOC/AppWrapper"
 import SectionWrapper from "../../HOC/SectionWrapper";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useGetGameByIdQuery, useGetGamesQuery } from "../../services/redux/apis/games";
+import { useAddGameToRecentMutation, useGetGameByIdQuery, useGetGamesQuery } from "../../services/redux/apis/games";
 
 const Game = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,6 +12,21 @@ const Game = () => {
 
   const { data: game, isLoading, error } = useGetGameByIdQuery(Number(id));
   const { data: allGames = [] } = useGetGamesQuery();
+  const [addGameToRecent] = useAddGameToRecentMutation();
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (game?.id) {
+      timer = setTimeout(() => {
+        addGameToRecent(game.id);
+      }, 2000); // 2 seconds
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [game?.id, addGameToRecent]);
 
   const onMaximize = () => {
     gameRef.current?.requestFullscreen()

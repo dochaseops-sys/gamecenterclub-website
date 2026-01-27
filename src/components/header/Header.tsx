@@ -192,7 +192,7 @@ export default function Header({ onMenuClick }: Props) {
                                 <span className="text-[10px] text-muted-foreground">Online</span>
                             </div>
                             <img
-                                src="https://i.pravatar.cc/150?img=7"
+                                src={`${user.profile_pic}`}
                                 alt="User avatar"
                                 className="w-9 h-9 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer"
                             />

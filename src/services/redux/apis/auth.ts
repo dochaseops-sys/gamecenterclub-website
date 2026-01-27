@@ -1,4 +1,4 @@
-import type { GoogleLoginRequest, LoginRequest, SignUpRequest, User } from '../../../types/user.types';
+import type { GoogleLoginRequest, LoginRequest, SignUpRequest, UpdateProfileRequest, User } from '../../../types/user.types';
 import { api } from './index'
 
 export const authApi = api.injectEndpoints({
@@ -72,6 +72,26 @@ export const authApi = api.injectEndpoints({
             transformResponse: (response: any) => response.data || response,
         }),
 
+        // Update Profile
+        updateProfile: build.mutation<User, UpdateProfileRequest | FormData>({
+            query: (data) => ({
+                url: 'profile',
+                method: 'PUT',
+                body: data,
+            }),
+            transformResponse: (response: any) => response.data || response,
+            invalidatesTags: ["Auth"],
+        }),
+
+        // Delete Account
+        deleteAccount: build.mutation<void, void>({
+            query: () => ({
+                url: 'profile',
+                method: 'DELETE',
+            }),
+            invalidatesTags: ["Auth"],
+        }),
+
     }),
 });
 
@@ -81,5 +101,8 @@ export const {
     useVerifyEmailMutation,
     useResetPasswordRequestMutation,
     useResetPasswordMutation,
-    useLoginWithGoogleMutation
+
+    useLoginWithGoogleMutation,
+    useUpdateProfileMutation,
+    useDeleteAccountMutation
 } = authApi;
