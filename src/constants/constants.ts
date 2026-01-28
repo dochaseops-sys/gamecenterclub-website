@@ -70,53 +70,53 @@ export const authRoutes = [
   }
 ]
 
-export const GAMES = [
-  {
-    title: 'God Of War',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Ghost Of Tshushima',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Red Dead Redemption',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Far Cry',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Call Of Duty',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Battlefield 6',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'God Hand',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Forza',
-    rating: 4.5,
-    plays: '2.5M'
-  },
-  {
-    title: 'Forza',
-    rating: 4.5,
-    plays: '2.5M'
-  }
-];
+// export const GAMES = [
+//   {
+//     title: 'God Of War',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Ghost Of Tshushima',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Red Dead Redemption',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Far Cry',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Call Of Duty',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Battlefield 6',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'God Hand',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Forza',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   },
+//   {
+//     title: 'Forza',
+//     rating: 4.5,
+//     plays: '2.5M'
+//   }
+// ];
 
 type GOOGLE_AUTH_KEYS =
   | "client_id"
@@ -148,11 +148,15 @@ export const getCategoryIcon = (title: string) => {
 
 export const userOptions = [
   {
+    Icon: RotateCcw,
+    title: "Recently Played",
+    path: "/recently-played"
+  },
+  {
     Icon: User,
     title: 'Add Game',
     path: '/add-game'
   },
-  
   {
     Icon: User,
     title: 'Profile',
@@ -170,6 +174,5 @@ export const NAV_ITEMS = [
   { icon: Circle, label: "New Games", href: "/new-games" },
   { icon: TrendingUp, label: "Trending", href: "/trending" },
   { icon: UserRound, label: "Most Engaging", href: "/most-engaging" },
-  { icon: RotateCcw, label: "Recently Played", href: "/recently-played" },
 ];
 
