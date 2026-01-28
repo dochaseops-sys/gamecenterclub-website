@@ -1,10 +1,11 @@
-import { getCategoryIcon, NAV_ITEMS, userOptions } from "../../constants/constants";
+import { getCategoryIcon, userOptions } from "../../constants/constants";
 import { useAppDispatch, useAppSelector } from "../../services/redux/store";
 import { clearStorage } from "../../utils/localstorage.utils";
 import { logout as logoutAction } from '../../services/redux/slices/auth.slice';
 import { Link, useLocation } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../services/redux/apis/games";
-import { User as UserIcon } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { User as UserIcon, Home as HomeIcon } from "lucide-react";
 
 interface Props {
   isOpen: boolean;
@@ -21,6 +22,9 @@ export default function Sidebar({ isOpen, onClose }: Props) {
     dispatch(logoutAction())
     clearStorage();
   }
+
+  const internalCategories = categories.filter(c => c.type === 'internal');
+  const externalCategories = categories.filter(c => c.type === 'external');
 
   return (
     <>
@@ -47,12 +51,23 @@ export default function Sidebar({ isOpen, onClose }: Props) {
             <h3 className="pl-4 mb-2 hidden lg:block text-gray-light text-xs font-semibold tracking-wider">
               MENU
             </h3>
-            {NAV_ITEMS.map((item) => {
-              const isActive = location.pathname === item.href;
+            {/* Home is always fixed */}
+            <Link to="/" onClick={onClose}>
+              <div className={`flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden hover:bg-white/5 ${location.pathname === '/' ? "bg-white/10 text-[var(--secondary)]" : "text-muted-foreground hover:text-foreground"}`}>
+                <HomeIcon className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${location.pathname === '/' ? "text-[var(--secondary)]" : "text-white/70"}`} />
+                <span className="ml-3 font-medium tracking-wide text-sm">Home</span>
+              </div>
+            </Link>
+            {internalCategories.map((item) => {
+              // Try to get icon from lucide-react by name, fallback to title-based mapping
+              const LucideIcon = item.icon ? (LucideIcons as any)[item.icon.charAt(0).toUpperCase() + item.icon.slice(1)] || (LucideIcons as any)[item.icon] : null;
+              const Icon = LucideIcon || getCategoryIcon(item.title);
+              
+              const isActive = location.pathname === `/category/${item.id}`;
               return (
-                <Link key={item.href} to={item.href} onClick={onClose}>
+                <Link key={item.id} to={`/category/${item.id}`} onClick={onClose}>
                   <div className={`flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden hover:bg-white/5 ${isActive ? "bg-white/10 text-[var(--secondary)]" : "text-muted-foreground hover:text-foreground"}`}>
-                    <item.icon
+                    <Icon
                       className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${
                         isActive ? "text-[var(--secondary)]" : "text-white/70"
                       }`}
@@ -60,7 +75,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                     <span
                       className={`ml-3 font-medium tracking-wide text-sm`}
                     >
-                      {item.label}
+                      {item.title}
                     </span>
                   </div>
                 </Link>
@@ -72,8 +87,10 @@ export default function Sidebar({ isOpen, onClose }: Props) {
             <h3 className="pl-4 mb-2 hidden lg:block text-gray-light text-xs font-semibold tracking-wider">
               CATEGORIES
             </h3>
-            {categories.map((item) => {
-              const Icon = getCategoryIcon(item.title);
+            {externalCategories.map((item) => {
+              const LucideIcon = item.icon ? (LucideIcons as any)[item.icon.charAt(0).toUpperCase() + item.icon.slice(1)] || (LucideIcons as any)[item.icon] : null;
+              const Icon = LucideIcon || getCategoryIcon(item.title);
+
               const isCatActive = location.pathname === `/category/${item.id}`;
               return (
                 <Link key={item.id} to={`/category/${item.id}`} onClick={onClose}>

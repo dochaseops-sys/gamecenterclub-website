@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onClose, Icon, closeButtonTitle, children }: Props) => 
     if (!isOpen) return null;
 
     return (
-        <div className="fixed z-10 inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+        <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
             <div className="flex flex-col items-center bg-primary rounded-lg shadow-lg p-6 max-w-md w-full">
                 {Icon || <div className="p-4 mb-5 bg-secondary rounded-full"> <Check className="text-primary" size={30} strokeWidth={4}/> </div>}
                 {children}

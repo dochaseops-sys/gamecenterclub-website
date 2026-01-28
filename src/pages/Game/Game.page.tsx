@@ -20,7 +20,7 @@ const Game = () => {
     if (game?.id) {
       timer = setTimeout(() => {
         addGameToRecent(game.id);
-      }, 2000); // 2 seconds
+      }, 2000);
     }
 
     return () => {
@@ -66,7 +66,7 @@ const Game = () => {
             <h1 className="text-3xl font-bold text-white mb-2">{game.name}</h1>
             <p className="text-muted-foreground">{game.description}</p>
             <div className="flex gap-3 mt-2 text-sm text-muted-foreground">
-              <span>Category: {game.category.title}</span>
+              <span>Category: {game.category?.title}</span>
               <span>•</span>
               <span>Engine: {game.gameEngine}</span>
               {game.mobileSupport && (

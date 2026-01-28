@@ -2,6 +2,9 @@ export interface Category {
     id: number;
     title: string;
     description?: string;
+    is_nav?: boolean;
+    icon?: string;
+    type?: 'internal' | 'external';
     createdAt?: string;
     updatedAt?: string;
 }
@@ -13,28 +16,17 @@ export interface Game {
     gameEngine: string;
     mobileSupport: boolean;
     multiplayer: boolean;
-    categoryId: number;
+    categoryId?: number;
     thumbnail: string;
     gif: string | null;
     gameFile: string;
     status: string;
-    category: Category;
-}
-
-export interface Game {
-    id: number;
-    name: string;
-    description: string;
-    gameEngine: string;
-    gameFile: string;
-    thumbnail: string;
-    gif: string | null;
-    status: string;
-    categoryId: number;
-    mobileSupport: boolean;
-    multiplayer: boolean;
-    created_at: string;
-    updated_at: string;
+    categories?: Category[];
+    category?: Category;
+    createdAt?: string;
+    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface RecentGame {

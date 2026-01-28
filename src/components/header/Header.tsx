@@ -91,7 +91,7 @@ export default function Header({ onMenuClick }: Props) {
                         value={searchQuery}
                         onChange={handleSearchChange}
                         onFocus={() => shouldFetch && setShowDropdown(true)}
-                        className="w-full pl-10 pr-3 py-2 text-sm rounded-3xl border border-border bg-gray/50 text-foreground placeholder-muted-foreground outline-none shadow-inner transition-all duration-300 focus:border-primary/50 focus:ring-2 focus:ring-primary/10"
+                        className="w-full pl-10 pr-3 py-2 text-sm rounded-3xl border border-border bg-gray/50 text-foreground placeholder-muted-foreground outline-none shadow-inner transition-all duration-300 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 bg-slate-700"
                     />
 
                     {/* Search Dropdown */}
@@ -142,7 +142,9 @@ export default function Header({ onMenuClick }: Props) {
                                                         {game.name}
                                                     </span>
                                                     <span className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                                                        {game.category?.title || 'Game'} • {game.mobileSupport ? 'Mobile' : 'Desktop'}
+                                                        {(game.categories && game.categories.length > 0)
+                                                            ? game.categories[0].title
+                                                            : (game.category?.title || 'Game')} • {game.mobileSupport ? 'Mobile' : 'Desktop'}
                                                     </span>
                                                 </div>
                                             </button>
