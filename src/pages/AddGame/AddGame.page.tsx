@@ -1,6 +1,6 @@
 import { Gamepad2, X, CheckCircle2 } from 'lucide-react'
 
-import { useSubmitGameMutation, useGetCategoriesQuery } from '../../services/redux/apis/games'
+import { useSubmitGameMutation, useGetCategoriesForDropdownQuery } from '../../services/redux/apis/games'
 import Loader from '../../loader/Loader'
 import { useAddGameForm, type AddGameValues } from './addGame.schema';
 import Modal from '../../components/modal/Modal';
@@ -19,7 +19,7 @@ const AddGame = () => {
     const navigate = useNavigate();
 
     const [submitGame, { isLoading, isError, error: apiError, isSuccess }] = useSubmitGameMutation();
-    const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery();
+    const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesForDropdownQuery();
 
     const [modalOpen, setModalOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState<string | null>("")

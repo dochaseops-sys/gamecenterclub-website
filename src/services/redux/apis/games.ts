@@ -37,6 +37,11 @@ export const gamesApi = api.injectEndpoints({
             query: () => "categories",
             transformResponse: (response: GetCategoriesResponse) => response.data,
         }),
+        // Get Categories for Dropdown
+        getCategoriesForDropdown: build.query<Category[], void>({
+            query: () => "categories-for-dropdown",
+            transformResponse: (response: GetCategoriesResponse) => response.data,
+        }),
         // Search Games
         searchGames: build.query<Game[], string>({
             query: (searchQuery) => `games?search=${encodeURIComponent(searchQuery)}`,
@@ -62,11 +67,27 @@ export const gamesApi = api.injectEndpoints({
             transformResponse: (response: GetRecentGamesResponse) => response.data,
             providesTags: ["RecentGames"],
         }),
+        // Get Trending Games
+        getTrendingGames: build.query<Game[], void>({
+            query: () => "games/trending",
+            transformResponse: (response: GetGamesResponse) => response.data,
+        }),
+        // Get Most Engaging Games
+        getMostEngagingGames: build.query<Game[], void>({
+            query: () => "games/most-engaging",
+            transformResponse: (response: GetGamesResponse) => response.data,
+        }),
+        // Get New Games
+        getNewGames: build.query<Game[], void>({
+            query: () => "games/new",
+            transformResponse: (response: GetGamesResponse) => response.data,
+        }),
     }),
 });
 
 export const {
     useSubmitGameMutation,
+    useGetCategoriesForDropdownQuery,
     useGetGamesQuery,
     useGetGameByIdQuery,
     useGetCategoriesQuery,
@@ -74,4 +95,7 @@ export const {
     useGetGamesByCategoryQuery,
     useAddGameToRecentMutation,
     useGetRecentGamesQuery,
+    useGetTrendingGamesQuery,
+    useGetMostEngagingGamesQuery,
+    useGetNewGamesQuery,
 } = gamesApi;

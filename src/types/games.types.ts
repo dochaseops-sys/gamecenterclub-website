@@ -23,6 +23,8 @@ export interface Game {
     status: string;
     categories?: Category[];
     category?: Category;
+    playCount?: number;
+    trendingScore?: number;
     createdAt?: string;
     updatedAt?: string;
     created_at?: string;

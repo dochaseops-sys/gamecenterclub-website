@@ -21,7 +21,15 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
             </div>}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 {games?.map((game) => (
-                    <GameCard key={game.id} id={game.id} title={game.name} thumbnail={game.thumbnail} showDetails={showDetails} />
+                    <GameCard
+                        key={game.id}
+                        id={game.id}
+                        title={game.name}
+                        thumbnail={game.thumbnail}
+                        showDetails={showDetails}
+                        plays={game.playCount?.toString()}
+                        mobileSupport={game.mobileSupport}
+                    />
                 ))}
                 {(!games || games.length === 0) && (
                     <div className="col-span-full text-center py-12 text-muted-foreground">

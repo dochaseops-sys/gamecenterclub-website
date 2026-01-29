@@ -1,4 +1,4 @@
-import { type BaseQueryFn, type FetchArgs, type FetchBaseQueryError, createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+  import { type BaseQueryFn, type FetchArgs, type FetchBaseQueryError, createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getItemFromStorage, setItemToStorage, removeItem } from "../../../utils/localstorage.utils";
 // import type { User } from "../../../types/user.types";
 import { login, logout } from "../slices/auth.slice";

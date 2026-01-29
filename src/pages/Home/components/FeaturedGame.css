@@ -1,0 +1,27 @@
+.featured-game-carousel .swiper-pagination-bullet {
+    background: #fff;
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
+}
+
+.featured-game-carousel .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: var(--secondary, #00f3ff);
+    width: 24px;
+    border-radius: 5px;
+}
+
+.featured-game-carousel .swiper-pagination {
+    bottom: 20px !important;
+    text-align: right !important;
+    padding-right: 40px;
+}
+
+@media (max-width: 1024px) {
+    .featured-game-carousel .swiper-pagination {
+        padding-right: 20px;
+        text-align: center !important;
+    }
+}

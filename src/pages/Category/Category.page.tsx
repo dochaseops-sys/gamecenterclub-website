@@ -1,18 +1,32 @@
 import { useParams } from "react-router-dom";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
-import { useGetGamesByCategoryQuery, useGetCategoriesQuery } from "../../services/redux/apis/games";
+import { useGetGamesByCategoryQuery, useGetCategoriesQuery, useGetTrendingGamesQuery, useGetMostEngagingGamesQuery } from "../../services/redux/apis/games";
 
 const CategoryPage = () => {
     const { id } = useParams<{ id: string }>();
     const categoryId = Number(id);
 
     const { data: categories = [] } = useGetCategoriesQuery();
-    const { data: games = [], isLoading } = useGetGamesByCategoryQuery(categoryId, {
-        skip: !categoryId,
+    const category = categories.find(c => c.id === categoryId);
+
+    const isTrending = category?.title === "Trending";
+    const isMostEngaging = category?.title === "Most Engaging";
+
+    const { data: categoryGames = [], isLoading: isCategoryLoading } = useGetGamesByCategoryQuery(categoryId, {
+        skip: !categoryId || isTrending || isMostEngaging,
     });
 
-    const category = categories.find(c => c.id === categoryId);
+    const { data: trendingGames = [], isLoading: isTrendingLoading } = useGetTrendingGamesQuery(undefined, {
+        skip: !isTrending,
+    });
+
+    const { data: engagingGames = [], isLoading: isEngagingLoading } = useGetMostEngagingGamesQuery(undefined, {
+        skip: !isMostEngaging,
+    });
+
+    const games = isTrending ? trendingGames : (isMostEngaging ? engagingGames : categoryGames);
+    const isLoading = isCategoryLoading || isTrendingLoading || isEngagingLoading;
 
     return (
         <AppWrapper>

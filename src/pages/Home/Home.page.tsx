@@ -3,12 +3,13 @@ import Category from "../../components/category/Category";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
-import { useGetCategoriesQuery, useGetGamesQuery } from "../../services/redux/apis/games";
+import { useGetCategoriesQuery, useGetGamesQuery, useGetNewGamesQuery } from "../../services/redux/apis/games";
 
 const Home = () => {
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
   const { data: categories = [] } = useGetCategoriesQuery();
   const { data: gamesData } = useGetGamesQuery({ categoryId: selectedCat || undefined });
+  const { data: newGames = [] } = useGetNewGamesQuery();
   const games = Array.isArray(gamesData) ? gamesData : (gamesData as any)?.data || [];
 
   const externalCategories = categories.filter(c => c.type === 'external');
@@ -16,7 +17,7 @@ const Home = () => {
   return <AppWrapper>
     <div className="flex flex-col">
       {/* featured Game */}
-      <FeaturedGame />
+      <FeaturedGame games={newGames.slice(0, 5)} />
 
       {/* Categories */}
       <div className="flex gap-x-5 mb-7 overflow-x-auto custom-scrollbar pb-2">
@@ -36,6 +37,11 @@ const Home = () => {
           ))
         }
       </div>
+
+      {/* New Games */}
+      {!selectedCat && newGames.length > 0 && (
+        <SectionWrapper games={newGames} title="New Games" />
+      )}
 
       {/* All games */}
       <SectionWrapper games={games} title={selectedCat ? categories.find(c => c.id.toString() === selectedCat)?.title || "Games" : "All Games"} />

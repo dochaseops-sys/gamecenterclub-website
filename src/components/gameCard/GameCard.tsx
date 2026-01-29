@@ -8,9 +8,10 @@ interface Props {
     plays?: string;
     rating?: number;
     showDetails?: boolean;
+    mobileSupport?: boolean;
 }
 
-export default function GameCard({ id, title, thumbnail, plays, rating, showDetails = true }: Props) {
+export default function GameCard({ id, title, thumbnail, plays, rating, showDetails = true, mobileSupport }: Props) {
     return (
         <Link to={`/game/${id}`} className='shadow-[0_0_8px_var(--border)]'>
             <div
@@ -20,6 +21,13 @@ export default function GameCard({ id, title, thumbnail, plays, rating, showDeta
                 {/* Image Container */}
                 <div className={
                     "w-full overflow-hidden relative aspect-square"}>
+                    {mobileSupport && (
+                        <div className="absolute top-0 right-0 pointer-events-none z-10 overflow-hidden w-16 h-16">
+                            <div className="absolute top-3 -right-8 w-28 bg-secondary py-1 text-center text-[10px] font-bold text-black rotate-45 shadow-md">
+                                MOBILE
+                            </div>
+                        </div>
+                    )}
                     <img
                         src={thumbnail || `https://picsum.photos/200?${title}`}
                         alt={title}
