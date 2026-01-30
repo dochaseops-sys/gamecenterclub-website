@@ -1,6 +1,7 @@
 import { StepForward } from 'lucide-react'
 import GameCard from '../components/gameCard/GameCard';
 import type { Game } from '../types/games.types';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     games: Game[];
@@ -9,6 +10,26 @@ interface Props {
 }
 
 const SectionWrapper = ({ games, title, showDetails }: Props) => {
+    const location = useLocation();
+    const isAdPage = location.pathname !== "/";
+
+    // Standard Layout (Home):
+    // sm: 2 cols | md: 3 cols (?) -> typically sm:grid-cols-3
+    // lg: 4 cols
+    // xl: 5 cols
+
+    // Ad Page Layout (Sidebar Present):
+    // Reduced width implies fewer columns fitting comfortably.
+    // User requested "4 columns" explicitly.
+    // We adjust to reach 4 columns on larger screens, but maybe start smaller.
+    // grid-cols-2 (default mobile)
+    // sm:grid-cols-3 (tablet)
+    // xl:grid-cols-4 (desktop with ad) - Capped at 4 to satisfy user request.
+
+    const gridClasses = isAdPage
+        ? "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+        : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6";
+
     return (
         <section className="mb-7">
             {title && <div className="flex justify-between items-center mb-3">
@@ -19,7 +40,7 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
                     <h2 className="text-xl text-white font-display">{title}</h2>
                 </div>
             </div>}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className={gridClasses}>
                 {games?.map((game) => (
                     <GameCard
                         key={game.id}
