@@ -165,7 +165,7 @@ export const userOptions = [
   {
     Icon: Power,
     title: 'Log Out',
-    path: null
+    path: '/'
   }
 ];
 

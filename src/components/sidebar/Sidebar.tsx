@@ -21,7 +21,6 @@ export default function Sidebar({ isOpen, onClose }: Props) {
   const logout = () => {
     dispatch(logoutAction())
     clearStorage();
-
   }
 
   const internalCategories = categories.filter(c => c.type === 'internal');
@@ -114,7 +113,7 @@ export default function Sidebar({ isOpen, onClose }: Props) {
               {userOptions.map((item) => {
                 const isItemActive = location.pathname === item.path;
                 return (
-                  <Link key={item.title} to={'#'} onClick={item.title === "Log Out" ? logout : onClose}>
+                  <Link key={item.title} to={item.path || "#"} onClick={item.title === "Log Out" ? logout : onClose}>
                     <div className={`flex items-center pr-3 pl-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden hover:bg-white/5 ${isItemActive ? "bg-white/10 text-[var(--secondary)]" : "text-muted-foreground hover:text-foreground"}`}>
                       <item.Icon className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${isItemActive ? "text-[var(--secondary)]" : "text-white/70"}`} />
                       <span className="ml-3 font-medium tracking-wide text-sm">
