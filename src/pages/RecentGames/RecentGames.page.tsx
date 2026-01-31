@@ -55,25 +55,25 @@ const RecentGames = () => {
                 <div className="flex flex-col items-center justify-center min-h-[500px] text-center p-12 bg-card/30 rounded-[2rem] border border-border/50 backdrop-blur-sm relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--secondary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-            <div className="relative">
-                <div className="w-24 h-24 bg-muted/20 rounded-full flex items-center justify-center mb-6 ring-1 ring-white/10 shadow-2xl">
-                    <Gamepad2 className="w-12 h-12 text-muted-foreground/60" />
+                    <div className="relative">
+                        <div className="w-24 h-24 bg-muted/20 rounded-full flex items-center justify-center mb-6 ring-1 ring-white/10 shadow-2xl">
+                            <Gamepad2 className="w-12 h-12 text-muted-foreground/60" />
+                        </div>
+                        <h3 className="text-2xl font-display font-bold mb-3 text-white">Your History is Empty</h3>
+                        <p className="text-muted-foreground max-w-sm mx-auto leading-relaxed">
+                            It looks like you haven't played any games yet.
+                            The more you play, the better your personal history becomes!
+                        </p>
+                        <button
+                            onClick={() => window.location.href = '/'}
+                            className="mt-8 px-8 py-3 bg-[var(--secondary)] text-primary font-bold rounded-xl shadow-[0_4px_20px_rgba(0,243,255,0.4)] hover:shadow-[0_8px_30px_rgba(0,243,255,0.6)] hover:scale-105 active:scale-95 transition-all duration-300"
+                        >
+                            Explore Games
+                        </button>
+                    </div>
                 </div>
-                <h3 className="text-2xl font-display font-bold mb-3 text-white">Your History is Empty</h3>
-                <p className="text-muted-foreground max-w-sm mx-auto leading-relaxed">
-                    It looks like you haven't played any games yet.
-                    The more you play, the better your personal history becomes!
-                </p>
-                <button
-                    onClick={() => window.location.href = '/'}
-                    className="mt-8 px-8 py-3 bg-[var(--secondary)] text-primary font-bold rounded-xl shadow-[0_4px_20px_rgba(0,243,255,0.4)] hover:shadow-[0_8px_30px_rgba(0,243,255,0.6)] hover:scale-105 active:scale-95 transition-all duration-300"
-                >
-                    Explore Games
-                </button>
-            </div>
-        </div>
-    )
-}
+            )
+            }
         </AppWrapper >
     );
 };

@@ -9,9 +9,10 @@ interface Props {
     rating?: number;
     showDetails?: boolean;
     mobileSupport?: boolean;
+    multiplayer?: boolean;
 }
 
-export default function GameCard({ id, title, thumbnail, plays, rating, showDetails = true, mobileSupport }: Props) {
+export default function GameCard({ id, title, thumbnail, plays, rating, showDetails = true, mobileSupport, multiplayer }: Props) {
     return (
         <Link to={`/game/${id}`} className='shadow-[0_0_8px_var(--border)]'>
             <div
@@ -22,9 +23,16 @@ export default function GameCard({ id, title, thumbnail, plays, rating, showDeta
                 <div className={
                     "w-full overflow-hidden relative aspect-square"}>
                     {mobileSupport && (
-                        <div className="absolute top-0 right-0 pointer-events-none z-10 overflow-hidden w-16 h-16">
+                        <div className="absolute top-0 right-0 pointer-events-none z-10 overflow-hidden w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div className="absolute top-3 -right-8 w-28 bg-secondary py-1 text-center text-[10px] font-bold text-black rotate-45 shadow-md">
                                 MOBILE
+                            </div>
+                        </div>
+                    )}
+                    {multiplayer && (
+                        <div className="absolute top-0 left-0 pointer-events-none z-10 overflow-hidden w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="absolute top-3 -left-8 w-28 bg-secondary py-1 text-center text-[8px] font-bold text-black -rotate-45 shadow-md">
+                                MULTIPLAYER
                             </div>
                         </div>
                     )}
@@ -45,13 +53,20 @@ export default function GameCard({ id, title, thumbnail, plays, rating, showDeta
                     </div>
 
                     {/* Rating Overlay */}
-                    {showDetails && rating ? <div className="absolute p-2 inset-0 flex items-start justify-end">
-                        <div className="py-1 px-2 text-xxs font-extrabold rounded-md bg-black/70 flex items-center justify-center">
-                            <Star size={10} fill='gold' color='gold' className='mr-1' /> <span>{rating}</span>
+                    {showDetails && rating && (
+                        <div className="absolute p-2 inset-0 flex items-start justify-end">
+                            <div className="py-1 px-2 text-xxs font-extrabold rounded-md bg-black/70 flex items-center justify-center">
+                                <Star size={10} fill='gold' color='gold' className='mr-1' /> <span>{rating}</span>
+                            </div>
                         </div>
-                    </div> : <div className="absolute p-2 inset-0 flex items-end">
-                        <p className='text-xs font-bold'>{title}</p>
-                    </div>}
+                    )}
+
+                    {/* Title Banner on Hover (when showDetails is false) */}
+                    {!showDetails && (
+                        <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p className='text-xs font-bold'>{title}</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Content */}

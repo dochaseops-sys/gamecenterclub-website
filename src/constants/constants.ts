@@ -1,16 +1,19 @@
-import AddGame from "../pages/AddGame/AddGame.page";
-import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
-import Game from "../pages/Game/Game.page";
-import Home from "../pages/Home/Home.page";
-import Login from "../pages/Login/Login.page";
-import OTPVerification from "../pages/OTPVerificatiom/OTPVerification";
-import ResetPassword from "../pages/ResetPassword/ResetPassword";
-import Signup from "../pages/Signup/Signup.page";
-import SearchPage from "../pages/Search/Search.page";
-import CategoryPage from "../pages/Category/Category.page";
-import Profile from "../pages/Profile/Profile.page";
-import RecentGames from "../pages/RecentGames/RecentGames.page";
+import { lazy } from "react";
 import { Home as HomeIcon, TrendingUp, Circle, RotateCcw, Zap, Puzzle, CarFront, Trophy, Gamepad, Brain, User, Power, UserRound } from "lucide-react";
+
+// Lazy load all page components for better performance
+const AddGame = lazy(() => import("../pages/AddGame/AddGame.page"));
+const ForgotPassword = lazy(() => import("../pages/ForgotPassword/ForgotPassword"));
+const Game = lazy(() => import("../pages/Game/Game.page"));
+const Home = lazy(() => import("../pages/Home/Home.page"));
+const Login = lazy(() => import("../pages/Login/Login.page"));
+const OTPVerification = lazy(() => import("../pages/OTPVerificatiom/OTPVerification"));
+const ResetPassword = lazy(() => import("../pages/ResetPassword/ResetPassword"));
+const Signup = lazy(() => import("../pages/Signup/Signup.page"));
+const SearchPage = lazy(() => import("../pages/Search/Search.page"));
+const CategoryPage = lazy(() => import("../pages/Category/Category.page"));
+const Profile = lazy(() => import("../pages/Profile/Profile.page"));
+const RecentGames = lazy(() => import("../pages/RecentGames/RecentGames.page"));
 
 
 export const commonRoutes = [

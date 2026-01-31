@@ -76,7 +76,7 @@ export default function Header({ onMenuClick }: Props) {
                     </div>
 
                     <span className="font-display font-bold text-xl text-foreground tracking-widest">
-                        GAMECENTER
+                        GAMING CENTER
                     </span>
                 </div>
 
