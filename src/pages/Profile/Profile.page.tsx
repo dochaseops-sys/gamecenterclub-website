@@ -138,7 +138,7 @@ const handleUpdate = async (e: React.FormEvent) => {
                                     Change Picture
                                 </button>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                    JPG, GIF or PNG. Max 1MB.
+                                    JPG, GIF or PNG.
                                 </p>
                             </div>
                         )}
@@ -153,6 +153,7 @@ const handleUpdate = async (e: React.FormEvent) => {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 disabled={!isEditing}
+                                required
                                 className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isEditing ? "text-black bg-white" : "text-white bg-transparent"}`}
                             />  
                         </div>
@@ -165,6 +166,7 @@ const handleUpdate = async (e: React.FormEvent) => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={!isEditing}
+                                required
                                 className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isEditing ? "text-black bg-white" : "text-white bg-transparent"}`}   
                             />
                         </div>

@@ -196,7 +196,7 @@ export default function Header({ onMenuClick }: Props) {
                             <img
                                 src={`${user.profile_pic}`}
                                 alt="User avatar"
-                                className="w-9 h-9 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer"
+                                className="w-9 h-9 rounded-full border border-white/10 hover:border-primary/50 transition-colors "
                             />
                         </div>
                     ) : (

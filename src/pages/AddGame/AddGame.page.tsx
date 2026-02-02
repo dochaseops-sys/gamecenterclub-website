@@ -53,7 +53,7 @@ const AddGame = () => {
         formData.append('categoryId', String(selectedCategory?.id || ""));
         formData.append('mobileSupport', String(data.mobileSupport));
         formData.append('multiplayer', String(data.multiplayer));
-        formData.append('gameFile', data.gameFile); // Send as URL string
+        formData.append('gameFile', data.gameFile);
         formData.append('gif', data.gif);
         formData.append('thumbnail', data.thumbnail);
 

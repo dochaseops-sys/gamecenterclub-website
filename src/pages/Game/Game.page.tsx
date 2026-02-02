@@ -1,5 +1,5 @@
 import { Maximize } from "lucide-react";
-import Ad from "../../components/ads/Ad";
+// import Ad from "../../components/ads/Ad";
 import AppWrapper from "../../HOC/AppWrapper"
 import SectionWrapper from "../../HOC/SectionWrapper";
 import { useRef, useEffect } from "react";
@@ -58,7 +58,7 @@ const Game = () => {
   return (
     <AppWrapper>
       <div className="flex flex-col">
-        <Ad />
+        {/* <Ad /> */}
 
         <div className="mb-5">
           {/* Game Title and Description */}
