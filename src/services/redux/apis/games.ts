@@ -14,18 +14,20 @@ export const gamesApi = api.injectEndpoints({
             invalidatesTags: ["Auth"], // Adjust tags as needed, maybe add "Games" later
         }),
         // Get All Games
-        getGames: build.query<Game[], { categoryId?: string; status?: string; search?: string } | void>({
+        getGames: build.query<GetGamesResponse, { categoryId?: string; status?: string; search?: string; page?: number; limit?: number } | void>({
             query: (params) => {
                 const searchParams = new URLSearchParams();
                 if (params) {
                     if (params.categoryId) searchParams.append('categoryId', params.categoryId);
                     if (params.status) searchParams.append('status', params.status);
                     if (params.search) searchParams.append('search', params.search);
+                    if (params.page) searchParams.append('page', params.page.toString());
+                    if (params.limit) searchParams.append('limit', params.limit.toString());
                 }
                 const queryString = searchParams.toString();
                 return queryString ? `games?${queryString}` : "games";
             },
-            transformResponse: (response: GetGamesResponse) => response.data,
+            transformResponse: (response: GetGamesResponse) => response,
         }),
         // Get Game by ID
         getGameById: build.query<Game, number>({

@@ -39,7 +39,7 @@ export default function GameCard({ id, title, thumbnail, plays, rating, showDeta
                     <img
                         src={thumbnail || `https://picsum.photos/200?${title}`}
                         alt={title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-110 group-hover:opacity-100"
                     />
 
                     {/* Overlay Gradient */}

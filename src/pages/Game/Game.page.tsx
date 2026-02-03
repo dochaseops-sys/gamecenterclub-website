@@ -11,7 +11,8 @@ const Game = () => {
   const gameRef = useRef<HTMLIFrameElement | null>(null);
 
   const { data: game, isLoading, error } = useGetGameByIdQuery(Number(id));
-  const { data: allGames = [] } = useGetGamesQuery();
+  const { data: gamesResponse } = useGetGamesQuery();
+  const allGames = gamesResponse?.data || [];
   const [addGameToRecent] = useAddGameToRecentMutation();
 
   useEffect(() => {

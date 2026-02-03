@@ -13,18 +13,7 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
     const location = useLocation();
     const isAdPage = location.pathname !== "/";
 
-    // Standard Layout (Home):
-    // sm: 2 cols | md: 3 cols (?) -> typically sm:grid-cols-3
-    // lg: 4 cols
-    // xl: 5 cols
 
-    // Ad Page Layout (Sidebar Present):
-    // Reduced width implies fewer columns fitting comfortably.
-    // User requested "4 columns" explicitly.
-    // We adjust to reach 4 columns on larger screens, but maybe start smaller.
-    // grid-cols-2 (default mobile)
-    // sm:grid-cols-3 (tablet)
-    // xl:grid-cols-4 (desktop with ad) - Capped at 4 to satisfy user request.
 
     const gridClasses = isAdPage
         ? "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
