@@ -1,5 +1,5 @@
 import { api } from './index';
-import type { Category, Game, GetCategoriesResponse, GetGamesResponse, SubmitGameResponse, RecentGame, GetRecentGamesResponse } from '../../../types/games.types';
+import type { Category, Game, GetCategoriesResponse, GetGamesResponse, SubmitGameResponse, GetRecentGamesResponse } from '../../../types/games.types';
 
 export const gamesApi = api.injectEndpoints({
     overrideExisting: true,
@@ -45,14 +45,24 @@ export const gamesApi = api.injectEndpoints({
             transformResponse: (response: GetCategoriesResponse) => response.data,
         }),
         // Search Games
-        searchGames: build.query<Game[], string>({
-            query: (searchQuery) => `games?search=${encodeURIComponent(searchQuery)}`,
-            transformResponse: (response: GetGamesResponse) => response.data,
+        searchGames: build.query<GetGamesResponse, { query: string; page?: number; limit?: number }>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                searchParams.append('search', params.query);
+                if (params.page) searchParams.append('page', params.page.toString());
+                if (params.limit) searchParams.append('limit', params.limit.toString());
+                return `games?${searchParams.toString()}`;
+            },
         }),
         // Get Games by Category
-        getGamesByCategory: build.query<Game[], number>({
-            query: (categoryId) => `games?categoryId=${categoryId}`,
-            transformResponse: (response: GetGamesResponse) => response.data,
+        getGamesByCategory: build.query<GetGamesResponse, { categoryId: number; page?: number; limit?: number }>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                searchParams.append('categoryId', params.categoryId.toString());
+                if (params.page) searchParams.append('page', params.page.toString());
+                if (params.limit) searchParams.append('limit', params.limit.toString());
+                return `games?${searchParams.toString()}`;
+            },
         }),
 
         // Add Game to Recent
@@ -64,25 +74,53 @@ export const gamesApi = api.injectEndpoints({
             invalidatesTags: ["RecentGames"],
         }),
         // Get Recent Games
-        getRecentGames: build.query<RecentGame[], void>({
-            query: () => "games/recent",
-            transformResponse: (response: GetRecentGamesResponse) => response.data,
+        getRecentGames: build.query<GetRecentGamesResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) searchParams.append('page', params.page.toString());
+                    if (params.limit) searchParams.append('limit', params.limit.toString());
+                }
+                const queryString = searchParams.toString();
+                return queryString ? `games/recent?${queryString}` : "games/recent";
+            },
             providesTags: ["RecentGames"],
         }),
         // Get Trending Games
-        getTrendingGames: build.query<Game[], void>({
-            query: () => "games/trending",
-            transformResponse: (response: GetGamesResponse) => response.data,
+        getTrendingGames: build.query<GetGamesResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) searchParams.append('page', params.page.toString());
+                    if (params.limit) searchParams.append('limit', params.limit.toString());
+                }
+                const queryString = searchParams.toString();
+                return queryString ? `games/trending?${queryString}` : "games/trending";
+            },
         }),
         // Get Most Engaging Games
-        getMostEngagingGames: build.query<Game[], void>({
-            query: () => "games/most-engaging",
-            transformResponse: (response: GetGamesResponse) => response.data,
+        getMostEngagingGames: build.query<GetGamesResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) searchParams.append('page', params.page.toString());
+                    if (params.limit) searchParams.append('limit', params.limit.toString());
+                }
+                const queryString = searchParams.toString();
+                return queryString ? `games/most-engaging?${queryString}` : "games/most-engaging";
+            },
         }),
         // Get New Games
-        getNewGames: build.query<Game[], void>({
-            query: () => "games/new",
-            transformResponse: (response: GetGamesResponse) => response.data,
+        getNewGames: build.query<GetGamesResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) searchParams.append('page', params.page.toString());
+                    if (params.limit) searchParams.append('limit', params.limit.toString());
+                }
+                const queryString = searchParams.toString();
+                return queryString ? `games/new?${queryString}` : "games/new";
+            },
         }),
     }),
 });

@@ -1,6 +1,6 @@
 import { Search, Gamepad2, Menu, Tag } from "lucide-react";
 import { useAppSelector, type RootState } from "../../services/redux/store";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useSearchGamesQuery } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
@@ -29,9 +29,10 @@ export default function Header({ onMenuClick }: Props) {
 
     // Fetch search results only when query has 2+ characters
     const shouldFetch = debouncedQuery.trim().length >= 2;
-    const { data: searchResults = [], isLoading } = useSearchGamesQuery(debouncedQuery, {
+    const { data: searchResponse, isLoading } = useSearchGamesQuery({ query: debouncedQuery }, {
         skip: !shouldFetch,
     });
+    const searchResults: Game[] = searchResponse?.data || [];
 
     // Show dropdown when there are results or loading
     useEffect(() => {
@@ -76,7 +77,7 @@ export default function Header({ onMenuClick }: Props) {
                     </div>
 
                     <span className="font-display font-bold text-xl text-foreground tracking-widest">
-                        GAMING CENTER
+                        Game Center Club
                     </span>
                 </div>
 
@@ -201,7 +202,7 @@ export default function Header({ onMenuClick }: Props) {
                         </div>
                     ) : (
                         <div className="hidden sm:flex items-center gap-3">
-                            <Link to="/login">
+                            {/* <Link to="/login">
                                 <button className="bg-secondary px-4 py-1.5 rounded-lg text-sm font-bold text-primary hover:bg-secondary/90 transition-all shadow-[0_0_15px_rgba(188,19,254,0.2)]">
                                     Log In
                                 </button>
@@ -210,7 +211,7 @@ export default function Header({ onMenuClick }: Props) {
                                 <button className="text-sm font-medium hover:text-foreground transition-colors">
                                     Sign Up
                                 </button>
-                            </Link>
+                            </Link> */}
                         </div>
                     )}
                 </div>

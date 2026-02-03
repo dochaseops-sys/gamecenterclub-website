@@ -2,14 +2,16 @@ import { useSearchParams } from "react-router-dom";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import { useSearchGamesQuery } from "../../services/redux/apis/games";
+import type { Game } from "../../types/games.types";
 
 const SearchPage = () => {
     const [searchParams] = useSearchParams();
     const query = searchParams.get("query") || "";
 
-    const { data: games = [], isLoading } = useSearchGamesQuery(query, {
+    const { data: searchResponse, isLoading } = useSearchGamesQuery({ query }, {
         skip: !query,
     });
+    const games: Game[] = searchResponse?.data || [];
 
     return (
         <AppWrapper>

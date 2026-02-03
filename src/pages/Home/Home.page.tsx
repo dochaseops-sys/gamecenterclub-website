@@ -1,21 +1,23 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Category from "../../components/category/Category";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
 import { useGetCategoriesQuery, useGetGamesQuery, useGetNewGamesQuery } from "../../services/redux/apis/games";
+import type { Game } from "../../types/games.types";
 
 const Home = () => {
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
   const [page, setPage] = useState(1);
-  const [gamesList, setGamesList] = useState<any[]>([]);
+  const [gamesList, setGamesList] = useState<Game[]>([]);
 
   const { data: categories = [] } = useGetCategoriesQuery();
-  const { data: gamesResponse, isFetching } = useGetGamesQuery({ categoryId: selectedCat || undefined, page, limit: 20 });
-  const { data: newGames = [] } = useGetNewGamesQuery();
+  const { data: gamesResponse, isFetching, isLoading } = useGetGamesQuery({ categoryId: selectedCat || undefined, page, limit: 20 });
+  const { data: newGamesResponse } = useGetNewGamesQuery();
+  const newGames: Game[] = newGamesResponse?.data || [];
 
-  const totalPages = gamesResponse?.totalPages || 1;
-  const observerTarget = useRef<HTMLDivElement>(null);
+  const totalPages = gamesResponse?.pagination?.totalPages || 1;
+  const hasMore = page < totalPages;
 
   // Reset state when category changes
   useEffect(() => {
@@ -40,26 +42,19 @@ const Home = () => {
   }, [gamesResponse, page]);
 
   // Intersection Observer for Infinite Scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting && !isFetching && page < totalPages) {
-          setPage(prev => prev + 1);
-        }
-      },
-      { threshold: 1.0 }
-    );
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback((node: HTMLDivElement | null) => {
+    if (isLoading || isFetching) return;
+    if (observer.current) observer.current.disconnect();
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPage(prev => prev + 1);
       }
-    };
-  }, [observerTarget, isFetching, page, totalPages]);
+    }, { threshold: 0.1 });
+
+    if (node) observer.current.observe(node);
+  }, [isLoading, isFetching, hasMore]);
 
   const externalCategories = categories.filter(c => c.type === 'external');
 
@@ -96,7 +91,7 @@ const Home = () => {
       <SectionWrapper games={gamesList} title={selectedCat ? categories.find(c => c.id.toString() === selectedCat)?.title || "Games" : "All Games"} />
 
       {/* Loading Indicator for Infinite Scroll */}
-      <div ref={observerTarget} className="flex justify-center py-4 h-10 w-full mb-10">
+      <div ref={lastElementRef} className="flex justify-center py-4 h-10 w-full mb-10">
         {isFetching && page > 1 && (
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
         )}

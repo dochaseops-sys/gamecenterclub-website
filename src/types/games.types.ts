@@ -55,13 +55,21 @@ export interface GetCategoriesResponse {
 
 export interface GetGamesResponse {
     success: boolean;
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
     data: Game[];
+    pagination?: {
+        totalItems: number;
+        totalPages: number;
+        currentPage: number;
+        itemsPerPage: number;
+    };
 }
 export interface GetRecentGamesResponse {
     success: boolean;
     data: RecentGame[];
+    pagination?: {
+        totalItems: number;
+        totalPages: number;
+        currentPage: number;
+        itemsPerPage: number;
+    };
 }
