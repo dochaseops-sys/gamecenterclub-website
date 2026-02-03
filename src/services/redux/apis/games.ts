@@ -11,7 +11,7 @@ export const gamesApi = api.injectEndpoints({
                 method: "POST",
                 body: formData,
             }),
-            invalidatesTags: ["Auth"], // Adjust tags as needed, maybe add "Games" later
+            invalidatesTags: ["Auth", "Games"], // Refreshes user's games list after submission
         }),
         // Get All Games
         getGames: build.query<GetGamesResponse, { categoryId?: string; status?: string; search?: string; page?: number; limit?: number } | void>({
@@ -122,6 +122,19 @@ export const gamesApi = api.injectEndpoints({
                 return queryString ? `games/new?${queryString}` : "games/new";
             },
         }),
+        // Get My Games
+        getMyGames: build.query<GetGamesResponse, { page?: number; limit?: number } | void>({
+            query: (params) => {
+                const searchParams = new URLSearchParams();
+                if (params) {
+                    if (params.page) searchParams.append('page', params.page.toString());
+                    if (params.limit) searchParams.append('limit', params.limit.toString());
+                }
+                const queryString = searchParams.toString();
+                return queryString ? `games/my-games?${queryString}` : "games/my-games";
+            },
+            providesTags: ["Games"],
+        }),
     }),
 });
 
@@ -138,4 +151,5 @@ export const {
     useGetTrendingGamesQuery,
     useGetMostEngagingGamesQuery,
     useGetNewGamesQuery,
+    useGetMyGamesQuery,
 } = gamesApi;

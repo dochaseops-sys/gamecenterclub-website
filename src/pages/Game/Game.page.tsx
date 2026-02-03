@@ -10,6 +10,10 @@ const Game = () => {
   const { id } = useParams<{ id: string }>();
   const gameRef = useRef<HTMLIFrameElement | null>(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   const { data: game, isLoading, error } = useGetGameByIdQuery(Number(id));
   const { data: gamesResponse } = useGetGamesQuery();
   const allGames = gamesResponse?.data || [];

@@ -1,6 +1,6 @@
 const SideAd = () => {
     return (
-        <aside className="hidden lg:flex w-[360px] pt-[72px] h-screen fixed right-0 top-0 bg-background border-l border-border z-30 flex-col overflow-y-auto custom-scrollbar pb-20 transition-all duration-300">
+        <aside className="hidden lg:flex w-[360px] h-[calc(100vh-4rem)] fixed right-0 top-16 bg-background border-l border-border z-30 flex-col overflow-y-auto custom-scrollbar pb-20 transition-all duration-300">
             <div className="w-full flex flex-col items-center gap-6 px-4">
 
                 <div className="w-full text-center py-2">

@@ -14,6 +14,10 @@ const CategoryPage = () => {
     const [allGames, setAllGames] = useState<Game[]>([]);
     const [hasMore, setHasMore] = useState(true);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [categoryId]);
+
     const { data: categories = [] } = useGetCategoriesQuery();
     const category = categories.find(c => c.id === categoryId);
 

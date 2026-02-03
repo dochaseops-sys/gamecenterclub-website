@@ -62,7 +62,7 @@ export default function Header({ onMenuClick }: Props) {
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-20 h-16 bg-background/80 backdrop-blur-md border-b border-border px-4 md:px-6">
+        <header className="fixed top-0 left-0 right-0 z-50 h-16 bg-background/80 backdrop-blur-md border-b border-border px-4 md:px-6">
             <div className="h-full flex items-center justify-between">
 
                 {/* Mobile Menu Button */}
