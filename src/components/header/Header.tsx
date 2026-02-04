@@ -99,9 +99,8 @@ export default function Header({ onMenuClick }: Props) {
                     {showDropdown && (
                         <div className="absolute top-full mt-2 left-0 right-0 bg-[#0f0f12] border border-white/10 rounded-xl shadow-2xl max-h-[480px] overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                             {isLoading ? (
-                                <div className="p-8 text-center">
-                                    <div className="inline-block w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                                    <p className="mt-2 text-sm text-muted-foreground italic">Hunting for games...</p>
+                                <div className="p-12 text-center">
+                                    <div className="inline-block w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_15px_rgba(6,182,212,0.3)]"></div>
                                 </div>
                             ) : searchResults.length > 0 ? (
                                 <div className="flex flex-col h-full">

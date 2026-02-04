@@ -17,7 +17,7 @@ export default function NotFound() {
         <div className="relative mb-8">
           <h1 className="text-[120px] md:text-[180px] font-bold text-white tracking-tighter">
             <span className="relative">
-              <span className="relative text-secondary">404</span>
+              <span className="relative text-secondary"></span>
             </span>
           </h1>
         </div>

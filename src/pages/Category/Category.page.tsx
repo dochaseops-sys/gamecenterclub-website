@@ -4,6 +4,7 @@ import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import { useGetGamesByCategoryQuery, useGetCategoriesQuery, useGetTrendingGamesQuery, useGetMostEngagingGamesQuery } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
+import Loader from "../../loader/Loader";
 import { Loader2 } from "lucide-react";
 
 const CategoryPage = () => {
@@ -85,22 +86,16 @@ const CategoryPage = () => {
             <div className="flex flex-col min-h-screen">
                 <div className="mb-8 mt-4">
                     <h1 className="text-3xl font-display font-bold text-white mb-2">
-                        {category ? category.title : "Category"} Games
+                        {category ? category.title : ""} Games
                     </h1>
                     <p className="text-muted-foreground">
-                        {isLoading ? "Loading games..." : `Found ${allGames.length} games`}
+                        {isLoading ? "" : `Found ${allGames.length} games`}
                     </p>
                 </div>
 
                 {isLoading && allGames.length === 0 ? (
                     <div className="flex-1 flex items-center justify-center min-h-[400px]">
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="relative">
-                                <Loader2 className="w-12 h-12 animate-spin text-primary" />
-                                <div className="absolute inset-0 blur-lg bg-primary/20 animate-pulse" />
-                            </div>
-                            <p className="text-muted-foreground font-medium animate-pulse">Loading games...</p>
-                        </div>
+                        <Loader />
                     </div>
                 ) : (
                     <div className="space-y-12">
@@ -109,7 +104,7 @@ const CategoryPage = () => {
                         {/* Sentinel for infinite scroll */}
                         <div ref={lastGameElementRef} className="h-10 w-full flex justify-center items-center pb-8">
                             {isFetching && (
-                                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                                <Loader2 className="w-8 h-8 animate-spin text-secondary" />
                             )}
                         </div>
                     </div>

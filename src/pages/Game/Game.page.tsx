@@ -5,6 +5,7 @@ import SectionWrapper from "../../HOC/SectionWrapper";
 import { useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAddGameToRecentMutation, useGetGameByIdQuery, useGetGamesQuery } from "../../services/redux/apis/games";
+import Loader from "../../loader/Loader";
 
 const Game = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,7 +42,7 @@ const Game = () => {
     return (
       <AppWrapper>
         <div className="flex items-center justify-center h-96">
-          <p className="text-muted-foreground">Loading game...</p>
+          <Loader />
         </div>
       </AppWrapper>
     );

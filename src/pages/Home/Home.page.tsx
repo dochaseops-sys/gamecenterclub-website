@@ -5,6 +5,7 @@ import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
 import { useGetCategoriesQuery, useGetGamesQuery, useGetNewGamesQuery } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
+import { Loader2 } from "lucide-react";
 
 const Home = () => {
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
@@ -48,13 +49,14 @@ const Home = () => {
     if (observer.current) observer.current.disconnect();
 
     observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
+      if (entries[0].isIntersecting && hasMore && !isFetching) {
+        console.log("Loading more games... current page:", page);
         setPage(prev => prev + 1);
       }
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '100px' });
 
     if (node) observer.current.observe(node);
-  }, [isLoading, isFetching, hasMore]);
+  }, [isLoading, isFetching, hasMore, page]);
 
   const externalCategories = categories.filter(c => c.type === 'external');
 
@@ -91,9 +93,12 @@ const Home = () => {
       <SectionWrapper games={gamesList} title={selectedCat ? categories.find(c => c.id.toString() === selectedCat)?.title || "Games" : "All Games"} />
 
       {/* Loading Indicator for Infinite Scroll */}
-      <div ref={lastElementRef} className="flex justify-center py-4 h-10 w-full mb-10">
-        {isFetching && page > 1 && (
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      <div ref={lastElementRef} className="flex justify-center py-8 h-20 w-full mb-10">
+        {isFetching && (
+          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+        )}
+        {!hasMore && gamesList.length > 0 && (
+          <p className="text-sm text-muted-foreground">No more games to show</p>
         )}
       </div>
     </div>

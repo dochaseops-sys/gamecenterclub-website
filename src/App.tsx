@@ -49,9 +49,6 @@ const PageLoader = () => {
       </div>
 
       {/* Optional Loading Text */}
-      <p className="text-center text-sm text-muted-foreground mt-10">
-        Loading games, please wait...
-      </p>
     </div>
   );
 };
