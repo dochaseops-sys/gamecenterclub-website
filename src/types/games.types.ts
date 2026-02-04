@@ -2,6 +2,9 @@ export interface Category {
     id: number;
     title: string;
     description?: string;
+    is_nav?: boolean;
+    icon?: string;
+    type?: 'internal' | 'external';
     createdAt?: string;
     updatedAt?: string;
 }
@@ -13,12 +16,30 @@ export interface Game {
     gameEngine: string;
     mobileSupport: boolean;
     multiplayer: boolean;
-    gameUrl: string;
-    gifUrl: string;
-    thumbnailUrl: string;
-    category: Category | number;
-    createdAt: string;
-    updatedAt: string;
+    categoryId?: number;
+    thumbnail: string;
+    gif: string | null;
+    gameFile: string;
+    status: string;
+    categories?: Category[];
+    category?: Category;
+    playCount?: number | string;
+    trendingScore?: number;
+    createdAt?: string;
+    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface RecentGame {
+    id: number;
+    userId: number;
+    gameId: number;
+    lastPlayedAt: string;
+    playCount: number;
+    created_at: string;
+    updated_at: string;
+    Game: Game; // ✅ object, not array
 }
 
 export interface SubmitGameResponse {
@@ -35,4 +56,20 @@ export interface GetCategoriesResponse {
 export interface GetGamesResponse {
     success: boolean;
     data: Game[];
+    pagination?: {
+        totalItems: number;
+        totalPages: number;
+        currentPage: number;
+        itemsPerPage: number;
+    };
+}
+export interface GetRecentGamesResponse {
+    success: boolean;
+    data: RecentGame[];
+    pagination?: {
+        totalItems: number;
+        totalPages: number;
+        currentPage: number;
+        itemsPerPage: number;
+    };
 }

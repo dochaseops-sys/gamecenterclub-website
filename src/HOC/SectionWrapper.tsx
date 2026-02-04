@@ -1,17 +1,24 @@
 import { StepForward } from 'lucide-react'
 import GameCard from '../components/gameCard/GameCard';
+import type { Game } from '../types/games.types';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
-    games: {
-        title: string;
-        rating: number;
-        plays: string;
-    }[];
+    games: Game[];
     title?: string;
     showDetails?: boolean;
 }
 
 const SectionWrapper = ({ games, title, showDetails }: Props) => {
+    const location = useLocation();
+    const isAdPage = location.pathname !== "/";
+
+
+
+    const gridClasses = isAdPage
+        ? "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
+        : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6";
+
     return (
         <section className="mb-7">
             {title && <div className="flex justify-between items-center mb-3">
@@ -22,9 +29,18 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
                     <h2 className="text-xl text-white font-display">{title}</h2>
                 </div>
             </div>}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className={gridClasses}>
                 {games?.map((game) => (
-                    <GameCard key={game.title} title={game.title} plays={game.plays} rating={game.rating} showDetails={showDetails}/>
+                    <GameCard
+                        key={game.id}
+                        id={game.id}
+                        title={game.name}
+                        thumbnail={game.thumbnail}
+                        showDetails={showDetails}
+                        plays={game.playCount ? String(game.playCount) : undefined}
+                        mobileSupport={game.mobileSupport}
+                        multiplayer={game.multiplayer}
+                    />
                 ))}
                 {(!games || games.length === 0) && (
                     <div className="col-span-full text-center py-12 text-muted-foreground">

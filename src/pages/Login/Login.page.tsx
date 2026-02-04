@@ -12,7 +12,7 @@ import { login as loginAction } from '../../services/redux/slices/auth.slice';
 import { Link, useNavigate } from 'react-router-dom';
 import { onGoogleLogin } from '../../utils/googleAuth.utils';
 import TextInput from '../../components/TextInput/TextInput';
-
+import { Eye, EyeOff } from 'lucide-react'
 
 const Login = () => {
     const [login, { isLoading, isError, error: apiError }] = useLoginMutation();
@@ -21,7 +21,7 @@ const Login = () => {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>("")
-
+    const [showPassword, setShowPassword] = useState(false);
     const {
         register,
         handleSubmit,
@@ -93,20 +93,29 @@ const Login = () => {
                     </div>
 
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-                            <TextInput
-                                register={register}
-                                name={'email'}
-                                placeholder='Email Address'
-                                error={errors.email}
-                            />
+                        <TextInput
+                            register={register}
+                            name={'email'}
+                            placeholder='Email Address'
+                            error={errors.email}
+                        />
+                        <div className="relative">
                             <TextInput
                                 register={register}
                                 name={'password'}
                                 placeholder='Enter Password'
                                 error={errors.password}
-                                type='password'
+                                type={showPassword ? 'text' : 'password'}
                             />
-                            <Link className='text-secondary text-xs' to='/forgot-password'>Forgot Password ?</Link>
+                            <button
+                                type="button"
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
+                            </button>
+                        </div>
+                        <Link className='text-secondary text-xs' to='/forgot-password'>Forgot Password ?</Link>
                         <button className="w-full h-12 bg-secondary hover:bg-secondary/50 text-black font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(0,243,255,0.3)]" type='submit'>
                             Log In
                         </button>

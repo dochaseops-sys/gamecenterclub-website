@@ -2,15 +2,19 @@ import { Play, Star, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Props {
+    id: number;
     title: string;
-    plays: string;
-    rating: number;
+    thumbnail?: string;
+    plays?: string;
+    rating?: number;
     showDetails?: boolean;
+    mobileSupport?: boolean;
+    multiplayer?: boolean;
 }
 
-export default function GameCard({ title, plays, rating, showDetails = true }: Props) {
+export default function GameCard({ id, title, thumbnail, plays, rating, showDetails = true, mobileSupport, multiplayer }: Props) {
     return (
-        <Link to={`/game`} className='shadow-[0_0_8px_var(--border)]'>
+        <Link to={`/game/${id}`} className='shadow-[0_0_8px_var(--border)]'>
             <div
                 className={
                     "group relative rounded-xl overflow-hidden bg-border border border-border cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,243,255,0.15)]"}
@@ -18,10 +22,24 @@ export default function GameCard({ title, plays, rating, showDetails = true }: P
                 {/* Image Container */}
                 <div className={
                     "w-full overflow-hidden relative aspect-square"}>
+                    {mobileSupport && (
+                        <div className="absolute top-0 right-0 pointer-events-none z-10 overflow-hidden w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="absolute top-3 -right-8 w-28 bg-secondary py-1 text-center text-[10px] font-bold text-black rotate-45 shadow-md">
+                                MOBILE
+                            </div>
+                        </div>
+                    )}
+                    {multiplayer && (
+                        <div className="absolute top-0 left-0 pointer-events-none z-10 overflow-hidden w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="absolute top-3 -left-8 w-28 bg-secondary py-1 text-center text-[8px] font-bold text-black -rotate-45 shadow-md">
+                                MULTIPLAYER
+                            </div>
+                        </div>
+                    )}
                     <img
-                        src={`https://picsum.photos/200?${title}`}
+                        src={thumbnail || `https://picsum.photos/200?${title}`}
                         alt={title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-110 group-hover:opacity-100"
                     />
 
                     {/* Overlay Gradient */}
@@ -35,13 +53,20 @@ export default function GameCard({ title, plays, rating, showDetails = true }: P
                     </div>
 
                     {/* Rating Overlay */}
-                    {showDetails ? <div className="absolute p-2 inset-0 flex items-start justify-end">
-                        <div className="py-1 px-2 text-xxs font-extrabold rounded-md bg-black/70 flex items-center justify-center">
-                            <Star size={10} fill='gold' color='gold' className='mr-1' /> <span>{rating}</span>
+                    {showDetails && rating && (
+                        <div className="absolute p-2 inset-0 flex items-start justify-end">
+                            <div className="py-1 px-2 text-xxs font-extrabold rounded-md bg-black/70 flex items-center justify-center">
+                                <Star size={10} fill='gold' color='gold' className='mr-1' /> <span>{rating}</span>
+                            </div>
                         </div>
-                    </div> : <div className="absolute p-2 inset-0 flex items-end">
-                        <p className='text-xs font-bold'>{title}</p>
-                    </div>}
+                    )}
+
+                    {/* Title Banner on Hover (when showDetails is false) */}
+                    {!showDetails && (
+                        <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p className='text-xs font-bold'>{title}</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Content */}

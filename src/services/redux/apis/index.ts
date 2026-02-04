@@ -1,7 +1,7 @@
 import { type BaseQueryFn, type FetchArgs, type FetchBaseQueryError, createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getItemFromStorage, setItemToStorage, removeItem } from "../../../utils/localstorage.utils";
 // import type { User } from "../../../types/user.types";
-import { login, logout } from "../slices/auth.slice";
+import { logout, updateUser } from "../slices/auth.slice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_BASE_URL + 'api/',
@@ -43,9 +43,14 @@ const baseQueryWithReauth: BaseQueryFn<
       if (refreshResult.data) {
         console.log("Token refresh successful!");
         const newData = (refreshResult.data as any).data || refreshResult.data;
+
         // store the new token
-        setItemToStorage('user', newData);
-        api.dispatch(login(newData));
+        // Merge with existing user data to avoid losing profile info
+        const updatedUser = { ...user, ...newData };
+        setItemToStorage('user', updatedUser);
+
+        // Use updateUser for partial update of tokens instead of login which replaces entire state
+        api.dispatch(updateUser(newData));
 
         // retry the initial query
         console.log("Retrying initial request...");
@@ -67,6 +72,6 @@ const baseQueryWithReauth: BaseQueryFn<
 export const api = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Auth"],
+  tagTypes: ["Auth", "RecentGames", "Games"],
   endpoints: (_) => ({}),
 });

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Sidebar from '../components/sidebar/Sidebar'
 import Header from '../components/header/Header'
 import SideAd from '../components/SideAd/SideAd';
+import TopBannerAd from '../components/ads/TopBannerAd';
 import { useLocation } from 'react-router-dom';
 
 interface Props {
@@ -19,8 +20,9 @@ const AppWrapper = ({ children }: Props) => {
                 onClose={() => setSidebarOpen(false)}
             />
             {location.pathname !== "/" && <SideAd />}
-            <main className="pt-16 px-3 pb-4 transition-all lg:ml-60">
-                <div className='lg:w-60 pt-4 h-full' />
+            <main className={`pt-16 px-3 pb-4 transition-all lg:ml-60 ${location.pathname !== "/" ? "lg:mr-[360px]" : ""}`}>
+                <div className='hidden lg:block lg:w-0 pt-4 h-full' />
+                {location.pathname !== "/" && <TopBannerAd />}
                 {children}
             </main>
 

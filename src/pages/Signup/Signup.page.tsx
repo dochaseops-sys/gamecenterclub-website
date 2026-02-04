@@ -102,7 +102,7 @@ const Signup = () => {
                         <TextInput
                             register={register}
                             name={'email'}
-                            placeholder='Enter Enail'
+                            placeholder='Enter Email'
                             error={errors.email}
                         />
                         <TextInput

@@ -20,7 +20,7 @@ const Dropdown = ({ label, options, onChange }: Props) => {
     }
 
     return (
-        <div className={`relative ${isOpen ? 'z-50' : 'z-10'}`}>
+        <div className={`relative ${isOpen ? 'z-40' : 'z-10'}`}>
             <button
                 onClick={toggleDropdown}
                 type="button"
