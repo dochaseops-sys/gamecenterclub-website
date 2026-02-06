@@ -65,18 +65,27 @@ export default function Header({ onMenuClick }: Props) {
         <header className="fixed top-0 left-0 right-0 z-50 h-16 bg-background/80 backdrop-blur-md border-b border-border px-4 md:px-6">
             <div className="h-full flex items-center justify-between">
 
-                {/* Mobile Menu Button */}
-                <button className="lg:hidden p-2 rounded-lg hover:bg-white/5" onClick={onMenuClick}>
+                {/* Mobile: Hamburger Menu */}
+                <button
+                    className="p-2 mr-2 rounded-lg hover:bg-white/5 lg:hidden"
+                    onClick={onMenuClick}
+                    aria-label="Toggle Menu"
+                >
                     <Menu className="w-6 h-6 text-foreground" />
                 </button>
 
-                {/* Left: Logo */}
+                {/* Desktop: Logo and Toggle Icon */}
                 <div className="hidden lg:flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                        <Gamepad2 className="w-6 h-6 text-[var(--secondary)]" />
-                    </div>
-
-                    <span className="font-display font-bold text-xl text-foreground tracking-widest">
+                    <button
+                        className="p-2 -ml-2 rounded-lg hover:bg-white/5 transition-transform active:scale-95"
+                        onClick={onMenuClick}
+                        title="Toggle Sidebar"
+                    >
+                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                            <Gamepad2 className="w-6 h-6 text-[var(--secondary)]" />
+                        </div>
+                    </button>
+                    <span className="font-display font-bold text-xl text-foreground tracking-widest cursor-default">
                         Game Center Club
                     </span>
                 </div>

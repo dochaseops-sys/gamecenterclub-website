@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Modal from '../../components/modal/Modal'
 import { useEffect, useState } from 'react'
 import { useResetPasswordMutation } from '../../services/redux/apis/auth'
-import { useResetPasswordForm } from './resetPassword.schema'
+import { useResetPasswordForm, type ResetPasswordValues } from './resetPassword.schema'
 import { getApiErrorMessage } from '../../utils/errors.utils'
 import TextInput from '../../components/TextInput/TextInput'
 
@@ -21,19 +21,31 @@ const ResetPassword = () => {
         register,
         handleSubmit,
         formState: { errors, isValid },
-    } = useResetPasswordForm();
+    } = useResetPasswordForm({
+        token: state?.resetToken || "",
+        user_id: state?.userId?.toString() || ""
+    });
 
     useEffect(() => {
+        console.log("ResetPassword Page State:", state);
+        console.log("Form Errors:", errors);
+        console.log("Form is valid:", isValid);
+
         if (isError) {
             const errorMessage = getApiErrorMessage(apiError);
             setErrorMessage(errorMessage);
             setModalOpen(true)
         }
-    }, [isError])
+    }, [errors, isValid, state, isError, apiError]);
 
-    const onSubmit = async (data: { password: string }) => {
-        await resetPassword({ password: data.password, token: state.resetToken, user_id: state.userId }).unwrap();
-        setModalOpen(true)
+    const onSubmit = async (data: ResetPasswordValues) => {
+        console.log("onSubmit triggered with data:", data);
+        try {
+            await resetPassword(data).unwrap();
+            setModalOpen(true)
+        } catch (err) {
+            console.error("API Call Error:", err);
+        }
     }
 
     const onModalClose = () => {
@@ -66,6 +78,17 @@ const ResetPassword = () => {
             <div className="border lg:w-1/3 md:w-1/2 border-border p-8 rounded-2xl shadow-sm shadow-gray">
                 <div className="space-y-4">
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+                        <input type="hidden" {...register('token')} />
+                        <input type="hidden" {...register('user_id')} />
+
+                        {(errors.token || errors.user_id) && (
+                            <div className="p-3 bg-custom-red/10 border border-custom-red/20 rounded-lg">
+                                <p className="text-custom-red text-xs font-bold uppercase mb-1">Validation Errors:</p>
+                                {errors.token && <p className="text-custom-red text-xs">• Token: {errors.token.message}</p>}
+                                {errors.user_id && <p className="text-custom-red text-xs">• User ID: {errors.user_id.message}</p>}
+                            </div>
+                        )}
+
                         <TextInput
                             register={register}
                             name={'password'}

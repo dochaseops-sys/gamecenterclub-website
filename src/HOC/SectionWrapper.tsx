@@ -36,6 +36,7 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
                         id={game.id}
                         title={game.name}
                         thumbnail={game.thumbnail}
+                        gif={game.gif || undefined}
                         showDetails={showDetails}
                         plays={game.playCount ? String(game.playCount) : undefined}
                         mobileSupport={game.mobileSupport}
