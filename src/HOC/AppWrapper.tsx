@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Sidebar from '../components/sidebar/Sidebar'
 import Header from '../components/header/Header'
+// import Footer from '../components/footer/Footer'
 import SideAd from '../components/SideAd/SideAd';
 import TopBannerAd from '../components/ads/TopBannerAd';
 import { useLocation } from 'react-router-dom';
@@ -42,6 +43,7 @@ const AppWrapper = ({ children }: Props) => {
                 {showAds && <TopBannerAd />}
                 {children}
             </main>
+            {/* <Footer />  / */}
         </div>
     )
 }

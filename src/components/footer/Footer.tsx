@@ -4,15 +4,13 @@ const Footer = () => {
     return (
         <div
             className="flex flex-col space-y-10 justify-center m-10 border-t border-[var(--red)] pt-10">
-
-            <nav className="flex justify-center flex-wrap gap-6 text-gray-500 font-medium">
-                <Link className="hover:text-gray-900" to="#">Home</Link>
-                <Link className="hover:text-gray-900" to="#">Action</Link>
-                <Link className="hover:text-gray-900" to="#">Puzzle</Link>
-                <Link className="hover:text-gray-900" to="#">Racing</Link>
-                <Link className="hover:text-gray-900" to="#">Sports</Link>
-            </nav>
-
+<div className="flex justify-between">
+    <div>
+        <p className="text-gray-700 font-medium">About Us</p>
+        <p className="text-gray-700 font-medium">Contact Us</p>
+        <p className="text-gray-700 font-medium">Privacy Policy</p>
+        <p className="text-gray-700 font-medium">Terms of Service</p>
+    </div>
             <div className="flex justify-center space-x-5">
                 <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer">
                     <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
@@ -31,6 +29,7 @@ const Footer = () => {
                 </Link>
             </div>
             <p className="text-center text-gray-700 font-medium">&copy; 2022 Company Ltd. All rights reservered.</p>
+</div>
         </div>
     )
 }

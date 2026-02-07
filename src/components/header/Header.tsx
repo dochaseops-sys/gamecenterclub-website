@@ -1,4 +1,4 @@
-import { Search, Gamepad2, Menu, Tag } from "lucide-react";
+import { Search, Menu, Tag } from "lucide-react";
 import { useAppSelector, type RootState } from "../../services/redux/store";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -75,19 +75,17 @@ export default function Header({ onMenuClick }: Props) {
                 </button>
 
                 {/* Desktop: Logo and Toggle Icon */}
-                <div className="hidden lg:flex items-center gap-3">
-                    <button
-                        className="p-2 -ml-2 rounded-lg hover:bg-white/5 transition-transform active:scale-95"
+                <div className="hidden lg:flex items-center gap-3"> 
+                    <div className="flex items-center mr-4">
+                         <button
+                        className="rounded-lg hover:bg-white/5 transition-transform active:scale-95"
                         onClick={onMenuClick}
                         title="Toggle Sidebar"
-                    >
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                            <Gamepad2 className="w-6 h-6 text-[var(--secondary)]" />
-                        </div>
+                    > <img src="/favicon.png" alt="Logo" className="w-10 h-10 mr-2" />
                     </button>
-                    <span className="font-display font-bold text-xl text-foreground tracking-widest cursor-default">
-                        Game Center Club
-                    </span>
+                        <span className="text-lg font-bold text-white tracking-tight">GAME<span
+                            className="text-violet-500">CENTER</span>CLUB</span>
+                    </div> 
                 </div>
 
                 {/* Center: Search (hidden on mobile) */}
