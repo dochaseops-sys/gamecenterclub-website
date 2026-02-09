@@ -101,6 +101,14 @@ export const authApi = api.injectEndpoints({
             }),
             invalidatesTags: ["Auth"],
         }),
+        resendOtp: build.mutation({
+            query: (data) => ({
+                url: 'resend-otp',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
 
     }),
 });
@@ -115,5 +123,6 @@ export const {
 
     useLoginWithGoogleMutation,
     useUpdateProfileMutation,
-    useDeleteAccountMutation
+    useDeleteAccountMutation,
+    useResendOtpMutation
 } = authApi;

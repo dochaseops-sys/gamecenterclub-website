@@ -39,10 +39,17 @@ const Login = () => {
     }, [isError])
 
     const onSubmit = async (data: LoginFormValues) => {
-        const response = await login(data).unwrap();
-        setItemToStorage("user", response)
-        dispatch(loginAction(response))
-        setModalOpen(true)
+        try {
+            const response = await login(data).unwrap();
+            setItemToStorage("user", response)
+            dispatch(loginAction(response))
+            setModalOpen(true)
+        } catch (error: any) {
+            const message = getApiErrorMessage(error);
+            if (message === "Please verify your email before logging in. You can request a new OTP if needed.") {
+                navigate('/verify-account', { state: { email: data.email } });
+            }
+        }
     }
 
     const onModalClose = () => {

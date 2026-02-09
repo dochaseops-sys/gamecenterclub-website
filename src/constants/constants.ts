@@ -7,7 +7,8 @@ const ForgotPassword = lazy(() => import("../pages/ForgotPassword/ForgotPassword
 const Game = lazy(() => import("../pages/Game/Game.page"));
 const Home = lazy(() => import("../pages/Home/Home.page"));
 const Login = lazy(() => import("../pages/Login/Login.page"));
-const OTPVerification = lazy(() => import("../pages/OTPVerificatiom/OTPVerification"));
+const OTPVerification = lazy(() => import("../pages/OTPVerification/OTPVerification"));
+const VerifyAccount = lazy(() => import("../pages/OTPVerification/VerifyAccount.page"));
 const ResetPassword = lazy(() => import("../pages/ResetPassword/ResetPassword"));
 const Signup = lazy(() => import("../pages/Signup/Signup.page"));
 const SearchPage = lazy(() => import("../pages/Search/Search.page"));
@@ -66,6 +67,10 @@ export const authRoutes = [
   {
     path: '/otp-verification',
     element: OTPVerification
+  },
+  {
+    path: '/verify-account',
+    element: VerifyAccount
   },
   {
     path: '/reset-password',

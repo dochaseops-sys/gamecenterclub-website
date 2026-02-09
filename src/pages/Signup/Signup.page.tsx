@@ -1,6 +1,6 @@
 import { Gamepad2, X } from 'lucide-react'
 
-import { useSignupMutation, useVerifyEmailMutation } from '../../services/redux/apis/auth'
+import { useSignupMutation, useVerifyEmailMutation, useResendOtpMutation } from '../../services/redux/apis/auth'
 import Loader from '../../loader/Loader'
 import { useSignupForm, type SignupFormValues } from './signup.schema';
 import Modal from '../../components/modal/Modal';
@@ -19,6 +19,7 @@ const Signup = () => {
 
     const [signup, { isLoading: isSignupLoading, isError: isSignupError, error: signupError }] = useSignupMutation();
     const [verifyEmail, { isLoading: isVerifyLoading, isError: isVerifyError, error: verifyError }] = useVerifyEmailMutation();
+    const [resendOtp, { isLoading: isResendLoading, isError: isResendError, error: resendError }] = useResendOtpMutation();
 
     const [loading, setLoading] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
@@ -36,12 +37,12 @@ const Signup = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (isSignupLoading || isVerifyLoading) {
+        if (isSignupLoading || isVerifyLoading || isResendLoading) {
             setLoading(true)
         } else {
             setLoading(false)
         }
-    }, [isSignupLoading, isVerifyLoading])
+    }, [isSignupLoading, isVerifyLoading, isResendLoading])
 
     const {
         register,
@@ -60,7 +61,12 @@ const Signup = () => {
             setErrorMessage(errorMessage);
             setModalOpen(true)
         }
-    }, [isSignupError, isVerifyError, signupError, verifyError])
+        if (isResendError) {
+            const errorMessage = getApiErrorMessage(resendError);
+            setErrorMessage(errorMessage);
+            setModalOpen(true)
+        }
+    }, [isSignupError, isVerifyError, isResendError, signupError, verifyError, resendError])
 
     const onSubmit = async (data: SignupFormValues) => {
         await signup({
@@ -187,6 +193,23 @@ const Signup = () => {
                             <button className="w-full h-12 bg-secondary hover:bg-secondary/50 text-black font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(0,243,255,0.3)]" type='submit'>
                                 Verify OTP
                             </button>
+                            <div className="pt-2 text-center">
+                                <button
+                                    type="button"
+                                    className="text-secondary hover:underline text-sm font-bold"
+                                    onClick={async () => {
+                                        try {
+                                            await resendOtp({ email }).unwrap();
+                                            setErrorMessage(null);
+                                            setModalOpen(true);
+                                        } catch (error) {
+                                            // Handle error if needed
+                                        }
+                                    }}
+                                >
+                                    Resend OTP
+                                </button>
+                            </div>
                             <button
                                 type="button"
                                 className="w-full text-secondary hover:underline text-sm"
