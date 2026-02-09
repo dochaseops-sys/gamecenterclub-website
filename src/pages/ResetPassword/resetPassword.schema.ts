@@ -6,7 +6,6 @@ const resetPasswordSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters").max(20),
   confirmPassword: z.string(),
   token: z.string().min(1, "Token is required"),
-  user_id: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ['confirmPassword'],
@@ -23,7 +22,6 @@ export const useResetPasswordForm = (initialValues?: Partial<ResetPasswordValues
       password: "",
       confirmPassword: "",
       token: "",
-      user_id: "",
       ...initialValues,
     },
     shouldFocusError: true,

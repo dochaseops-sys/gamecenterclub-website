@@ -22,8 +22,7 @@ const ResetPassword = () => {
         handleSubmit,
         formState: { errors, isValid },
     } = useResetPasswordForm({
-        token: state?.resetToken || "",
-        user_id: state?.userId?.toString() || ""
+        token: state?.token || "",
     });
 
     useEffect(() => {
@@ -79,13 +78,11 @@ const ResetPassword = () => {
                 <div className="space-y-4">
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
                         <input type="hidden" {...register('token')} />
-                        <input type="hidden" {...register('user_id')} />
 
-                        {(errors.token || errors.user_id) && (
+                        {(errors.token) && (
                             <div className="p-3 bg-custom-red/10 border border-custom-red/20 rounded-lg">
                                 <p className="text-custom-red text-xs font-bold uppercase mb-1">Validation Errors:</p>
                                 {errors.token && <p className="text-custom-red text-xs">• Token: {errors.token.message}</p>}
-                                {errors.user_id && <p className="text-custom-red text-xs">• User ID: {errors.user_id.message}</p>}
                             </div>
                         )}
 

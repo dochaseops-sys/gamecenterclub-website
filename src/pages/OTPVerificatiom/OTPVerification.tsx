@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import OTPInput from '../../components/otpInput/OTPInput';
 import Modal from '../../components/modal/Modal';
 import { useEffect, useState } from 'react';
-import { useVerifyEmailMutation } from '../../services/redux/apis/auth';
+import { useVerifyPasswordResetOtpMutation } from '../../services/redux/apis/auth';
 import { getApiErrorMessage } from '../../utils/errors.utils';
 import { useOTPVerificationForm } from './OTpVerification.schema';
 import { Controller } from 'react-hook-form';
@@ -14,10 +14,11 @@ import { Controller } from 'react-hook-form';
 const OTPVerification = () => {
     const navigate = useNavigate();
     const { state } = useLocation();
-    const [verifyEmail, { isError, isLoading, error: apiError }] = useVerifyEmailMutation()
+    const [verifyResetOtp, { isError, isLoading, error: apiError }] = useVerifyPasswordResetOtpMutation()
     const [modalOpen, setModalOpen] = useState(false)
-    const [userId, setUserId] = useState("");
+
     const [errorMessage, setErrorMessage] = useState<string | null>("");
+    const [resetToken, setResetToken] = useState("");
 
     const {
         control,
@@ -35,8 +36,8 @@ const OTPVerification = () => {
 
     const onSubmit = async (data: { otp: string }) => {
         const email = state.email;
-        const response = await verifyEmail({ otp: data.otp, email }).unwrap();
-        setUserId(response.userId)
+        const response = await verifyResetOtp({ otp: data.otp, email }).unwrap();
+        setResetToken(response.token);
         setModalOpen(true)
     }
 
@@ -44,8 +45,7 @@ const OTPVerification = () => {
         setModalOpen(false)
         isValid && !isError && navigate('/reset-password', {
             state: {
-                resetToken: state.resetToken,
-                userId
+                token: resetToken,
             }
         })
     }

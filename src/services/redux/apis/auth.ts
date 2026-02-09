@@ -51,7 +51,17 @@ export const authApi = api.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            transformResponse: (response: any) => response.data || response,
             invalidatesTags: ["Auth"],
+        }),
+
+        verifyPasswordResetOtp: build.mutation({
+            query: (data) => ({
+                url: 'verify-reset-otp',
+                method: 'POST',
+                body: data,
+            }),
+            transformResponse: (response: any) => response.data || response,
         }),
 
         resetPassword: build.mutation({
@@ -99,6 +109,7 @@ export const {
     useLoginMutation,
     useSignupMutation,
     useVerifyEmailMutation,
+    useVerifyPasswordResetOtpMutation,
     useResetPasswordRequestMutation,
     useResetPasswordMutation,
 

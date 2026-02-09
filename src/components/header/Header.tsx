@@ -75,17 +75,17 @@ export default function Header({ onMenuClick }: Props) {
                 </button>
 
                 {/* Desktop: Logo and Toggle Icon */}
-                <div className="hidden lg:flex items-center gap-3"> 
+                <div className="hidden lg:flex items-center gap-3">
                     <div className="flex items-center mr-4">
-                         <button
-                        className="rounded-lg hover:bg-white/5 transition-transform active:scale-95"
-                        onClick={onMenuClick}
-                        title="Toggle Sidebar"
-                    > <img src="/favicon.png" alt="Logo" className="w-10 h-10 mr-2" />
-                    </button>
+                        <button
+                            className="rounded-lg hover:bg-white/5 transition-transform active:scale-95"
+                            onClick={onMenuClick}
+                            title="Toggle Sidebar"
+                        > <img src="/favicon.png" alt="Logo" className="w-10 h-10 mr-2" />
+                        </button>
                         <span className="text-lg font-bold text-white tracking-tight">GAME<span
                             className="text-violet-500">CENTER</span>CLUB</span>
-                    </div> 
+                    </div>
                 </div>
 
                 {/* Center: Search (hidden on mobile) */}
@@ -200,11 +200,19 @@ export default function Header({ onMenuClick }: Props) {
                                 <span className="text-xs font-bold text-foreground">{user.name}</span>
                                 <span className="text-[10px] text-muted-foreground">Online</span>
                             </div>
-                            <img
-                                src={`${user.profile_pic}`}
-                                alt="User avatar"
-                                className="w-9 h-9 rounded-full border border-white/10 hover:border-primary/50 transition-colors "
-                            />
+                            {user.profile_pic ? (
+                                <img
+                                    src={user.profile_pic}
+                                    alt="User avatar"
+                                    className="w-9 h-9 rounded-full border border-white/10 hover:border-primary/50 transition-colors object-cover"
+                                />
+                            ) : (
+                                <div className="w-9 h-9 rounded-full border border-white/10 hover:border-primary/50 transition-colors bg-secondary/20 flex items-center justify-center">
+                                    <span className="text-secondary font-bold text-xs">
+                                        {user.name?.charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <div className="hidden sm:flex items-center gap-3">
