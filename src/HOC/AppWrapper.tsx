@@ -14,7 +14,7 @@ interface Props {
 const AppWrapper = ({ children }: Props) => {
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
     const { data: categories = [] } = useGetCategoriesQuery();
 
     const categoryIdMatch = location.pathname.match(/^\/category\/(\d+)$/);
