@@ -20,6 +20,7 @@ export interface Game {
     thumbnail: string;
     gif: string | null;
     gameFile: string;
+    authorName?: string | null;
     status: string;
     categories?: Category[];
     category?: Category;
