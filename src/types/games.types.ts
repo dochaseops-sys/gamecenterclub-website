@@ -13,6 +13,7 @@ export interface Game {
     id: number;
     name: string;
     description: string;
+    long_description: string;
     gameEngine: string;
     mobileSupport: boolean;
     multiplayer: boolean;
@@ -40,7 +41,7 @@ export interface RecentGame {
     playCount: number;
     created_at: string;
     updated_at: string;
-    Game: Game; // ✅ object, not array
+    Game: Game;
 }
 
 export interface SubmitGameResponse {

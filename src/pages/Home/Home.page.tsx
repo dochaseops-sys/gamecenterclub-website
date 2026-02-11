@@ -3,6 +3,7 @@ import Category from "../../components/category/Category";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
+import WelcomeBanner from "./components/WelcomeBanner";
 import { useGetCategoriesQuery, useGetGamesQuery, useGetNewGamesQuery } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
 import { Loader2 } from "lucide-react";
@@ -62,6 +63,9 @@ const Home = () => {
 
   return <AppWrapper>
     <div className="flex flex-col">
+      {/* Welcome Banner */}
+      <WelcomeBanner />
+      
       {/* featured Game */}
       <FeaturedGame games={newGames.slice(0, 5)} />
 

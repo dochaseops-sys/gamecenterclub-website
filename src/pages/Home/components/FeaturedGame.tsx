@@ -1,4 +1,4 @@
-import { Play, Heart, Star } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
@@ -46,22 +46,10 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
 
                             {/* Content */}
                             <div className="absolute bottom-0 left-0 p-8 lg:p-12 max-w-2xl z-10">
-                                <p className="mb-4 w-fit px-3 py-1 text-xxs font-extrabold uppercase rounded-sm bg-secondary text-black">
-                                    Featured Game
-                                </p>
+                             
                                 <h1 className="text-3xl lg:text-4xl font-display font-black text-white mb-2 drop-shadow-xl uppercase tracking-tighter">
                                     {game.name}
                                 </h1>
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className='flex items-center gap-1 text-secondary'>
-                                        <Star size={14} fill='currentColor' />
-                                        <span className='text-xs font-bold'>4.8</span>
-                                    </div>
-                                    <span className='text-muted-foreground text-xs'>Action • Adventure</span>
-                                </div>
-                                <p className="text-muted-foreground text-xs mb-8 line-clamp-2 max-w-xl">
-                                    {game.description}
-                                </p>
                                 <div className="flex gap-4">
                                     <Link to={`/game/${game.id}`}>
                                         <button className="flex items-center h-12 px-8 text-sm bg-secondary text-black font-bold uppercase transition-all duration-300 rounded-3xl hover:shadow-[0_0_15px_#00f3ff] hover:scale-105">
@@ -69,9 +57,6 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
                                             <span>Play Now</span>
                                         </button>
                                     </Link>
-                                    <button className="text-white px-4 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full transition-colors">
-                                        <Heart />
-                                    </button>
                                 </div>
                             </div>
                         </div>

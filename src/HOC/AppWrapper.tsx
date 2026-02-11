@@ -42,8 +42,9 @@ const AppWrapper = ({ children }: Props) => {
                 <div className='hidden lg:block lg:w-0 pt-4 h-full' />
                 {showAds && <TopBannerAd />}
                 {children}
+                {/* <Footer /> */}
             </main>
-            {/* <Footer />  / */}
+
         </div>
     )
 }

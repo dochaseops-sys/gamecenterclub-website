@@ -58,7 +58,7 @@ const AuthBanner = () => {
                         className="flex-1 md:flex-none px-6 py-2 bg-white text-[#5831C3] font-bold text-sm rounded-full hover:bg-gray-100 transition-colors"
                     >
                         Log in
-                    </button>
+                    </button>                                                  
                 </div>
             </div>
         </div>

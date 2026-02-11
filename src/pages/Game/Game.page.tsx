@@ -93,7 +93,7 @@ const Game = () => {
           </div>
 
           <div className="mt-6 px-2 md:px-4">
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight uppercase">
+            <h1 className="text-2xl font-nunito md:text-3xl font-black text-white mb-4 tracking-tight uppercase">
               {game.name}
             </h1>
 
@@ -155,6 +155,13 @@ const Game = () => {
                 [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_a]:text-secondary [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-white/10 [&_blockquote]:pl-4 [&_blockquote]:italic"
                 dangerouslySetInnerHTML={{ __html: game.description }}
               />
+              {game.long_description && (
+                <div
+                  className="text-gray-400 leading-relaxed text-base md:text-lg prose prose-invert prose-sm md:prose-base max-w-none 
+                [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_a]:text-secondary [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-white/10 [&_blockquote]:pl-4 [&_blockquote]:italic"
+                  dangerouslySetInnerHTML={{ __html: game.long_description }}
+                />
+              )}
             </div>
           </div>
         </div>
