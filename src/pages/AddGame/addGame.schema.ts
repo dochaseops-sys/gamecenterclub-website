@@ -5,7 +5,7 @@ import { GAME_ENGINES, GIF_MEME_EXTENSION, GIF_MEME_TYPE, IMAGE_MEME_EXTENSION, 
 
 const addGameSchema = z.object({
   name: z.string().min(3).max(20),
-  description: z.string().min(30).max(300),
+  description: z.string().min(30).max(3000),
   gameEngine: z.enum(GAME_ENGINES),
   category: z.string().min(1, "Category is required"),
   mobileSupport: z.boolean(),

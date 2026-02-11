@@ -13,6 +13,7 @@ import FileInput from '../../components/fileInput/FileInput';
 import { GIF_MEME_TYPE, IMAGE_MEME_TYPE, GAME_ENGINES } from '../../constants/game.constants';
 import { Controller } from 'react-hook-form';
 import TextInput from '../../components/TextInput/TextInput';
+import RichTextEditor from '../../components/richTextEditor/RichTextEditor';
 
 const StatusBadge = ({ status }: { status: string }) => {
     const statusStyles: Record<string, string> = {
@@ -141,12 +142,21 @@ const AddGame = () => {
                                                     placeholder='Name of the Game'
                                                     error={errors.name}
                                                 />
-                                                <TextInput
-                                                    register={register}
-                                                    name={'description'}
-                                                    placeholder='Game Description'
-                                                    error={errors.description}
-                                                />
+                                                <div className="space-y-1">
+                                                    <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Description</h3>
+                                                    <Controller
+                                                        control={control}
+                                                        name={'description'}
+                                                        render={({ field: { onChange, value } }) => (
+                                                            <RichTextEditor
+                                                                value={value || ''}
+                                                                onChange={onChange}
+                                                                placeholder='Describe your game in detail...'
+                                                                error={errors.description?.message}
+                                                            />
+                                                        )}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
 
