@@ -65,7 +65,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <p className="mt-3 text-center text-[11px] sm:text-xs text-muted-foreground">
-          © 2026 Company Ltd. All rights reserved.
+          © 2026 GamingCenter. All rights reserved.
         </p>
       </div>
     </footer>

@@ -34,15 +34,16 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
                     <GameCard
                         key={game.id}
                         id={game.id}
-                        title={game.name}
-                        thumbnail={game.thumbnail}
+                        title={game?.name}
+                        thumbnail={game?.thumbnail}
                         gif={game.gif || undefined}
                         showDetails={showDetails}
-                        plays={game.playCount ? String(game.playCount) : undefined}
-                        mobileSupport={game.mobileSupport}
-                        multiplayer={game.multiplayer}
+                        plays={game.playCount ? String(game?.playCount) : undefined}
+                        mobileSupport={game?.mobileSupport}
+                        multiplayer={game?.multiplayer}
+                        categories={game?.categories}
                     />
-                ))}
+                ))} 
                 {(!games || games.length === 0) && (
                     <div className="col-span-full text-center py-12 text-muted-foreground">
                         No games found.

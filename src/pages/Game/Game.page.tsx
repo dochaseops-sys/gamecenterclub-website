@@ -113,12 +113,9 @@ const Game = () => {
                 </>
               )}
 
-              <div className="text-gray-400 font-medium">Rating:</div>
+              <div className="text-gray-400 font-medium">Plays:</div>
               <div className="text-white font-bold text-lg flex items-center gap-2">
-                {game.trendingScore ? game.trendingScore.toFixed(1) : '8.5'}
-                <span className="text-gray-500 font-normal text-sm">
-                  ({typeof game.playCount === 'number' ? game.playCount.toLocaleString() : (game.playCount || '10,000+')}) votes
-                </span>
+                {typeof game.playCount === 'number' ? game.playCount.toLocaleString() : (game.playCount || '10,000+')}
               </div>
 
               <div className="text-gray-400 font-medium">Released:</div>

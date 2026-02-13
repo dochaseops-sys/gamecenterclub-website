@@ -7,13 +7,15 @@ interface Props {
     thumbnail?: string;
     gif?: string;
     plays?: string;
+    category?: string;
     rating?: number;
     showDetails?: boolean;
     mobileSupport?: boolean;
     multiplayer?: boolean;
+    categories?: any;
 }
 
-export default function GameCard({ id, title, thumbnail, gif, plays, rating, showDetails = true, mobileSupport, multiplayer }: Props) {
+export default function GameCard({ id, title, thumbnail, gif, plays, rating, showDetails = true, mobileSupport, multiplayer, categories }: Props) {
     return (
         <Link to={`/game/${id}`} className='shadow-[0_0_8px_var(--border)]'>
             <div
@@ -67,7 +69,7 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
                     {showDetails && (
                         <div className="flex items-center justify-between mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75 transform translate-y-2 group-hover:translate-y-0">
                             <span className="text-[10px] text-gray-300 font-medium">
-                                Action
+                                {categories?.map((category: any) => category.title).join(", ")}
                             </span>
                             <span className="flex items-center gap-1 text-[10px] font-bold text-secondary">
                                 <Users2 size={12} /> {plays || 0}

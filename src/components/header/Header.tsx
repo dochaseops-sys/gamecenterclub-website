@@ -80,13 +80,11 @@ export default function Header({ onMenuClick }: Props) {
 
                         <img src="/CenterLogoVariant.png" alt="Logo" className="w-48 h-13 mt-1 -ml-2" />
 
-                        {/* <span className="text-lg font-bold text-white tracking-tight">GAME<span
-                            className="text-violet-500">CENTER</span>CLUB</span> */}
                     </div>
                 </div>
 
                 {/* Center: Search (hidden on mobile) */}
-                <div ref={searchRef} className="hidden md:flex flex-1 ma-w-lg relative mx-6">
+                <div ref={searchRef} className="hidden md:flex flex-1 max-w-lg relative mx-6">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Search className="h-4 w-4 text-muted-foreground" />
                     </div>

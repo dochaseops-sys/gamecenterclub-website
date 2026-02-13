@@ -2,8 +2,8 @@ import { Gamepad2, Zap,Users, Smartphone, Sparkles } from 'lucide-react';
 
 const WelcomeBanner = () => {
     return (
-        <div className="mb-8 bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-2xl border border-white/10 shadow-lg overflow-hidden">
-            <div className="p-4 flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div className="mb-2 bg-gradient-to-r from-[#1a1a2e] to-[#16213e] rounded-2xl border border-white/10 shadow-lg overflow-hidden">
+            <div className="p-2 flex flex-col lg:flex-row items-center justify-between gap-6">
                 {/* Logo and Welcome Text */}
                 <div className="flex items-center gap-4">
                     

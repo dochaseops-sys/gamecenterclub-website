@@ -61,7 +61,7 @@ const TopBannerAd = () => {
             }
         });
 
-        const container = document.getElementById('div-gpt-ad-1770210452174-0');
+        const container = document.getElementById('div-gpt-ad-1770969911384-0');
         if (container) resizeObserver.observe(container);
 
         const timer = setInterval(adjustAdScale, 2000);
@@ -75,7 +75,7 @@ const TopBannerAd = () => {
     return (
         <div className="w-[calc(100%+1.5rem)] -mx-3 lg:mx-0 lg:w-full my-4 flex justify-center overflow-hidden">
             <div
-                id="div-gpt-ad-1770210452174-0"
+                id="div-gpt-ad-1770969911384-0"
                 className="gpt-ad-container min-h-[50px] lg:min-h-[90px]"
                 style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', overflow: 'hidden' }}
             />

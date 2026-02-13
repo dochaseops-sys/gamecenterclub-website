@@ -8,13 +8,11 @@ const AuthBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        // If user is already logged in, don't show the banner
         if (user.id) {
             setIsVisible(false);
             return;
         }
 
-        // Initially show after a small delay
         const timer = setTimeout(() => {
             setIsVisible(true);
         }, 3000);
@@ -24,7 +22,6 @@ const AuthBanner = () => {
 
     const handleClose = () => {
         setIsVisible(false);
-        // Show again after 60 seconds as per the plan
         setTimeout(() => {
             if (!user.id) {
                 setIsVisible(true);
