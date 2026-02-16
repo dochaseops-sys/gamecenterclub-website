@@ -29,7 +29,7 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
                     clickable: true,
                     dynamicBullets: true,
                 }}
-                className="h-96 lg:h-[400px]"
+                className="h-96 lg:h-[450px]"
             >
                 {games.map((game) => (
                     <SwiperSlide key={game.id}>
@@ -39,7 +39,7 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
                                 <img
                                     src={game.thumbnail || "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
                                     alt={game.name}
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                    className="w-full h-full  transition-transform duration-1000 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                             </div>
