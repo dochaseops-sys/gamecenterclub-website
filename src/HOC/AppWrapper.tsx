@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../components/sidebar/Sidebar'
 import Header from '../components/header/Header'
 // import Footer from '../components/footer/Footer'
 import SideAd from '../components/SideAd/SideAd';
 import TopBannerAd from '../components/ads/TopBannerAd';
+import NoInternet from '../components/NoInternet/NoInternet';
 import { useLocation } from 'react-router-dom';
 import { useGetCategoriesQuery } from '../services/redux/apis/games';
 
@@ -15,13 +16,31 @@ const AppWrapper = ({ children }: Props) => {
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+    const [isOnline, setIsOnline] = useState(window.navigator.onLine);
     const { data: categories = [] } = useGetCategoriesQuery();
+
+    useEffect(() => {
+        const handleOnline = () => setIsOnline(true);
+        const handleOffline = () => setIsOnline(false);
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, []);
 
     const categoryIdMatch = location.pathname.match(/^\/category\/(\d+)$/);
     const categoryId = categoryIdMatch ? parseInt(categoryIdMatch[1], 10) : null;
     const isInternalCategory = categoryId ? categories.find(c => c.id === categoryId)?.type === 'internal' : false;
 
     const showAds = location.pathname !== "/" && !isInternalCategory;
+
+    if (!isOnline) {
+        return <NoInternet />;
+    }
 
     return (
         <div className="min-h-screen bg-background text-foreground font-body">

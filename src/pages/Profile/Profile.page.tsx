@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../services/redux/store';
 import { useDeleteAccountMutation, useUpdateProfileMutation } from '../../services/redux/apis/auth';
 import { logout, updateUser } from '../../services/redux/slices/auth.slice';
-import { clearStorage } from '../../utils/localstorage.utils';
+import { clearStorage, setItemToStorage, getItemFromStorage } from '../../utils/localstorage.utils';
 import AppWrapper from '../../HOC/AppWrapper';
 import { User, Trash2, Save, Loader2, AlertTriangle, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -38,27 +38,42 @@ const Profile = () => {
         }
     };
 
-const handleUpdate = async (e: React.FormEvent) => {
-  e.preventDefault();
+    const handleCancel = () => {
+        setIsEditing(false);
+        setName(user.name || '');
+        setEmail(user.email || '');
+        setProfilePicPreview(user.profile_pic || '');
+        setSelectedFile(null);
+    };
 
-  try {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
+    const handleUpdate = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-    if (selectedFile) {
-      formData.append("profile_pic", selectedFile); 
-    }
+        try {
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("email", email);
 
-    const updatedUser = await updateProfile(formData).unwrap();
+            if (selectedFile) {
+                formData.append("profile_pic", selectedFile);
+            }
 
-    dispatch(updateUser(updatedUser));
-    setIsEditing(false);
-    setSelectedFile(null);
-  } catch (error) {
-    console.error("Failed to update profile", error);
-  }
-};
+            const updatedUser = await updateProfile(formData).unwrap();
+
+            // 👇 Update Redux state
+            dispatch(updateUser(updatedUser));
+
+            // 👇 Update Local Storage
+            const existingUser = getItemFromStorage<any>("user") || {};
+            const newUser = { ...existingUser, ...updatedUser };
+            setItemToStorage("user", newUser);
+
+            setIsEditing(false);
+            setSelectedFile(null);
+        } catch (error) {
+            console.error("Failed to update profile", error);
+        }
+    };
 
 
     const handleDelete = async () => {
@@ -91,7 +106,7 @@ const handleUpdate = async (e: React.FormEvent) => {
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-lg font-semibold text-foreground">Personal Information</h2>
                         <button
-                            onClick={() => setIsEditing(!isEditing)}
+                            onClick={isEditing ? handleCancel : () => setIsEditing(true)}
                             className="bg-primary/10 hover:bg-primary/20 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
                         >
                             {isEditing ? 'Cancel' : 'Edit'}
@@ -155,7 +170,7 @@ const handleUpdate = async (e: React.FormEvent) => {
                                 disabled={!isEditing}
                                 required
                                 className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isEditing ? "text-black bg-white" : "text-white bg-transparent"}`}
-                            />  
+                            />
                         </div>
 
                         <div className="grid gap-2">
@@ -167,7 +182,7 @@ const handleUpdate = async (e: React.FormEvent) => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={!isEditing}
                                 required
-                                className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isEditing ? "text-black bg-white" : "text-white bg-transparent"}`}   
+                                className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${isEditing ? "text-black bg-white" : "text-white bg-transparent"}`}
                             />
                         </div>
 

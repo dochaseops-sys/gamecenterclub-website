@@ -11,11 +11,13 @@ const addGameSchema = z.object({
   mobileSupport: z.boolean(),
   multiplayer: z.boolean(),
   gif: z.any()
-    .refine((file) => file instanceof File, "At least one file is required")
-    .refine((file) => file?.size <= MAX_FILE_SIZE_GIF, "File must be under 10MB")
+    .optional()
+    .refine((file) => !file || file instanceof File, "Must be a file")
+    .refine((file) => !file || file.size <= MAX_FILE_SIZE_GIF, "File must be under 10MB")
     .refine((file) => {
-      const ext = file?.name.split(".").pop()?.toLowerCase();
-      return (file?.type && GIF_MEME_TYPE.includes(file.type)) || (ext && GIF_MEME_EXTENSION === 'gif')
+      if (!file) return true;
+      const ext = file.name.split(".").pop()?.toLowerCase();
+      return (file.type && GIF_MEME_TYPE.includes(file.type)) || (ext && GIF_MEME_EXTENSION === 'gif')
     }, "Unsupported file type"),
   thumbnail: z.any()
     .refine((file) => file instanceof File, "At least one file is required")

@@ -112,7 +112,7 @@ const AddGame = () => {
 
                 {/* Add Game Form Section */}
                 {isAddModalOpen && (
-                    <div className="mb-10 bg-slate-900 border border-border/50 rounded-[2rem] overflow-hidden animate-in fade-in slide-in-from-top-4 duration-500 shadow-2xl">
+                    <div className="mb-10 bg-slate-900 border border-border/50 rounded-[2rem] animate-in fade-in slide-in-from-top-4 duration-500 shadow-2xl">
                         <div className="p-6 md:p-8">
                             <div className="flex items-center justify-between mb-8">
                                 <div className="flex items-center gap-4">
@@ -139,11 +139,11 @@ const AddGame = () => {
                                                 <TextInput
                                                     register={register}
                                                     name={'name'}
-                                                    placeholder='Name of the Game'
+                                                    placeholder='Name of the Game *'
                                                     error={errors.name}
                                                 />
                                                 <div className="space-y-1">
-                                                    <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Description</h3>
+                                                    <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Description <span className="text-red-500">*</span></h3>
                                                     <Controller
                                                         control={control}
                                                         name={'description'}
@@ -161,8 +161,8 @@ const AddGame = () => {
                                         </div>
 
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <div className="space-y-3">
-                                                <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Engine</h3>
+                                            <div className="space-y-3 ">
+                                                <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Engine <span className="text-red-500">*</span></h3>
                                                 <Controller
                                                     control={control}
                                                     name='gameEngine'
@@ -198,7 +198,7 @@ const AddGame = () => {
                                             <TextInput
                                                 register={register}
                                                 name='gameFile'
-                                                placeholder='Game Iframe URL'
+                                                placeholder='Game Iframe URL *'
                                                 error={errors.gameFile}
                                             />
                                             <div className="grid grid-cols-2 gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
@@ -221,7 +221,7 @@ const AddGame = () => {
 
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div className="space-y-3">
-                                                <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Thumbnail</h3>
+                                                <h3 className="text-sm font-bold text-secondary uppercase tracking-widest ml-1">Thumbnail <span className="text-red-500">*</span></h3>
                                                 <Controller
                                                     control={control}
                                                     name='thumbnail'
@@ -292,13 +292,15 @@ const AddGame = () => {
                         </div>
                     </div>
 
-                    <button
-                        onClick={() => setIsAddModalOpen(true)}
-                        className="px-6 py-3 bg-secondary text-black font-bold rounded-xl shadow-[0_4px_20px_rgba(0,243,255,0.4)] hover:shadow-[0_8px_30px_rgba(0,243,255,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 group"
-                    >
-                        <Plus className="w-5 h-5 transition-transform group-hover:rotate-90" />
-                        Add New Game
-                    </button>
+                    {!isAddModalOpen && (
+                        <button
+                            onClick={() => setIsAddModalOpen(true)}
+                            className="px-6 py-3 bg-secondary text-black font-bold rounded-xl shadow-[0_4px_20px_rgba(0,243,255,0.4)] hover:shadow-[0_8px_30px_rgba(0,243,255,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 group"
+                        >
+                            <Plus className="w-5 h-5 transition-transform group-hover:rotate-90" />
+                            Add New Game
+                        </button>
+                    )}
                 </div>
 
                 {/* Dashboard Stats (Optional/Visual) */}

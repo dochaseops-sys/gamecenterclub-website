@@ -145,7 +145,7 @@ const Game = () => {
               )}
             </div>
 
-            <div className="max-w-4xl bg-white/5 p-6 rounded-3xl border border-white/5">
+            <div className="max-w-4xl break-all bg-white/5 p-6 rounded-3xl border border-white/5">
               <h3 className="text-xl font-bold text-white mb-4">Description</h3>
               <div
                 className="text-gray-400 leading-relaxed text-base md:text-lg prose prose-invert prose-sm md:prose-base max-w-none 
@@ -154,7 +154,7 @@ const Game = () => {
               />
               {game.long_description && (
                 <div
-                  className="text-gray-400 leading-relaxed text-base md:text-lg prose prose-invert prose-sm md:prose-base max-w-none 
+                  className="text-gray-400 leading-relaxed  text-base md:text-lg prose prose-invert prose-sm md:prose-base max-w-none 
                 [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_a]:text-secondary [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-white/10 [&_blockquote]:pl-4 [&_blockquote]:italic"
                   dangerouslySetInnerHTML={{ __html: game.long_description }}
                 />

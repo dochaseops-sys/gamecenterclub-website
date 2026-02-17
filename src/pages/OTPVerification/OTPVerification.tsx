@@ -73,7 +73,7 @@ const OTPVerification = () => {
             </div>
 
             {/* Card */}
-            <div className="border lg:w-1/3 md:w-1/2 border-border p-8 rounded-2xl shadow-sm shadow-gray">
+            <div className="border lg:w-1/3 md:w-1/2 border-border p-8 rounded-2xl shadow-sm shadow-white">
                 <div className="space-y-4">
                     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
                         <div className="space-y-2">

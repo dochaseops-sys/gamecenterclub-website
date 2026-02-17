@@ -84,7 +84,7 @@ export default function Header({ onMenuClick }: Props) {
                 </div>
 
                 {/* Center: Search (hidden on mobile) */}
-                <div ref={searchRef} className="hidden md:flex flex-1 max-w-lg relative mx-6">
+                <div ref={searchRef} className="flex w-full md:flex-1 max-w-lg relative mx-2 md:mx-6">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Search className="h-4 w-4 text-muted-foreground" />
                     </div>
@@ -93,6 +93,7 @@ export default function Header({ onMenuClick }: Props) {
                         placeholder="Search games..."
                         value={searchQuery}
                         onChange={handleSearchChange}
+                        maxLength={50}
                         onFocus={() => shouldFetch && setShowDropdown(true)}
                         className="w-full pl-10 pr-3 py-2 text-sm rounded-3xl border border-border bg-gray/50 text-foreground placeholder-muted-foreground outline-none shadow-inner transition-all duration-300 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 bg-slate-700"
                     />
