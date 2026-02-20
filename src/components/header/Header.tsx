@@ -1,6 +1,6 @@
-import { Search, Menu, Tag } from "lucide-react";
+import { Search, Menu, Tag, User } from "lucide-react";
 import { useAppSelector, type RootState } from "../../services/redux/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useSearchGamesQuery } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
@@ -211,18 +211,30 @@ export default function Header({ onMenuClick }: Props) {
                             )}
                         </div>
                     ) : (
-                        <div className="hidden sm:flex items-center gap-3">
-                            {/* <Link to="/login">
-                                <button className="bg-secondary px-4 py-1.5 rounded-lg text-sm font-bold text-primary hover:bg-secondary/90 transition-all shadow-[0_0_15px_rgba(188,19,254,0.2)]">
-                                    Log In
-                                </button>
+                        <>
+                            {/* Desktop: Login / Signup buttons */}
+                            <div className="hidden sm:flex items-center gap-3">
+                                <Link to="/login">
+                                    <button className="bg-secondary px-4 py-1.5 rounded-lg text-sm font-bold text-primary hover:bg-secondary/90 transition-all shadow-[0_0_15px_rgba(188,19,254,0.2)]">
+                                        Log In
+                                    </button>
+                                </Link>
+                                <Link to="/signup">
+                                    <button className="text-sm font-medium hover:text-foreground transition-colors">
+                                        Sign Up
+                                    </button>
+                                </Link>
+                            </div>
+
+                            {/* Mobile: Login icon only (like screenshot) */}
+                            <Link
+                                to="/login"
+                                className="sm:hidden w-9 h-9 rounded-full border border-white/10 bg-secondary/10 flex items-center justify-center hover:bg-secondary/20 hover:border-secondary transition-colors"
+                                aria-label="Log in"
+                            >
+                                <User className="w-5 h-5 text-secondary" />
                             </Link>
-                            <Link to="/signup">
-                                <button className="text-sm font-medium hover:text-foreground transition-colors">
-                                    Sign Up
-                                </button>
-                            </Link> */}
-                        </div>
+                        </>
                     )}
                 </div>
             </div>
