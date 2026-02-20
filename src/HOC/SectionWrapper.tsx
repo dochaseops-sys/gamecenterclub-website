@@ -16,14 +16,14 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
 
 
     const gridClasses = isAdPage
-        ? "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2"
-        : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2";
+        ? "grid grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-1"
+        : "grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-8 gap-1";
 
     return (
         <section className="">
             {title && <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <div className=" bg-secondary/10 rounded-lg">
+                    <div className=" bg-secondary/10 rounded-sm">
                         <StepForward className="w-5 text-secondary" />
                     </div>
                     <h2 className="text-xl text-white font-display">{title}</h2>
@@ -33,7 +33,7 @@ const SectionWrapper = ({ games, title, showDetails }: Props) => {
                 {games?.map((game) => (
                     <GameCard
                         key={game.id}
-                        id={game.id}
+                        id={game.id}    
                         title={game?.name}
                         thumbnail={game?.thumbnail}
                         gif={game.gif || undefined}

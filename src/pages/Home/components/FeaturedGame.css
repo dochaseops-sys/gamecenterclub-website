@@ -1,45 +1,158 @@
 .featured-wrapper {
     overflow: visible;
-    padding-bottom: 8px;
+    position: relative;
+    width: 100%;
 }
 
-.featured-wrapper .swiper-pagination-bullet {
-    background: #fff;
-    opacity: 0.5;
-    width: 6px;
-    height: 6px;
-    transition: all 0.3s ease;
+.carousel-container {
+    position: relative;
+    width: 100%;
 }
 
-.featured-wrapper .swiper-pagination-bullet-active {
-    opacity: 1;
-    background: var(--secondary, #20223f);
-    width: 15px;
-    border-radius: 2px;
+/* Base Card Styles */
+.featured-l,
+.featured-r,
+.left-1,
+.left-2,
+.left-3,
+.right-1,
+.right-2,
+.right-3 {
+    will-change: transform, width, height, left, top;
+    position: absolute;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 8px;
 }
 
-.featured-wrapper .swiper-pagination {
-    bottom: -6px !important;
-    text-align: center !important;
-}
-
-/* Hide pagination on desktop */
+/* laptop View: Symmetric Double Featured Mirror */
 @media (min-width: 1024px) {
-    .featured-wrapper .swiper-pagination {
+    .carousel-container {
+        width: 100%;
+        height: 420px;
+    }
+
+    /* Side Grids (20% each) */
+    .left-1,
+    .left-2,
+    .left-3,
+    .right-1,
+    .right-2,
+    .right-3 {
+        width: calc(20% - 2px);
+        height: calc(33.333% - 2px);
+    }
+
+    /* Featured (30% each) */
+    .featured-l,
+    .featured-r {
+        width: calc(30% - 2px);
+        height: 100%;
+        top: 0;
+        z-index: 20;
+    }
+
+    /* Left Grid Positions */
+    .left-1 {
+        left: 0;
+        top: 0;
+    }
+
+    .left-2 {
+        left: 0;
+        top: calc(33.333% + 1px);
+    }
+
+    .left-3 {
+        left: 0;
+        top: calc(66.666% + 2px);
+    }
+
+    /* Center Mirror Positions */
+    .featured-l {
+        left: calc(20% + 1px);
+    }
+
+    .featured-r {
+        left: calc(50% + 1px);
+    }
+
+    /* Right Grid Positions */
+    .right-1 {
+        left: calc(80% + 2px);
+        top: 0;
+    }
+
+    .right-2 {
+        left: calc(80% + 2px);
+        top: calc(33.333% + 1px);
+    }
+
+    .right-3 {
+        left: calc(80% + 2px);
+        top: calc(66.666% + 2px);
+    }
+}
+
+/* Mobile View: Single Layout with 2px gaps */
+@media (max-width: 1023px) {
+    .carousel-container {
+        height: 320px;
+    }
+
+    .featured-l {
+        width: 100%;
+        height: 180px;
+        left: 0;
+        top: 0;
+        z-index: 20;
+    }
+
+    .left-1 {
+        width: calc(33.333% - 2px);
+        height: calc(140px - 2px);
+        left: 0;
+        top: 182px;
+    }
+
+    .left-2 {
+        width: calc(33.333% - 2px);
+        height: calc(140px - 2px);
+        left: calc(33.333% + 1px);
+        top: 182px;
+    }
+
+    .left-3 {
+        width: calc(33.333% - 2px);
+        height: calc(140px - 2px);
+        left: calc(66.666% + 2px);
+        top: 182px;
+    }
+
+    .featured-r,
+    .right-1,
+    .right-2,
+    .right-3 {
         display: none !important;
     }
 }
 
-/* Mobile-specific styles */
-@media (max-width: 640px) {
-    .featured-wrapper .swiper-slide {
-        padding-top: 4px;
-    }
+/* Hover & Typography */
+.featured h2 {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
 }
 
-/* Tablet / Desktop tweaks */
-@media (min-width: 640px) {
-    .featured-wrapper .swiper-slide {
-        padding-top: 6px;
-    }
+.next-1 h2,
+.next-2 h2,
+.next-3 h2 {
+    font-size: 10px;
+    line-height: 1.2;
+}
+
+.featured-wrapper .swiper-pagination {
+    display: none !important;
+}
+
+/* Hide Swiper Pagination leftovers if any */
+.featured-wrapper .swiper-pagination {
+    display: none !important;
 }

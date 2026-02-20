@@ -1,11 +1,8 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Game } from '../../../types/games.types';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
 import './FeaturedGame.css';
 
 interface FeaturedGameProps {
@@ -13,104 +10,140 @@ interface FeaturedGameProps {
 }
 
 const FeaturedGame = ({ games }: FeaturedGameProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleNext = useCallback(() => {
+    if (isAnimating || !games?.length) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev + 1) % games.length);
+    setTimeout(() => setIsAnimating(false), 800);
+  }, [games?.length, isAnimating]);
+
+  const handlePrev = useCallback(() => {
+    if (isAnimating || !games?.length) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev - 1 + games.length) % games.length);
+    setTimeout(() => setIsAnimating(false), 800);
+  }, [games?.length, isAnimating]);
+
+  useEffect(() => {
+    if (!games?.length) return;
+    const timer = setInterval(handleNext, 3000);
+    return () => clearInterval(timer);
+  }, [handleNext, games?.length]);
+
   if (!games?.length) return null;
+
+  // Define the 8 positions for the symmetric mirror layout
+  const visibleItems = [
+    { game: games[currentIndex], pos: 'featured-l' },
+    { game: games[(currentIndex + 1) % games.length], pos: 'featured-r' },
+    // Left Grid
+    { game: games[(currentIndex + 2) % games.length], pos: 'left-1' },
+    { game: games[(currentIndex + 3) % games.length], pos: 'left-2' },
+    { game: games[(currentIndex + 4) % games.length], pos: 'left-3' },
+    // Right Grid
+    { game: games[(currentIndex + 5) % games.length], pos: 'right-1' },
+    { game: games[(currentIndex + 6) % games.length], pos: 'right-2' },
+    { game: games[(currentIndex + 7) % games.length], pos: 'right-3' },
+  ];
 
   return (
     <section className="relative featured-wrapper group overflow-hidden">
-      <Swiper
-        modules={[Navigation, Autoplay]}
-        slidesPerView={1}
-        spaceBetween={20}
-        autoplay={{ delay: 4000 }}
-        navigation={{
-          prevEl: '.featured-prev',
-          nextEl: '.featured-next',
-        }}
-        breakpoints={{
-          1024: {
-            slidesPerView: 2,
-          },
-        }}
-        className="w-full"
-      >
-        {games.map((game) => (
-          <SwiperSlide key={game.id}>
-            <Link to={`/game/${game.id}`}>
-              <div className="relative h-[380px] rounded-2xl overflow-hidden group/card cursor-pointer">
-
-                {/* Thumbnail */}
-                <img
-                  src={game.thumbnail}
-                  alt={game.name}
-                  className="absolute inset-0 w-full h-full object-cover 
-                             transition-all duration-700 
-                             group-hover/card:scale-110 
-                             group-hover/card:opacity-0"
-                />
-
-                {/* GIF Preview */}
-                {game.gif && (
-                  <img
-                    src={game.gif}
-                    alt={`${game.name} preview`}
-                    className="absolute inset-0 w-full h-full object-cover 
-                               opacity-0 
-                               group-hover/card:opacity-100 
-                               transition-opacity duration-500"
-                  />
-                )}
-
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t 
-                                from-black via-black/50 to-transparent 
-                                opacity-80 group-hover/card:opacity-90 
-                                transition-all duration-500" />
-
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 p-6 z-10 
-                                transform transition-all duration-500
-                                group-hover/card:-translate-y-3">
-
-                  <h2 className="text-3xl font-bold text-white mb-3 drop-shadow-lg">
-                    {game.name}
-                  </h2>
-
-                  <div className="flex items-center gap-3 
-                                  opacity-0 translate-y-4
-                                  group-hover/card:opacity-100 
-                                  group-hover/card:translate-y-0 
-                                  transition-all duration-500">
-
-                    <div className="bg-secondary p-3 rounded-full shadow-lg">
-                      <Play fill="black" size={18} />
-                    </div>
-
-                    <span className="text-white uppercase font-semibold tracking-wide">
-                      Play Now
-                    </span>
-                  </div>
-                </div>
-
-              </div>
+      <div className="carousel-container relative">
+        {visibleItems.map((item) => (
+          <div
+            key={item.game.id}
+            className={`absolute overflow-hidden group/card cursor-pointer transition-all duration-800 ease-[cubic-bezier(0.4,0,0.2,1)] ${item.pos}`}
+            style={{ zIndex: item.pos === 'featured' ? 20 : 10 }}
+          >
+            <Link to={`/game/${item.game.id}`} className="block h-full w-full">
+              <GameCard game={item.game} isMain={item.pos === 'featured'} />
             </Link>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </div>
 
       {/* Navigation Buttons */}
-      <button className="featured-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 
-                         bg-black/60 hover:bg-secondary text-white 
-                         p-3 rounded-full hidden lg:flex transition-all duration-300">
-        <ChevronLeft size={22} />
-      </button>
+      <div className="absolute inset-0 pointer-events-none z-30">
+        <button
+          onClick={handlePrev}
+          className="featured-prev absolute left-4 top-1/2 -translate-y-1/2 pointer-events-auto
+                     bg-black/60 hover:bg-secondary text-white 
+                     p-2 rounded-full hidden lg:flex transition-all duration-300 shadow-xl"
+        >
+          <ChevronLeft size={18} />
+        </button>
 
-      <button className="featured-next absolute right-4 top-1/2 -translate-y-1/2 z-20 
-                         bg-black/60 hover:bg-secondary text-white 
-                         p-3 rounded-full hidden lg:flex transition-all duration-300">
-        <ChevronRight size={22} />
-      </button>
+        <button
+          onClick={handleNext}
+          className="featured-next absolute right-4 top-1/2 -translate-y-1/2 pointer-events-auto
+                     bg-black/60 hover:bg-secondary text-white 
+                     p-2 rounded-full hidden lg:flex transition-all duration-300 shadow-xl"
+        >
+          <ChevronRight size={18} />
+        </button>
+      </div>
     </section>
   );
 };
+
+const GameCard = ({ game, isMain = false }: { game: Game; isMain?: boolean }) => (
+  <>
+    {/* Thumbnail */}
+    <img
+      src={game.thumbnail}
+      alt={game.name}
+      className="absolute inset-0 w-full h-full object-cover 
+                 transition-all duration-700 
+                 group-hover/card:scale-110 
+                 group-hover/card:opacity-0"
+    />
+
+    {/* GIF Preview */}
+    {game.gif && (
+      <img
+        src={game.gif}
+        alt={`${game.name} preview`}
+        className="absolute inset-0 w-full h-full object-cover 
+                   opacity-0 
+                   group-hover/card:opacity-100 
+                   transition-opacity duration-500"
+      />
+    )}
+
+    {/* Dark Gradient Overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t 
+                    from-black via-black/40 to-transparent 
+                    opacity-60 group-hover/card:opacity-90 
+                    transition-all duration-500" />
+
+    {/* Content */}
+    <div className={`absolute bottom-0 left-0 z-10 w-full flex flex-col justify-end
+                    transform transition-all duration-500
+                    ${isMain ? 'p-6 h-1/2' : 'p-2 h-full justify-center'}`}>
+
+      <h2 className={`${isMain ? 'text-3xl' : 'text-[11px]'} font-bold text-white mb-1 drop-shadow-lg line-clamp-2 leading-tight ${!isMain && 'text-center'}`}>
+        {game.name}
+      </h2>
+
+      {isMain && (
+        <div className="flex items-center gap-2 
+                        opacity-0 translate-y-3
+                        group-hover/card:opacity-100 
+                        group-hover/card:translate-y-0 
+                        transition-all duration-500">
+          <div className="bg-secondary p-2 rounded-full shadow-lg">
+            <Play fill="black" size={14} />
+          </div>
+          <span className="text-white uppercase font-bold tracking-wider text-xs">
+            Play Now
+          </span>
+        </div>
+      )}
+    </div>
+  </>
+);
 
 export default FeaturedGame;
