@@ -1,27 +1,61 @@
 .featured-game-carousel .swiper-pagination-bullet {
     background: #fff;
     opacity: 0.5;
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
     transition: all 0.3s ease;
 }
 
 .featured-game-carousel .swiper-pagination-bullet-active {
     opacity: 1;
-    background: var(--secondary, #00f3ff);
-    width: 24px;
-    border-radius: 5px;
+    background: var(--secondary, #20223f);
+    width: 15px;
+    border-radius: 2px;
 }
 
 .featured-game-carousel .swiper-pagination {
-    bottom: 20px !important;
-    text-align: right !important;
-    padding-right: 40px;
+    bottom: -5px !important;
+    text-align: center !important;
+}
+
+/* Hide pagination on desktop */
+@media (min-width: 1024px) {
+    .featured-game-carousel .swiper-pagination {
+        display: none !important;
+    }
+}
+
+.featured-swiper {
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+    overflow: visible !important;
+}
+
+.featured-game-carousel {
+    overflow: visible;
+    padding-bottom: 10px;
+}
+
+.card-wrapper {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-wrapper:hover {
+    border-color: var(--secondary, #0d0c1d);
+    z-index: 50;
+}
+
+.featured-big-card {
+    border-width: 2px;
 }
 
 @media (max-width: 1024px) {
-    .featured-game-carousel .swiper-pagination {
-        padding-right: 20px;
-        text-align: center !important;
+    .featured-game-carousel {
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
     }
+
+ 
 }

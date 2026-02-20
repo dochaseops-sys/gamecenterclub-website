@@ -64,13 +64,13 @@ const Home = () => {
   return <AppWrapper>
     <div className="flex flex-col">
       {/* Welcome Banner */}
-      <WelcomeBanner />
+      {/* <WelcomeBanner /> */}
       
       {/* featured Game */}
-      <FeaturedGame games={newGames.slice(0, 5)} />
+      <FeaturedGame games={gamesList} />
 
       {/* Categories */}
-      <div className="flex gap-x-5 mb-7 overflow-x-auto custom-scrollbar pb-2">
+      {/* <div className="flex gap-x-5 mb-7 overflow-x-auto custom-scrollbar pb-2">
         <Category
           title={"All Games"}
           selected={selectedCat === null}
@@ -86,12 +86,12 @@ const Home = () => {
             />
           ))
         }
-      </div>
+      </div> */}
 
       {/* New Games */}
-      {!selectedCat && newGames.length > 0 && (
-        <SectionWrapper games={newGames} title="New Games" />
-      )}
+        {/* {!selectedCat && newGames.length > 0 && (
+          <SectionWrapper games={newGames} title="New Games" />
+        )} */}
 
       {/* All games */}
       <SectionWrapper games={gamesList} title={selectedCat ? categories.find(c => c.id.toString() === selectedCat)?.title || "Games" : "All Games"} />

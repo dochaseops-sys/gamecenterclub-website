@@ -356,7 +356,7 @@ const AddGame = () => {
                                                                 {game.mobileSupport ? <Smartphone className="w-3 h-3 text-muted-foreground" /> : <Monitor className="w-3 h-3 text-muted-foreground" />}
                                                                 <span className="text-[10px] text-muted-foreground uppercase tracking-tighter">
                                                                     {game.gameEngine}
-                                                                </span>
+                                                                </span> 
                                                             </div>
                                                         </div>
                                                     </div>

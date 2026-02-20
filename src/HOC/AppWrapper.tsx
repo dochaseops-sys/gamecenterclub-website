@@ -41,7 +41,6 @@ const AppWrapper = ({ children }: Props) => {
     if (!isOnline) {
         return <NoInternet />;
     }
-
     return (
         <div className="min-h-screen bg-background text-foreground font-body">
             <Header onMenuClick={() => {

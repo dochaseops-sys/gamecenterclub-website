@@ -76,7 +76,6 @@ const ShareModal = ({ isOpen, onClose, gameName, gameUrl }: Props) => {
                         </svg>
                     </a>
                 </div>
-
                 <div className="bg-[#13131f] rounded-2xl border border-white/10 p-2 flex items-center">
                     <div className="flex-1 overflow-hidden px-4">
                         <p className="text-gray-400 text-sm whitespace-nowrap overflow-hidden text-ellipsis">
