@@ -74,17 +74,17 @@ export default function Header({ onMenuClick }: Props) {
                     <Menu className="w-6 h-6 text-foreground" />
                 </button>
 
-                {/* Desktop: Logo and Toggle Icon */}
-                <div className="hidden lg:flex items-center gap-3 ">
+                {/* Logo */}
+                <div className="flex items-center gap-3">
                     <div className="">
 
-                        <img src="/CenterLogoVariant.png" alt="Logo" className="w-48 h-13 mt-1 -ml-2" />
+                        <img src="/CenterLogoVariant.png" alt="Logo" className="w-28 md:w-40 lg:w-48 h-13 mt-1 -ml-2" />
 
                     </div>
                 </div>
 
-                {/* Center: Search (hidden on mobile) */}
-                <div ref={searchRef} className="flex w-full md:flex-1 max-w-lg relative mx-2 md:mx-6">
+                {/* Center: Search (hidden on small screens) */}
+                <div ref={searchRef} className="hidden md:flex w-full md:flex-1 max-w-md lg:max-w-lg relative mx-2 md:mx-6">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Search className="h-4 w-4 text-muted-foreground" />
                     </div>
@@ -182,6 +182,15 @@ export default function Header({ onMenuClick }: Props) {
 
                 {/* Right: Actions */}
                 <div className="flex items-center gap-3">
+                    {/* Mobile: Search icon (instead of full bar) */}
+                    <button
+                        type="button"
+                        className="md:hidden p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
+                        aria-label="Search"
+                        onClick={() => navigate("/search")}
+                    >
+                        <Search className="w-5 h-5" />
+                    </button>
 
                     {/* Notifications */}
                     {/* <button className="relative hidden sm:flex p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-white/5 transition-colors">
