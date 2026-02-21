@@ -1,22 +1,22 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import Category from "../../components/category/Category";
+// import Category from "../../components/category/Category";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
-import WelcomeBanner from "./components/WelcomeBanner";
-import { useGetCategoriesQuery, useGetGamesQuery, useGetNewGamesQuery } from "../../services/redux/apis/games";
+// import WelcomeBanner from "./components/WelcomeBanner";
+import { useGetCategoriesQuery, useGetGamesQuery /*, useGetNewGamesQuery*/ } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
 import { Loader2 } from "lucide-react";
 
 const Home = () => {
-  const [selectedCat, setSelectedCat] = useState<string | null>(null);
+  const [selectedCat/*, setSelectedCat*/] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [gamesList, setGamesList] = useState<Game[]>([]);
 
   const { data: categories = [] } = useGetCategoriesQuery();
   const { data: gamesResponse, isFetching, isLoading } = useGetGamesQuery({ categoryId: selectedCat || undefined, page, limit: 20 });
-  const { data: newGamesResponse } = useGetNewGamesQuery();
-  const newGames: Game[] = newGamesResponse?.data || [];
+  // const { data: newGamesResponse } = useGetNewGamesQuery();
+  // const newGames: Game[] = newGamesResponse?.data || [];
 
   const totalPages = gamesResponse?.pagination?.totalPages || 1;
   const hasMore = page < totalPages;
@@ -59,13 +59,13 @@ const Home = () => {
     if (node) observer.current.observe(node);
   }, [isLoading, isFetching, hasMore, page]);
 
-  const externalCategories = categories.filter(c => c.type === 'external');
+  // const externalCategories = categories.filter(c => c.type === 'external');
 
   return <AppWrapper>
     <div className="flex flex-col">
       {/* Welcome Banner */}
       {/* <WelcomeBanner /> */}
-      
+
       {/* featured Game */}
       <FeaturedGame games={gamesList} />
 
@@ -89,7 +89,7 @@ const Home = () => {
       </div> */}
 
       {/* New Games */}
-        {/* {!selectedCat && newGames.length > 0 && (
+      {/* {!selectedCat && newGames.length > 0 && (
           <SectionWrapper games={newGames} title="New Games" />
         )} */}
 

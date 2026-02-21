@@ -50,7 +50,7 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
   ];
 
   return (
-    <section className="relative featured-wrapper group overflow-hidden">
+    <section className="relative featured-wrapper group overflow-hidden ">
       <div className="carousel-container relative">
         {visibleItems.map((item) => (
           <div
@@ -59,7 +59,7 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
             style={{ zIndex: item.pos === 'featured' ? 20 : 10 }}
           >
             <Link to={`/game/${item.game.id}`} className="block h-full w-full">
-              <GameCard game={item.game} isMain={item.pos === 'featured'} />
+              <GameCard game={item.game} isMain={item.pos.startsWith('featured')} />
             </Link>
           </div>
         ))}
@@ -97,7 +97,8 @@ const GameCard = ({ game, isMain = false }: { game: Game; isMain?: boolean }) =>
       alt={game.name}
       className="absolute inset-0 w-full h-full object-cover 
                  transition-all duration-700 
-                 group-hover/card:scale-110 
+                 scale-100
+                 group-hover/card:scale-105 
                  group-hover/card:opacity-0"
     />
 
