@@ -20,7 +20,7 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
         <Link to={`/game/${id}`} className='shadow-[0_0_8px_var(--border)]'>
             <div
                 className={
-                    "group relative rounded-xl overflow-hidden bg-border border border-border cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] aspect-square"}
+                    "group/card relative rounded-xl overflow-hidden bg-border border border-border cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] aspect-square"}
             >
                 {/* Image Container (Background) */}
                 <div className="absolute inset-0 w-full h-full">
@@ -28,7 +28,7 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
                     <img
                         src={thumbnail || `https://picsum.photos/200?${title}`}
                         alt={title}
-                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${gif ? 'group-hover:opacity-0' : 'opacity-100'}`}
+                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover/card:scale-110 ${gif ? 'group-hover/card:opacity-0' : 'opacity-100'}`}
                     />
 
                     {/* GIF Preview (Visible on Hover) */}
@@ -36,24 +36,24 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
                         <img
                             src={gif}
                             alt={`${title} preview`}
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-110"
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 scale-110"
                         />
                     )}
                 </div>
 
                 {/* Overlay Gradient (Ensures text readability) */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-80 group-hover/card:opacity-90 transition-opacity duration-300 z-10" />
 
                 {/* Tags (Mobile/Multiplayer) */}
                 {mobileSupport && (
-                    <div className="absolute top-0 right-0 pointer-events-none z-20 overflow-hidden w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-0 right-0 pointer-events-none z-20 overflow-hidden w-16 h-16 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
                         <div className="absolute top-3 -right-8 w-28 bg-secondary py-1 text-center text-[10px] font-bold text-black rotate-45 shadow-md uppercase">
                             MOBILE
                         </div>
                     </div>
                 )}
                 {multiplayer && (
-                    <div className="absolute top-0 left-0 pointer-events-none z-20 overflow-hidden w-16 h-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute top-0 left-0 pointer-events-none z-20 overflow-hidden w-16 h-16 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
                         <div className="absolute top-3 -left-8 w-28 bg-secondary py-1 text-center text-[8px] font-bold text-black -rotate-45 shadow-md uppercase">
                             MULTIPLAYER
                         </div>
@@ -61,13 +61,13 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
                 )}
 
                 {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-3 z-20 transform group-hover:translate-y-[-4px] transition-transform duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-3 z-20 transform group-hover/card:translate-y-[-4px] transition-transform duration-300">
                     <h3 className="font-display font-bold text-sm text-white truncate drop-shadow-lg">
                         {title}
                     </h3>
 
                     {showDetails && (
-                        <div className="flex items-center justify-between mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75 transform translate-y-2 group-hover:translate-y-0">
+                        <div className="flex items-center justify-between mt-1 opacity-0 group-hover/card:opacity-100 transition-all duration-300 delay-75 transform translate-y-2 group-hover/card:translate-y-0">
                             <span className="text-[10px] text-gray-300 font-medium">
                                 {categories?.map((category: any) => category.title).join(", ")}
                             </span>
@@ -88,7 +88,7 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
                 )}
 
                 {/* Neon line decoration */}
-                <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-secondary z-30 group-hover:w-full transition-all duration-500" />
+                <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-secondary z-30 group-hover/card:w-full transition-all duration-500" />
             </div>
         </Link>
     );

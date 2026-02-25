@@ -17,36 +17,44 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
     if (isAnimating || !games?.length) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % games.length);
-    setTimeout(() => setIsAnimating(false), 800);
+    setTimeout(() => setIsAnimating(false), 1200);
   }, [games?.length, isAnimating]);
 
   const handlePrev = useCallback(() => {
     if (isAnimating || !games?.length) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev - 1 + games.length) % games.length);
-    setTimeout(() => setIsAnimating(false), 800);
+    setTimeout(() => setIsAnimating(false), 1200);
   }, [games?.length, isAnimating]);
 
   useEffect(() => {
     if (!games?.length) return;
-    const timer = setInterval(handleNext, 3000);
+    const timer = setInterval(handleNext, 4000);
     return () => clearInterval(timer);
   }, [handleNext, games?.length]);
 
   if (!games?.length) return null;
 
-  // Define the 8 positions for the symmetric mirror layout
+  // Define the 14 positions for the symmetric mirror layout (10:3 aspect ratio)
   const visibleItems = [
     { game: games[currentIndex], pos: 'featured-l' },
     { game: games[(currentIndex + 1) % games.length], pos: 'featured-r' },
-    // Left Grid
-    { game: games[(currentIndex + 2) % games.length], pos: 'left-1' },
-    { game: games[(currentIndex + 3) % games.length], pos: 'left-2' },
-    { game: games[(currentIndex + 4) % games.length], pos: 'left-3' },
-    // Right Grid
-    { game: games[(currentIndex + 5) % games.length], pos: 'right-1' },
-    { game: games[(currentIndex + 6) % games.length], pos: 'right-2' },
-    { game: games[(currentIndex + 7) % games.length], pos: 'right-3' },
+    // Left Inner Grid
+    { game: games[(currentIndex + 2) % games.length], pos: 'left-in-1' },
+    { game: games[(currentIndex + 3) % games.length], pos: 'left-in-2' },
+    { game: games[(currentIndex + 4) % games.length], pos: 'left-in-3' },
+    // Left Outer Grid
+    { game: games[(currentIndex + 5) % games.length], pos: 'left-out-1' },
+    { game: games[(currentIndex + 6) % games.length], pos: 'left-out-2' },
+    { game: games[(currentIndex + 7) % games.length], pos: 'left-out-3' },
+    // Right Inner Grid
+    { game: games[(currentIndex + 8) % games.length], pos: 'right-in-1' },
+    { game: games[(currentIndex + 9) % games.length], pos: 'right-in-2' },
+    { game: games[(currentIndex + 10) % games.length], pos: 'right-in-3' },
+    // Right Outer Grid
+    { game: games[(currentIndex + 11) % games.length], pos: 'right-out-1' },
+    { game: games[(currentIndex + 12) % games.length], pos: 'right-out-2' },
+    { game: games[(currentIndex + 13) % games.length], pos: 'right-out-3' },
   ];
 
   return (

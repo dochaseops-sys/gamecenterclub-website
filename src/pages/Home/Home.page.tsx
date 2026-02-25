@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
 import FeaturedGame from "./components/FeaturedGame";
+import GameGridCarousel from "./components/GameGridCarousel";
 // import WelcomeBanner from "./components/WelcomeBanner";
 import { useGetCategoriesQuery, useGetGamesQuery /*, useGetNewGamesQuery*/ } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
@@ -68,6 +69,9 @@ const Home = () => {
 
       {/* featured Game */}
       <FeaturedGame games={gamesList} />
+
+      <GameGridCarousel games={gamesList} title="" />
+
 
       {/* Categories */}
       {/* <div className="flex gap-x-5 mb-7 overflow-x-auto custom-scrollbar pb-2">
