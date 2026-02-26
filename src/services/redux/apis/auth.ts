@@ -1,6 +1,24 @@
 import type { GoogleLoginRequest, LoginRequest, SignUpRequest, UpdateProfileRequest, User } from '../../../types/user.types';
 import { api } from './index'
 
+export interface AppNotificationFromDB {
+    id: number;
+    title: string;
+    message: string;
+    url?: string;
+    type: string;
+    is_read: boolean;
+    sent_at: string;
+}
+
+export interface NotificationsResponse {
+    notifications: AppNotificationFromDB[];
+    total: number;
+    page: number;
+    totalPages: number;
+    unreadCount: number;
+}
+
 export const authApi = api.injectEndpoints({
     overrideExisting: true,
     endpoints: (build) => ({
@@ -72,6 +90,7 @@ export const authApi = api.injectEndpoints({
             }),
             invalidatesTags: ["Auth"],
         }),
+
         // Refresh Token
         refreshToken: build.mutation<User, { refreshToken: string }>({
             query: (data) => ({
@@ -101,6 +120,7 @@ export const authApi = api.injectEndpoints({
             }),
             invalidatesTags: ["Auth"],
         }),
+
         resendOtp: build.mutation({
             query: (data) => ({
                 url: 'resend-otp',
@@ -110,6 +130,34 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
 
+        // Update FCM Token
+        updateFcmToken: build.mutation<void, { fcm_token: string, device_id: string }>({
+            query: (data) => ({
+                url: 'fcm-token',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ["Auth"],
+        }),
+
+        // Get Notifications from DB (paginated)
+        getNotifications: build.query<NotificationsResponse, { page?: number; limit?: number }>({
+            query: ({ page = 1, limit = 20 } = {}) => ({
+                url: `notifications?page=${page}&limit=${limit}`,
+                method: 'GET',
+            }),
+            transformResponse: (response: any) => response.data || response,
+            providesTags: ['Notifications'],
+        }),
+
+        // Mark a single notification as read
+        markNotificationRead: build.mutation<void, number>({
+            query: (id) => ({
+                url: `notifications/${id}/read`,
+                method: 'PATCH',
+            }),
+            invalidatesTags: ['Notifications'],
+        }),
     }),
 });
 
@@ -120,9 +168,11 @@ export const {
     useVerifyPasswordResetOtpMutation,
     useResetPasswordRequestMutation,
     useResetPasswordMutation,
-
     useLoginWithGoogleMutation,
     useUpdateProfileMutation,
     useDeleteAccountMutation,
-    useResendOtpMutation
+    useResendOtpMutation,
+    useUpdateFcmTokenMutation,
+    useGetNotificationsQuery,
+    useMarkNotificationReadMutation,
 } = authApi;

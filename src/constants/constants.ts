@@ -15,6 +15,7 @@ const SearchPage = lazy(() => import("../pages/Search/Search.page"));
 const CategoryPage = lazy(() => import("../pages/Category/Category.page"));
 const Profile = lazy(() => import("../pages/Profile/Profile.page"));
 const RecentGames = lazy(() => import("../pages/RecentGames/RecentGames.page"));
+const Notifications = lazy(() => import("../pages/Notifications/Notifications.page"));
 
 
 export const commonRoutes = [
@@ -48,6 +49,10 @@ export const protectedRoutes = [
   {
     path: '/recently-played',
     element: RecentGames
+  },
+  {
+    path: '/notifications',
+    element: Notifications
   }
 ]
 

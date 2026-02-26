@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  esbuild: {
-    drop: ['console', 'debugger'], // Remove console.logs and debugger in production
-  },
+  // esbuild: {
+  //   drop: ['console', 'debugger'], // Remove console.logs and debugger in production
+  // },
   build: {
     // Enable minification with esbuild (faster than terser)
     minify: 'esbuild',

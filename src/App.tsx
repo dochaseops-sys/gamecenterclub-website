@@ -8,6 +8,7 @@ import { Suspense, lazy, useEffect } from 'react';
 import { getItemFromStorage } from './utils/localstorage.utils';
 import { login } from './services/redux/slices/auth.slice';
 import type { User } from './types/user.types';
+import useFcmToken from './hooks/useFcmToken';
 
 const GoogleLogin = lazy(() => import('./pages/GoogleLogin/GoogleLogin'));
 
@@ -64,40 +65,38 @@ export default function App() {
 
 const Navigator = () => {
   const user = useAppSelector(state => state.auth);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+
+  useFcmToken(user);
 
   useEffect(() => {
-    getLoggedInUser()
-  }, [])
+    getLoggedInUser();
+  }, []);
 
   const getLoggedInUser = () => {
     const user = getItemFromStorage<User | null>("user");
     if (user) {
-      dispatch(login(user))
+      dispatch(login(user));
     }
-  }
+  };
 
-  return <Router>
-    <div className="app-container">
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          {
-            (commonRoutes.concat(authRoutes)).map((r) => {
-              return <Route key={r.path} path={r.path} element={<r.element />} />
-            })
-          }
+  return (
+    <Router>
+      <div className="app-container">
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {commonRoutes.concat(authRoutes).map((r) => {
+              return <Route key={r.path} path={r.path} element={<r.element />} />;
+            })}
 
-          {
-            user.accessToken && protectedRoutes.map((r) => {
-              return <Route key={r.path} path={r.path} element={<r.element />} />
-            })
-          }
-          <Route path={'/auth/google/google-callback/oauth/login'} element={<GoogleLogin />} />
-
-          <Route path='*' element={<NotFound />} />
-
-        </Routes>
-      </Suspense>
-    </div>
-  </Router>
-}
+            {user.accessToken && protectedRoutes.map((r) => {
+              return <Route key={r.path} path={r.path} element={<r.element />} />;
+            })}
+            <Route path="/auth/google/google-callback/oauth/login" element={<GoogleLogin />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </div>
+    </Router>
+  );
+};

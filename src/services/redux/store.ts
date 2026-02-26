@@ -2,17 +2,19 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query"; // ADD THIS IMPORT
 import authReducer from "./slices/auth.slice";
+import notificationsReducer from "./slices/notifications.slice";
 import { api } from "./apis";
 import { useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    notifications: notificationsReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-     
-    getDefaultMiddleware({serializableCheck: false}).concat(api.middleware),
+
+    getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware),
 });
 
 setupListeners(store.dispatch);
