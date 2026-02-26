@@ -22,7 +22,7 @@ export interface NotificationsResponse {
 export const authApi = api.injectEndpoints({
     overrideExisting: true,
     endpoints: (build) => ({
-        // Login
+
         login: build.mutation<User, LoginRequest>({
             query: (credentials) => ({
                 url: "login",
@@ -32,7 +32,7 @@ export const authApi = api.injectEndpoints({
             transformResponse: (response: any) => response.data || response,
             invalidatesTags: ["Auth"],
         }),
-        // Login with Google
+
         loginWithGoogle: build.mutation<User, GoogleLoginRequest>({
             query: (credentials) => ({
                 url: "login-with-google",
@@ -42,7 +42,7 @@ export const authApi = api.injectEndpoints({
             transformResponse: (response: any) => response.data || response,
             invalidatesTags: ["Auth"],
         }),
-        // Signup
+
         signup: build.mutation<User, SignUpRequest>({
             query: (data) => ({
                 url: 'signup',
@@ -53,7 +53,7 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
 
-        // Forgot Password
+
         resetPasswordRequest: build.mutation({
             query: (data) => ({
                 url: 'forgot-password',
@@ -91,7 +91,7 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
 
-        // Refresh Token
+
         refreshToken: build.mutation<User, { refreshToken: string }>({
             query: (data) => ({
                 url: 'refresh-token',
@@ -101,7 +101,7 @@ export const authApi = api.injectEndpoints({
             transformResponse: (response: any) => response.data || response,
         }),
 
-        // Update Profile
+
         updateProfile: build.mutation<User, UpdateProfileRequest | FormData>({
             query: (data) => ({
                 url: 'profile',
@@ -112,7 +112,7 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
 
-        // Delete Account
+
         deleteAccount: build.mutation<void, void>({
             query: () => ({
                 url: 'profile',
@@ -130,7 +130,7 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
 
-        // Update FCM Token
+
         updateFcmToken: build.mutation<void, { fcm_token: string, device_id: string }>({
             query: (data) => ({
                 url: 'fcm-token',
@@ -140,7 +140,7 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ["Auth"],
         }),
 
-        // Get Notifications from DB (paginated)
+
         getNotifications: build.query<NotificationsResponse, { page?: number; limit?: number }>({
             query: ({ page = 1, limit = 20 } = {}) => ({
                 url: `notifications?page=${page}&limit=${limit}`,
@@ -150,7 +150,7 @@ export const authApi = api.injectEndpoints({
             providesTags: ['Notifications'],
         }),
 
-        // Mark a single notification as read
+
         markNotificationRead: build.mutation<void, number>({
             query: (id) => ({
                 url: `notifications/${id}/read`,

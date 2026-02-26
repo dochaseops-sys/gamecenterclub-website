@@ -54,7 +54,6 @@ const useFcmToken = (user: any) => {
         }
     }, [user?.accessToken, syncToken]);
 
-    // Handle Foreground Messages
     useEffect(() => {
         const unsubscribe = onMessageListener((payload: any) => {
             console.log('[useFcmToken] Foreground message received:', payload);
@@ -102,8 +101,7 @@ const useFcmToken = (user: any) => {
             }
         };
 
-        // There's no direct 'permissionchange' event for Notifications in all browsers,
-        // but we can poll or check when the window regained focus.
+
         window.addEventListener('focus', handlePermissionChange);
         return () => window.removeEventListener('focus', handlePermissionChange);
     }, [syncToken]);

@@ -60,10 +60,8 @@ const Profile = () => {
 
             const updatedUser = await updateProfile(formData).unwrap();
 
-            // 👇 Update Redux state
             dispatch(updateUser(updatedUser));
 
-            // 👇 Update Local Storage
             const existingUser = getItemFromStorage<any>("user") || {};
             const newUser = { ...existingUser, ...updatedUser };
             setItemToStorage("user", newUser);

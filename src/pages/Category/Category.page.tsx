@@ -25,7 +25,7 @@ const CategoryPage = () => {
     const isTrending = category?.title === "Trending";
     const isMostEngaging = category?.title === "Most Engaging";
 
-    // Queries
+
     const { data: categoryResponse, isLoading: isCategoryLoading, isFetching: isCategoryFetching } = useGetGamesByCategoryQuery(
         { categoryId, page, limit: 12 },
         { skip: !categoryId || isTrending || isMostEngaging }
@@ -45,14 +45,14 @@ const CategoryPage = () => {
     const isLoading = isCategoryLoading || isTrendingLoading || isEngagingLoading;
     const isFetching = isCategoryFetching || isTrendingFetching || isEngagingFetching;
 
-    // Reset state when category changes
+
     useEffect(() => {
         setPage(1);
         setAllGames([]);
         setHasMore(true);
     }, [categoryId]);
 
-    // Accumulate games
+
     useEffect(() => {
         if (currentResponse?.data) {
             setAllGames(prev => {
@@ -68,7 +68,7 @@ const CategoryPage = () => {
         }
     }, [currentResponse, page]);
 
-    // Intersection Observer for infinite scroll
+
     const observer = useRef<IntersectionObserver | null>(null);
     const lastGameElementRef = useCallback((node: HTMLDivElement | null) => {
         if (isLoading || isFetching) return;
@@ -101,7 +101,6 @@ const CategoryPage = () => {
                     <div className="space-y-12">
                         <SectionWrapper games={allGames} showDetails />
 
-                        {/* Sentinel for infinite scroll */}
                         <div ref={lastGameElementRef} className="h-10 w-full flex justify-center items-center pb-8">
                             {isFetching && (
                                 <Loader2 className="w-8 h-8 animate-spin text-secondary" />

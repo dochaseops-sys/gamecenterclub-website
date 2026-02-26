@@ -33,7 +33,7 @@ export default function Header({ onMenuClick }: Props) {
     const dbNotifications = notifData?.notifications || [];
     const unreadCount = notifData?.unreadCount ?? 0;
 
-    // Debounce search query
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedQuery(searchQuery);
@@ -42,19 +42,17 @@ export default function Header({ onMenuClick }: Props) {
         return () => clearTimeout(timer);
     }, [searchQuery]);
 
-    // Fetch search results only when query has 2+ characters
     const shouldFetch = debouncedQuery.trim().length >= 2;
     const { data: searchResponse, isLoading } = useSearchGamesQuery({ query: debouncedQuery }, {
         skip: !shouldFetch,
     });
     const searchResults: Game[] = searchResponse?.data || [];
 
-    // Show dropdown when there are results or loading
+
     useEffect(() => {
         setShowDropdown(shouldFetch && (searchResults.length > 0 || isLoading));
     }, [shouldFetch, searchResults, isLoading]);
 
-    // Handle click outside to close dropdown and mobile search
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const isOutsideSearch = !searchRef.current || !searchRef.current.contains(event.target as Node);

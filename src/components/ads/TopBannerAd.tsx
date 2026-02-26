@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-// Declare googletag for TypeScript
 declare global {
     interface Window {
         googletag: any;
@@ -20,7 +19,6 @@ const TopBannerAd = () => {
             });
         }
 
-        // Scaling logic to make fixed-size ads responsive
         const adjustAdScale = () => {
             const container = document.getElementById('div-gpt-ad-1770210452174-0');
             const iframe = container?.querySelector('iframe');
@@ -49,7 +47,6 @@ const TopBannerAd = () => {
                 if (Math.abs(width - lastWidth) > 50) {
                     lastWidth = width;
                     adjustAdScale();
-                    // Optional: refresh ad if space increased significantly
                     if (googletag && googletag.pubads && adSlot) {
                         googletag.cmd.push(() => {
                             googletag.pubads().refresh([adSlot]);
