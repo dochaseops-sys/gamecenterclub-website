@@ -1,62 +1,92 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
 import AppWrapper from "../../HOC/AppWrapper";
 import SectionWrapper from "../../HOC/SectionWrapper";
-import { useGetGamesByCategoryQuery, useGetCategoriesQuery, useGetTrendingGamesQuery, useGetMostEngagingGamesQuery } from "../../services/redux/apis/games";
+import {
+    useGetGamesByCategoryQuery,
+    useGetCategoriesQuery,
+    useGetTrendingGamesQuery,
+    useGetMostEngagingGamesQuery,
+    useGetNewGamesQuery
+} from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
 import Loader from "../../loader/Loader";
 import { Loader2 } from "lucide-react";
+import { slugify, unslugify } from "../../utils/string.utils";
+import SEO from "../../components/SEO/SEO";
 
 const CategoryPage = () => {
-    const { id } = useParams<{ id: string }>();
-    const categoryId = Number(id);
+    const { slug } = useParams<{ slug?: string }>();
+    const location = useLocation();
 
     const [page, setPage] = useState(1);
     const [allGames, setAllGames] = useState<Game[]>([]);
     const [hasMore, setHasMore] = useState(true);
 
+    const { data: categories = [] } = useGetCategoriesQuery();
+
+    // Determine current category/section
+    const pathname = location.pathname;
+    const isTrending = pathname.includes('/trending');
+    const isMostEngaging = pathname.includes('/most-engaging');
+    const isNewGames = pathname.includes('/new-games');
+
+    // Find category by ID or slug
+    const category = categories.find(c =>
+        (slug && !isNaN(Number(slug)) && c.id === Number(slug)) ||
+        (slug && slugify(c.title || "") === slug)
+    );
+
+    const categoryId = category?.id;
+    const displayTitle = isTrending ? "Trending" :
+        isMostEngaging ? "Most Engaging" :
+            isNewGames ? "New" :
+                category ? category.title :
+                    (slug ? unslugify(slug) : "");
+
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, [categoryId]);
+    }, [categoryId, pathname]);
 
-    const { data: categories = [] } = useGetCategoriesQuery();
-    const category = categories.find(c => c.id === categoryId);
-
-    const isTrending = category?.title === "Trending";
-    const isMostEngaging = category?.title === "Most Engaging";
-
+    const commonParams = { page, limit: 12 };
 
     const { data: categoryResponse, isLoading: isCategoryLoading, isFetching: isCategoryFetching } = useGetGamesByCategoryQuery(
-        { categoryId, page, limit: 12 },
-        { skip: !categoryId || isTrending || isMostEngaging }
+        { categoryId: categoryId || 0, ...commonParams },
+        { skip: !categoryId || isTrending || isMostEngaging || isNewGames }
     );
 
     const { data: trendingResponse, isLoading: isTrendingLoading, isFetching: isTrendingFetching } = useGetTrendingGamesQuery(
-        { page, limit: 12 },
+        commonParams,
         { skip: !isTrending }
     );
 
     const { data: engagingResponse, isLoading: isEngagingLoading, isFetching: isEngagingFetching } = useGetMostEngagingGamesQuery(
-        { page, limit: 12 },
+        commonParams,
         { skip: !isMostEngaging }
     );
 
-    const currentResponse = isTrending ? trendingResponse : (isMostEngaging ? engagingResponse : categoryResponse);
-    const isLoading = isCategoryLoading || isTrendingLoading || isEngagingLoading;
-    const isFetching = isCategoryFetching || isTrendingFetching || isEngagingFetching;
+    const { data: newResponse, isLoading: isNewLoading, isFetching: isNewFetching } = useGetNewGamesQuery(
+        commonParams,
+        { skip: !isNewGames }
+    );
 
+    const currentResponse = isTrending ? trendingResponse :
+        (isMostEngaging ? engagingResponse :
+            (isNewGames ? newResponse : categoryResponse));
+
+    const isLoading = isCategoryLoading || isTrendingLoading || isEngagingLoading || isNewLoading;
+    const isFetching = isCategoryFetching || isTrendingFetching || isEngagingFetching || isNewFetching;
 
     useEffect(() => {
         setPage(1);
         setAllGames([]);
         setHasMore(true);
-    }, [categoryId]);
-
+    }, [categoryId, pathname]);
 
     useEffect(() => {
         if (currentResponse?.data) {
             setAllGames(prev => {
-                const newGames = currentResponse.data.filter(g => !prev.some(p => p.id === g.id));
+                const newGames = currentResponse.data.filter((g: Game) => !prev.some(p => p.id === g.id));
                 return [...prev, ...newGames];
             });
 
@@ -67,7 +97,6 @@ const CategoryPage = () => {
             }
         }
     }, [currentResponse, page]);
-
 
     const observer = useRef<IntersectionObserver | null>(null);
     const lastGameElementRef = useCallback((node: HTMLDivElement | null) => {
@@ -83,10 +112,14 @@ const CategoryPage = () => {
 
     return (
         <AppWrapper>
+            <SEO
+                title={`${displayTitle} Games`}
+                description={`Play the best ${displayTitle} games online for free at GameCenter Club.`}
+            />
             <div className="flex flex-col min-h-screen">
                 <div className="mb-8 mt-4">
                     <h1 className="text-3xl font-display font-bold text-white mb-2">
-                        {category ? category.title : ""} Games
+                        {displayTitle} Games
                     </h1>
                     <p className="text-muted-foreground">
                         {isLoading ? "" : `Found ${allGames.length} games`}

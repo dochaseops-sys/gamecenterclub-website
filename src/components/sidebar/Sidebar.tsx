@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../services/redux/apis/games";
 import * as LucideIcons from "lucide-react";
 import { User as UserIcon, Home as HomeIcon } from "lucide-react";
+import { slugify } from "../../utils/string.utils";
 
 interface Props {
   isOpen: boolean;
@@ -71,9 +72,17 @@ export default function Sidebar({ isOpen, onClose, isCollapsed }: Props) {
               const LucideIcon = item.icon ? (LucideIcons as any)[item.icon.charAt(0).toUpperCase() + item.icon.slice(1)] || (LucideIcons as any)[item.icon] : null;
               const Icon = LucideIcon || getCategoryIcon(item.title);
 
-              const isActive = location.pathname === `/category/${item.id}`;
+              const slug = slugify(item.title || "");
+              let path = `/category/${slug}`;
+
+              // Handle special sections that now have their own routes
+              if (item.title === "Trending") path = "/trending";
+              if (item.title === "Most Engaging") path = "/most-engaging";
+              if (item.title === "New Games") path = "/new-games";
+
+              const isActive = location.pathname === path;
               return (
-                <Link key={item.id} to={`/category/${item.id}`} onClick={onClose} title={isEffectiveCollapsed ? item.title : ""}>
+                <Link key={item.id} to={path} onClick={onClose} title={isEffectiveCollapsed ? item.title : ""}>
                   <div className={`flex items-center ${isEffectiveCollapsed ? "lg:justify-center lg:px-0" : "pr-3 pl-4"} py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden hover:bg-white/5 ${isActive ? "bg-white/10 text-[var(--secondary)]" : "text-muted-foreground hover:text-foreground"}`}>
                     <Icon
                       className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${isActive ? "text-[var(--secondary)]" : "text-white/70"
@@ -96,9 +105,12 @@ export default function Sidebar({ isOpen, onClose, isCollapsed }: Props) {
               const LucideIcon = item.icon ? (LucideIcons as any)[item.icon.charAt(0).toUpperCase() + item.icon.slice(1)] || (LucideIcons as any)[item.icon] : null;
               const Icon = LucideIcon || getCategoryIcon(item.title);
 
-              const isCatActive = location.pathname === `/category/${item.id}`;
+              const slug = slugify(item.title || "");
+              const path = `/category/${slug}`;
+              const isCatActive = location.pathname === path;
+
               return (
-                <Link key={item.id} to={`/category/${item.id}`} onClick={onClose} title={isEffectiveCollapsed ? item.title : ""}>
+                <Link key={item.id} to={path} onClick={onClose} title={isEffectiveCollapsed ? item.title : ""}>
                   <div className={`flex items-center ${isEffectiveCollapsed ? "lg:justify-center lg:px-0" : "pr-3 pl-4"} py-3 rounded-lg cursor-pointer transition-all duration-200 group relative overflow-hidden hover:bg-white/5 ${isCatActive ? "bg-white/10 text-[var(--secondary)]" : "text-muted-foreground hover:text-foreground"}`}>
                     <Icon className={`w-5 h-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${isCatActive ? "text-[var(--secondary)]" : "text-white/70"}`} />
                     <span className={`ml-3 font-medium tracking-wide text-sm whitespace-nowrap ${isEffectiveCollapsed ? "lg:hidden" : "block"}`}>{item.title}</span>

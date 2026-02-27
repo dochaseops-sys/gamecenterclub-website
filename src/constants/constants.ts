@@ -32,7 +32,19 @@ export const commonRoutes = [
     element: SearchPage
   },
   {
-    path: '/category/:id',
+    path: '/category/:slug',
+    element: CategoryPage
+  },
+  {
+    path: '/trending',
+    element: CategoryPage
+  },
+  {
+    path: '/new-games',
+    element: CategoryPage
+  },
+  {
+    path: '/most-engaging',
     element: CategoryPage
   }
 ]

@@ -8,6 +8,7 @@ import GameGridCarousel from "./components/GameGridCarousel";
 import { useGetCategoriesQuery, useGetGamesQuery /*, useGetNewGamesQuery*/ } from "../../services/redux/apis/games";
 import type { Game } from "../../types/games.types";
 import { Loader2 } from "lucide-react";
+import SEO from "../../components/SEO/SEO";
 
 const Home = () => {
   const [selectedCat/*, setSelectedCat*/] = useState<string | null>(null);
@@ -63,6 +64,7 @@ const Home = () => {
   // const externalCategories = categories.filter(c => c.type === 'external');
 
   return <AppWrapper>
+    <SEO />
     <div className="flex flex-col">
       {/* Welcome Banner */}
       {/* <WelcomeBanner /> */}

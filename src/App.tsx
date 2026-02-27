@@ -9,6 +9,7 @@ import { getItemFromStorage } from './utils/localstorage.utils';
 import { login } from './services/redux/slices/auth.slice';
 import type { User } from './types/user.types';
 import useFcmToken from './hooks/useFcmToken';
+import { HelmetProvider } from 'react-helmet-async';
 
 const GoogleLogin = lazy(() => import('./pages/GoogleLogin/GoogleLogin'));
 
@@ -48,17 +49,16 @@ const PageLoader = () => {
           </div>
         ))}
       </div>
-
-      {/* Optional Loading Text */}
     </div>
   );
 };
 
-
 export default function App() {
   return (
     <Provider store={store}>
-      <Navigator />
+      <HelmetProvider>
+        <Navigator />
+      </HelmetProvider>
     </Provider>
   );
 }

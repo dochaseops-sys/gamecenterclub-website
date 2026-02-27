@@ -9,6 +9,7 @@ import Loader from "../../loader/Loader";
 import AuthBanner from "../../components/authBanner/AuthBanner";
 import ShareModal from "../../components/share/ShareModal";
 import { useState } from "react";
+import SEO from "../../components/SEO/SEO";
 
 const Game = () => {
   const { id } = useParams<{ id: string }>();
@@ -67,6 +68,11 @@ const Game = () => {
 
   return (
     <AppWrapper>
+      <SEO
+        title={game.name}
+        description={game.description.replace(/<[^>]*>?/gm, '').slice(0, 160)}
+        image={game.thumbnail}
+      />
       <div className="flex flex-col">
         {/* <Ad /> */}
 

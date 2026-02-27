@@ -29,7 +29,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
     if (refreshToken) {
       console.log("Refresh token found, calling refresh-token API...");
-      // try to get a new token
+
       const refreshResult = await baseQuery(
         {
           url: 'refresh-token',
@@ -44,24 +44,18 @@ const baseQueryWithReauth: BaseQueryFn<
         console.log("Token refresh successful!");
         const newData = (refreshResult.data as any).data || refreshResult.data;
 
-        // store the new token
-        // Merge with existing user data to avoid losing profile info
+
         const updatedUser = { ...user, ...newData };
         setItemToStorage('user', updatedUser);
 
-        // Use updateUser for partial update of tokens instead of login which replaces entire state
         api.dispatch(updateUser(newData));
 
-        // retry the initial query
-        console.log("Retrying initial request...");
         result = await baseQuery(args, api, extraOptions);
       } else {
-        console.log("Token refresh failed, logging out...");
         api.dispatch(logout());
         removeItem('user');
       }
     } else {
-      console.log("No refresh token available, logging out...");
       api.dispatch(logout());
       removeItem('user');
     }

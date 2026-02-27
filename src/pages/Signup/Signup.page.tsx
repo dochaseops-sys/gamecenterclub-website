@@ -30,7 +30,6 @@ const Signup = () => {
 
     const [isVerified, setIsVerified] = useState(false);
 
-    // 👇 Added password toggle states
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
