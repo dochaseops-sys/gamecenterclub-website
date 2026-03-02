@@ -129,24 +129,23 @@ const GameCard = ({ game, isMain = false }: { game: Game; isMain?: boolean }) =>
                     transition-all duration-500" />
 
     {/* Content */}
-    <div className={`absolute bottom-0 left-0 z-10 w-full flex flex-col justify-end
-                    transform transition-all duration-500
-                    ${isMain ? 'p-6 h-1/2' : 'p-2 h-full justify-center'}`}>
+    <div className={`absolute bottom-0 left-0 right-0 z-10 w-full flex flex-col justify-end
+                    transform transition-transform duration-500
+                    ${isMain ? 'p-6 translate-y-12 group-hover/card:-translate-y-2' : 'p-2 group-hover/card:-translate-y-1'}`}>
 
-      <h2 className={`${isMain ? 'text-3xl' : 'text-[11px]'} font-bold text-white mb-1 drop-shadow-lg line-clamp-2 leading-tight ${!isMain && 'text-center'}`}>
+      <h2 className={`${isMain ? 'text-3xl' : 'text-[11px]'} font-bold text-white mb-1 drop-shadow-lg line-clamp-2 leading-tight ${!isMain && 'text-center w-full'}`}>
         {game.name}
       </h2>
 
       {isMain && (
         <div className="flex items-center gap-2 
-                        opacity-0 translate-y-3
+                        opacity-0
                         group-hover/card:opacity-100 
-                        group-hover/card:translate-y-0 
-                        transition-all duration-500">
+                        transition-opacity duration-500 delay-75 mt-1">
           <div className="bg-secondary p-2 rounded-full shadow-lg">
             <Play fill="black" size={14} />
           </div>
-          <span className="text-white uppercase font-bold tracking-wider text-xs">
+          <span className="text-white uppercase font-bold tracking-wider text-xs shadow-black drop-shadow-md">
             Play Now
           </span>
         </div>

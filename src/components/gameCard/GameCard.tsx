@@ -61,17 +61,17 @@ export default function GameCard({ id, title, thumbnail, gif, plays, rating, sho
                 )}
 
                 {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-3 z-20 transform group-hover/card:translate-y-[-4px] transition-transform duration-300">
+                <div className={`absolute bottom-0 left-0 right-0 p-3 z-20 transform transition-transform duration-300 ${showDetails ? 'translate-y-6 group-hover/card:-translate-y-1' : 'group-hover/card:-translate-y-1'}`}>
                     <h3 className="font-display font-bold text-sm text-white truncate drop-shadow-lg">
                         {title}
                     </h3>
 
                     {showDetails && (
-                        <div className="flex items-center justify-between mt-1 opacity-0 group-hover/card:opacity-100 transition-all duration-300 delay-75 transform translate-y-2 group-hover/card:translate-y-0">
-                            <span className="text-[10px] text-gray-300 font-medium">
+                        <div className="flex items-center justify-between mt-1 opacity-0 group-hover/card:opacity-100 transition-all duration-300 delay-75">
+                            <span className="text-[10px] text-gray-300 font-medium truncate max-w-[70%]">
                                 {categories?.map((category: any) => category.title).join(", ")}
                             </span>
-                            <span className="flex items-center gap-1 text-[10px] font-bold text-secondary">
+                            <span className="flex items-center gap-1 text-[10px] font-bold text-secondary whitespace-nowrap">
                                 <Users2 size={12} /> {plays || 0}
                             </span>
                         </div>
