@@ -58,3 +58,10 @@ self.addEventListener('notificationclick', (event) => {
         })
     );
 });
+
+// Required for PWA installability
+self.addEventListener('fetch', (event) => {
+    // Basic network-first or pass-through
+    // For now, just a pass-through to satisfy PWA criteria without aggressive caching
+    event.respondWith(fetch(event.request));
+});
