@@ -24,7 +24,11 @@ export const commonRoutes = [
     element: Home
   },
   {
-    path: '/game/:id',
+    path: '/game/:slug',
+    element: Game
+  },
+  {
+    path: '/game/:slug/:action',
     element: Game
   },
   {

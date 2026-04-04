@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Game } from '../../../types/games.types';
+import { generateGameUrl } from '../../../utils/string.utils';
 
 import './FeaturedGame.css';
 
@@ -66,7 +67,7 @@ const FeaturedGame = ({ games }: FeaturedGameProps) => {
             className={`absolute overflow-hidden group/card cursor-pointer transition-all duration-800 ease-[cubic-bezier(0.4,0,0.2,1)] ${item.pos}`}
             style={{ zIndex: item.pos === 'featured' ? 20 : 10 }}
           >
-            <Link to={`/game/${item.game.id}`} className="block h-full w-full">
+            <Link to={generateGameUrl(item.game.name, item.game.id)} className="block h-full w-full">
               <GameCard game={item.game} isMain={item.pos.startsWith('featured')} />
             </Link>
           </div>

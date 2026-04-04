@@ -1,5 +1,6 @@
 import { Star, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { generateGameUrl } from '../../utils/string.utils';
 
 interface Props {
     id: number;
@@ -17,7 +18,7 @@ interface Props {
 
 export default function GameCard({ id, title, thumbnail, gif, plays, rating, showDetails = true, mobileSupport, multiplayer, categories }: Props) {
     return (
-        <Link to={`/game/${id}`} className='shadow-[0_0_8px_var(--border)]'>
+        <Link to={generateGameUrl(title, id)} className='shadow-[0_0_8px_var(--border)]'>
             <div
                 className={
                     "group/card relative rounded-xl overflow-hidden bg-border border border-border cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] aspect-square"}

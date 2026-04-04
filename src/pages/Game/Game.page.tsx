@@ -3,27 +3,69 @@ import { Maximize, Share2 } from "lucide-react";
 import AppWrapper from "../../HOC/AppWrapper"
 import SectionWrapper from "../../HOC/SectionWrapper";
 import { useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAddGameToRecentMutation, useGetGameByIdQuery, useGetGamesQuery } from "../../services/redux/apis/games";
 import Loader from "../../loader/Loader";
 import AuthBanner from "../../components/authBanner/AuthBanner";
 import ShareModal from "../../components/share/ShareModal";
 import { useState } from "react";
 import SEO from "../../components/SEO/SEO";
+import { extractGameId, slugify } from "../../utils/string.utils";
 
 const Game = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug, action } = useParams<{ slug: string, action?: string }>();
+  const navigate = useNavigate();
+  const idValue = extractGameId(slug);
   const gameRef = useRef<HTMLIFrameElement | null>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [slug]);
 
-  const { data: game, isLoading, error } = useGetGameByIdQuery(Number(id));
+  const { data: game, isLoading, error } = useGetGameByIdQuery(Number(idValue), { skip: !idValue });
   const { data: gamesResponse } = useGetGamesQuery();
   const allGames = gamesResponse?.data || [];
   const [addGameToRecent] = useAddGameToRecentMutation();
+
+  // Redirect to slugified URL if only ID is present or name is missing/wrong
+  useEffect(() => {
+    if (game && slug) {
+      const correctSlug = `${slugify(game.name)}-${game.id}`;
+      if (slug !== correctSlug) {
+        // If it's a numeric ID or mismatched name, redirect to the correct SEO-friendly URL
+        const newPath = action ? `/game/${correctSlug}/${action}` : `/game/${correctSlug}`;
+        navigate(newPath, { replace: true });
+      }
+    }
+  }, [game, slug, action, navigate]);
+
+  // Listen for messages from the game iframe (e.g. from Construct, Godot, or custom scripts)
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const data = event.data;
+      const messageType = typeof data === 'string' ? data : data?.type;
+
+      if (!messageType) return;
+
+      const lowerMsg = String(messageType).toLowerCase();
+      const currentSlug = game ? `${slugify(game.name)}-${game.id}` : slug;
+
+      // Handle explicit signals from the game (including variations like logs)
+      if (lowerMsg === 'Game START' || lowerMsg.includes('***** Game START *****') || lowerMsg === 'play') {
+        if (action !== 'play') {
+          navigate(`/game/${currentSlug}/play`, { replace: true });
+        }
+      } else if (lowerMsg === 'game_restart' || lowerMsg.includes('game restart') || lowerMsg === 'restart') {
+        if (action !== 'restart') {
+          navigate(`/game/${currentSlug}/restart`, { replace: true });
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [game, slug, action, navigate]);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -31,13 +73,17 @@ const Game = () => {
     if (game?.id) {
       timer = setTimeout(() => {
         addGameToRecent(game.id);
-      }, 2000);
+        if (!action) {
+          const currentSlug = `${slugify(game.name)}-${game.id}`;
+          navigate(`/game/${currentSlug}/play`, { replace: true });
+        }
+      }, 30000);
     }
 
     return () => {
       if (timer) clearTimeout(timer);
     };
-  }, [game?.id, addGameToRecent]);
+  }, [game, slug, action, navigate, addGameToRecent]);
 
   const onMaximize = () => {
     gameRef.current?.requestFullscreen()

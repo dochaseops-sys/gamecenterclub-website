@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchGamesQuery } from "../../services/redux/apis/games";
 import { useGetNotificationsQuery, useMarkNotificationReadMutation } from "../../services/redux/apis/auth";
 import type { Game } from "../../types/games.types";
+import { generateGameUrl } from "../../utils/string.utils";
 
 interface Props {
     onMenuClick: () => void;
@@ -112,8 +113,8 @@ export default function Header({ onMenuClick }: Props) {
         setIsInstallable(false);
     };
 
-    const handleGameClick = (gameId: number) => {
-        navigate(`/game/${gameId}`);
+    const handleGameClick = (game: Game) => {
+        navigate(generateGameUrl(game.name, game.id));
         setSearchQuery("");
         setShowDropdown(false);
         setIsMobileSearchActive(false);
@@ -154,7 +155,7 @@ export default function Header({ onMenuClick }: Props) {
                             {searchResults.map((game: Game) => (
                                 <button
                                     key={game.id}
-                                    onClick={() => handleGameClick(game.id)}
+                                    onClick={() => handleGameClick(game)}
                                     className="w-full px-4 py-3 flex items-center gap-4 hover:bg-white/5 transition-all group border-l-2 border-transparent hover:border-primary"
                                 >
                                     <div className="relative flex-shrink-0">
